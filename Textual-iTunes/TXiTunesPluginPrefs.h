@@ -8,6 +8,7 @@
 
 extern NSString *TXiTunesPluginEnabledKey;
 extern NSString *TXiTunesPluginDebugKey;
+extern NSString *TXiTunesPluginExtrasKey;
 extern NSString *TXiTunesPluginConnectionsKey;
 extern NSString *TXiTunesPluginChannelsKey;
 extern NSString *TXiTunesPluginConnectionNameKey;
@@ -22,6 +23,7 @@ extern NSString *TXiTunesPluginDefaultFormatString;
 @property (readonly) NSString *preferencesPath;
 @property (readonly) BOOL pluginEnabled;
 @property (readonly) BOOL debugEnabled;
+@property (readonly) BOOL extrasEnabled;
 @property (readonly) NSString *formatString;
 @property (readonly) NSInteger styleValue;
 @property (readonly) NSInteger connectionsValue;

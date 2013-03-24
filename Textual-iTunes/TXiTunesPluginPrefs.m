@@ -10,6 +10,7 @@
 
 NSString *TXiTunesPluginEnabledKey = @"TXiTunesPluginEnabled";
 NSString *TXiTunesPluginDebugKey =  @"TXiTunesPluginDebug";
+NSString *TXiTunesPluginExtrasKey = @"TXiTunesPluginExtras";
 NSString *TXiTunesPluginConnectionsKey =  @"TXiTunesPluginConnections";
 NSString *TXiTunesPluginConnectionNameKey =  @"TXiTunesPluginConnectionName";
 NSString *TXiTunesPluginChannelsKey =  @"TXiTunesPluginChannels";
@@ -25,7 +26,7 @@ NSString *TXiTunesPluginDefaultFormatString = @"I'm currently listening to: %tra
 {
      if (![[NSFileManager defaultManager] fileExistsAtPath:[self preferencesPath]])
      {
-          NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"YES", TXiTunesPluginEnabledKey, @"NO", TXiTunesPluginDebugKey, @"0", TXiTunesPluginConnectionsKey, @"0", TXiTunesPluginChannelsKey, @"", TXiTunesPluginConnectionNameKey, @"", TXiTunesPluginChannelNameKey, @"1", TXiTunesPluginStyleKey, TXiTunesPluginDefaultFormatString, TXiTunesPluginFormatStringKey, nil];
+          NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"YES", TXiTunesPluginEnabledKey, @"NO", TXiTunesPluginDebugKey, @"NO", TXiTunesPluginExtrasKey, @"0", TXiTunesPluginConnectionsKey, @"0", TXiTunesPluginChannelsKey, @"", TXiTunesPluginConnectionNameKey, @"", TXiTunesPluginChannelNameKey, @"1", TXiTunesPluginStyleKey, TXiTunesPluginDefaultFormatString, TXiTunesPluginFormatStringKey, nil];
           [self setPreferences:dict];
      }
      
@@ -40,7 +41,6 @@ NSString *TXiTunesPluginDefaultFormatString = @"I'm currently listening to: %tra
 - (NSString *)preferencesPath
 {
      return [[NSString stringWithFormat:@"%@/Library/Preferences/%@.plist", NSHomeDirectory(), [[NSBundle bundleForClass:[self class]] bundleIdentifier]] stringByExpandingTildeInPath];
-//     return [[NSString stringWithFormat:@"~/Library/Preferences/%@.plist", [[NSBundle bundleForClass:[self class]] bundleIdentifier]] stringByExpandingTildeInPath];
 }
 
 - (BOOL)pluginEnabled
@@ -51,6 +51,11 @@ NSString *TXiTunesPluginDefaultFormatString = @"I'm currently listening to: %tra
 - (BOOL)debugEnabled
 {
      return [[self.preferences objectForKey:TXiTunesPluginDebugKey] boolValue];
+}
+
+- (BOOL)extrasEnabled
+{
+     return [[self.preferences objectForKey:TXiTunesPluginExtrasKey] boolValue];
 }
 
 - (NSString *)formatString

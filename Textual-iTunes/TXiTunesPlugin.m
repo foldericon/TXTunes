@@ -52,6 +52,7 @@ NSWindow *myWindow;
 {
      [self.enableBox setState:([self pluginEnabled] ? NSOnState : NSOffState)];
      [self.debugBox setState:([self debugEnabled] ? NSOnState : NSOffState)];
+     [self.extrasBox setState:([self extrasEnabled] ? NSOnState : NSOffState)];
      [self.styleRadio selectCellWithTag:self.styleValue];
      [self.connectionsRadio selectCellWithTag:self.connectionsValue];
      [self.channelsRadio selectCellWithTag:self.channelsValue];
@@ -81,6 +82,13 @@ NSWindow *myWindow;
      [self setPreferences:dict];
 }
 
+- (IBAction)extras:(id)sender {
+     BOOL enabled = ([self.extrasBox state]==NSOnState);
+     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+     [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXiTunesPluginExtrasKey];
+     [self setPreferences:dict];
+}
+
 - (IBAction)style:(id)sender {
      NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
      [dict setObject:[NSNumber numberWithLong:[self.styleRadio selectedTag]] forKey:TXiTunesPluginStyleKey];
@@ -89,7 +97,7 @@ NSWindow *myWindow;
 
 - (IBAction)setFormatString:(id)sender {
      NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
-     [dict setObject:[_formatText stringValue] forKey:TXiTunesPluginFormatStringKey];
+     [dict setObject:[self.formatText stringValue] forKey:TXiTunesPluginFormatStringKey];
      [self setPreferences:dict];
 }
 
@@ -130,7 +138,6 @@ NSWindow *myWindow;
 - (IBAction)donate:(id)sender {
      [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LTNFNNKFPLS6L"]];
 }
-
 
 #pragma mark -
 #pragma mark Helpers
@@ -221,7 +228,6 @@ NSWindow *myWindow;
                [client printDebugInformation:@"/itunes auto................toggles auto announce on/off"];
                [client printDebugInformation:@"/itunes debug...............toggles debug messages on/off"];
                [client printDebugInformation:@"/itunes stats...............sends infos about your itunes library to the selected channel or query"];
-               //            [connection processCommand:@"DEBUG ECHO /itunes start...........starts itunes if it isn't currently running and starts playback"];
                [client printDebugInformation:@"/itunes pause...............play/pause playback"];
                [client printDebugInformation:@"/itunes stop................stops playback"];
                [client printDebugInformation:@"/itunes prev................plays previous track"];
@@ -260,8 +266,6 @@ NSWindow *myWindow;
           if ([required containsObject:[components objectAtIndex:0]]){
                if(![itunes isRunning]){
                     [itunes run];
-                    //                [connection processCommand:@"DEBUG ECHO iTunes is not running"];
-                    //               return;
                }
           }
           if([[components objectAtIndex:0] hasPrefix:@"#"]){
@@ -301,14 +305,16 @@ NSWindow *myWindow;
      } else if([components count] == 2){
           if([[components objectAtIndex:0] isEqualToString:@"comment"]){
                [[itunes currentTrack] setComment:[[[components objectAtIndex:1] stringByReplacingOccurrencesOfString:@"http://www.youtube.com/watch?v=" withString:@"youtu.be/"] stringByReplacingOccurrencesOfString:@"http://youtube.com/watch?v=" withString:@"youtu.be/"]];
-               [client sendCommand:[NSString stringWithFormat:@"me added comment: %@", [[itunes currentTrack] comment]]];
+               if([self extrasEnabled])
+                    [observer sendAnnounceString:[NSString stringWithFormat:@"added comment: %@", [[itunes currentTrack] comment]] asAction:YES];
                if([self debugEnabled])
                     [client printDebugInformation:[NSString stringWithFormat:@"added comment: %@", [[itunes currentTrack] comment]]];
           }
           if([[components objectAtIndex:0] isEqualToString:@"rate"]){
                if([[components objectAtIndex:1] integerValue] > 0 && [[components objectAtIndex:1] integerValue] < 11){
-                    [client sendCommand:[NSString stringWithFormat:@"me rated the current track to: %@", [observer getRating:([[components objectAtIndex:1] integerValue]*10)]]];
                     [[itunes currentTrack] setRating:([[components objectAtIndex:1] integerValue]*10)];
+                    if([self extrasEnabled])
+                         [observer sendAnnounceString:[NSString stringWithFormat:@"rated the current track to: %@", [observer getRating:([[components objectAtIndex:1] integerValue]*10)]] asAction:YES];
                     if([self debugEnabled])
                          [client printDebugInformation:[NSString stringWithFormat:@"rated the current track to: %@", [observer getRating:([[components objectAtIndex:1] integerValue]*10)]]];
                }

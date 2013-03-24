@@ -121,116 +121,122 @@ unichar _color = 0x03;
 
 }
 
--(void)trackNotification:(NSNotification *)notif
+-(void)sendAnnounceString:(NSString *)announceString asAction:(BOOL)action
 {
-    if ([self pluginEnabled] || [self debugEnabled]){  
-        iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
-        if ([itunes playerState] == 'kPSP' && [itunes playerPosition] < 3 && [[itunes currentTrack] size] > 0){
-            NSString *output = [self getAnnounceString:itunes];
-            NSArray *connections, *channels;
-            if (self.connectionsValue == 2){
-               connections = [[self.connectionName lowercaseString] componentsSeparatedByString:@" "];
-            }
-            if (self.channelsValue == 2){
-               channels = [[self.channelName lowercaseString] componentsSeparatedByString:@" "];
-            }
-            
-            switch (self.connectionsValue) {
-                case 0:
-                    // All Connections
-                        switch ([self channelsValue]) {
-                            case 0:
-                                // All Channels
-                                  for(IRCClient *client in self.worldController.clients){                             
-                                       for(IRCChannel *channel in [client channels]){
-                                            if([channel isChannel]){
-                                            [self sendMessage:output toChannel:channel withStyle:self.styleValue];
-                                            }
-                                       }
-                                  }
-                                break;
-                            case 1:
-                                // Selected Channel
-                                  for(IRCClient *client in self.worldController.clients){
-                                       if ([self.worldController.selectedChannel client] == client){
-                                            [self sendMessage:output toChannel:self.worldController.selectedChannel withStyle:self.styleValue];                                            
-                                       }
-                                  }
-                                break;
-                            case 2:
-                                // Channel with Name
-                                  for(IRCClient *client in self.worldController.clients){
-                                       if([client isClient] && [client isConnected]){
-                                            for(IRCChannel *channel in [client channels]){
-                                                 if([channels containsObject:[[channel name] lowercaseString]]){
-                                                      [self sendMessage:output toChannel:channel withStyle:self.styleValue];
-                                                 }
-                                            }
-                                       }
-                                  }
-                                break;
-                        }
-                    break;
-                case 1:
-                    // Selected Connection
-                    switch ([self channelsValue]) {
-                        case 0:
-                            // ALl Channels
-                              for(IRCChannel *channel in self.worldController.selectedClient.channels){
-                                [self sendMessage:output toChannel:channel withStyle:self.styleValue];
-                              }
-                            break;
-                        case 1:
-                            // Selected Channel
-                                [self sendMessage:output toChannel:self.worldController.selectedChannel withStyle:self.styleValue];
-                            break;
-                        case 2:
-                            // Channel with Name
-                              for(IRCChannel *channel in self.worldController.selectedClient.channels){
-                                   if([channels containsObject:[[channel name] lowercaseString]]){
-                                    [self sendMessage:output toChannel:channel withStyle:self.styleValue];
+     NSArray *connections, *channels;
+     NSInteger style = action ? 0 : self.styleValue;
+     
+     if (self.connectionsValue == 2){
+          connections = [[self.connectionName lowercaseString] componentsSeparatedByString:@" "];
+     }
+     if (self.channelsValue == 2){
+          channels = [[self.channelName lowercaseString] componentsSeparatedByString:@" "];
+     }
+     
+     switch (self.connectionsValue) {
+          case 0:
+               // All Connections
+               switch ([self channelsValue]) {
+                    case 0:
+                         // All Channels
+                         for(IRCClient *client in self.worldController.clients){
+                              for(IRCChannel *channel in [client channels]){
+                                   if([channel isChannel]){
+                                        [self sendMessage:announceString toChannel:channel withStyle:style];
                                    }
                               }
-                            break;
-                    }
-                    break;
-                 case 2:
-                      // Connection with Name
-                      switch ([self channelsValue]) {
-                           case 0:
-                              // All Channels
-                              for(IRCClient *client in self.worldController.clients){
-                                   if([connections containsObject:[[client name] lowercaseString]]){
-                                        for(IRCChannel *channel in [client channels]){
-                                          [self sendMessage:output toChannel:channel withStyle:self.styleValue];
+                         }
+                         break;
+                    case 1:
+                         // Selected Channel
+                         for(IRCClient *client in self.worldController.clients){
+                              if ([self.worldController.selectedChannel client] == client){
+                                   [self sendMessage:announceString toChannel:self.worldController.selectedChannel withStyle:style];
+                              }
+                         }
+                         break;
+                    case 2:
+                         // Channel with Name
+                         for(IRCClient *client in self.worldController.clients){
+                              if([client isClient] && [client isConnected]){
+                                   for(IRCChannel *channel in [client channels]){
+                                        if([channels containsObject:[[channel name] lowercaseString]]){
+                                             [self sendMessage:announceString toChannel:channel withStyle:style];
                                         }
                                    }
                               }
-                              break;
-                           case 1:
-                              // Selected Channel
-                              for(IRCClient *client in self.worldController.clients){
-                                   if([connections containsObject:[[client name] lowercaseString]]){
-                                        [self sendMessage:output toChannel:self.worldController.selectedChannel withStyle:self.styleValue];
+                         }
+                         break;
+               }
+               break;
+          case 1:
+               // Selected Connection
+               switch ([self channelsValue]) {
+                    case 0:
+                         // ALl Channels
+                         for(IRCChannel *channel in self.worldController.selectedClient.channels){
+                              [self sendMessage:announceString toChannel:channel withStyle:style];
+                         }
+                         break;
+                    case 1:
+                         // Selected Channel
+                         [self sendMessage:announceString toChannel:self.worldController.selectedChannel withStyle:style];
+                         break;
+                    case 2:
+                         // Channel with Name
+                         for(IRCChannel *channel in self.worldController.selectedClient.channels){
+                              if([channels containsObject:[[channel name] lowercaseString]]){
+                                   [self sendMessage:announceString toChannel:channel withStyle:style];
+                              }
+                         }
+                         break;
+               }
+               break;
+          case 2:
+               // Connection with Name
+               switch ([self channelsValue]) {
+                    case 0:
+                         // All Channels
+                         for(IRCClient *client in self.worldController.clients){
+                              if([connections containsObject:[[client name] lowercaseString]]){
+                                   for(IRCChannel *channel in [client channels]){
+                                        [self sendMessage:announceString toChannel:channel withStyle:style];
                                    }
                               }
-                              break;
-                           case 2:
-                                // Channel with Name
-                                for(IRCClient *client in self.worldController.clients){
-                                     if([connections containsObject:[[client name] lowercaseString]]){
-                                          for(IRCChannel *channel in [client channels]){
-                                               if([channels containsObject:[[channel name] lowercaseString]]){
-                                                    [self sendMessage:output toChannel:channel withStyle:self.styleValue];
-                                               }
-                                          }
-                                     }
-                                }
-                                break;
-                      }
-                      break;
-            }
+                         }
+                         break;
+                    case 1:
+                         // Selected Channel
+                         for(IRCClient *client in self.worldController.clients){
+                              if([connections containsObject:[[client name] lowercaseString]]){
+                                   [self sendMessage:announceString toChannel:self.worldController.selectedChannel withStyle:style];
+                              }
+                         }
+                         break;
+                    case 2:
+                         // Channel with Name
+                         for(IRCClient *client in self.worldController.clients){
+                              if([connections containsObject:[[client name] lowercaseString]]){
+                                   for(IRCChannel *channel in [client channels]){
+                                        if([channels containsObject:[[channel name] lowercaseString]]){
+                                             [self sendMessage:announceString toChannel:channel withStyle:style];
+                                        }
+                                   }
+                              }
+                         }
+                         break;
+               }
+               break;
+     }
+}
 
+-(void)trackNotification:(NSNotification *)notif
+{
+    if ([self pluginEnabled] || [self debugEnabled]){
+        iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+        if ([itunes playerState] == 'kPSP' && [itunes playerPosition] < 3 && [[itunes currentTrack] size] > 0){
+             NSString *output = [self getAnnounceString:itunes];
+             [self sendAnnounceString:output asAction:NO];
         }
  
     }

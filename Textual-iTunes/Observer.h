@@ -12,6 +12,7 @@
 @interface Observer : NSObject
 
 - (NSString *)getRating:(NSInteger)rating;
+-(void)sendAnnounceString:(NSString *)announceString asAction:(BOOL)action;
 -(void)trackNotification:(NSNotification*)notif;
 -(void)announceToChannel:(IRCChannel *)channel;
 
