@@ -94,11 +94,11 @@ unichar _color = 0x03;
     NSString *bpm = [NSString stringWithFormat:@"%ld", (long) [[itunes currentTrack] bpm]];
     NSString *samplerate = [NSString stringWithFormat:@"%ld", (long) [[itunes currentTrack] sampleRate]];
     NSString *rating = [self getRating:[[itunes currentTrack] rating]];
-    NSString *output = [NSString stringWithString:[[[[[[[[[[[[[[[[[[[self formatString] stringByReplacingOccurrencesOfString:@"%number" withString:number] stringByReplacingOccurrencesOfString:@"%track" withString:track]  stringByReplacingOccurrencesOfString:@"%albumartist" withString:albumArtist] stringByReplacingOccurrencesOfString:@"%artist" withString:artist] stringByReplacingOccurrencesOfString:@"%album" withString:album] stringByReplacingOccurrencesOfString:@"%genre" withString:genre] stringByReplacingOccurrencesOfString:@"%year" withString:year] stringByReplacingOccurrencesOfString:@"%bitrate" withString:bitrate] stringByReplacingOccurrencesOfString:@"%length" withString:length] stringByReplacingOccurrencesOfString:@"%playedcount" withString:playcount] stringByReplacingOccurrencesOfString:@"%rating" withString:rating] stringByReplacingOccurrencesOfString:@"%skippedcount" withString:skipcount] stringByReplacingOccurrencesOfString:@"%bpm" withString:bpm]
-        stringByReplacingOccurrencesOfString:@"%comment" withString:comment] stringByReplacingOccurrencesOfString:@"%samplerate" withString:samplerate]
+    NSString *output = [NSString stringWithString:[[[[[[[[[[[[[[[[[[[self formatString] stringByReplacingOccurrencesOfString:@"%_number" withString:number] stringByReplacingOccurrencesOfString:@"%_track" withString:track]  stringByReplacingOccurrencesOfString:@"%_albumartist" withString:albumArtist] stringByReplacingOccurrencesOfString:@"%_artist" withString:artist] stringByReplacingOccurrencesOfString:@"%_album" withString:album] stringByReplacingOccurrencesOfString:@"%_genre" withString:genre] stringByReplacingOccurrencesOfString:@"%_year" withString:year] stringByReplacingOccurrencesOfString:@"%_bitrate" withString:bitrate] stringByReplacingOccurrencesOfString:@"%_length" withString:length] stringByReplacingOccurrencesOfString:@"%_playedcount" withString:playcount] stringByReplacingOccurrencesOfString:@"%_rating" withString:rating] stringByReplacingOccurrencesOfString:@"%_skippedcount" withString:skipcount] stringByReplacingOccurrencesOfString:@"%_bpm" withString:bpm]
+        stringByReplacingOccurrencesOfString:@"%_comment" withString:comment] stringByReplacingOccurrencesOfString:@"%_samplerate" withString:samplerate]
         stringByReplacingOccurrencesOfString:@"%c" withString:[NSString stringWithFormat:@"%c", _color]]
         stringByReplacingOccurrencesOfString:@"%b" withString:[NSString stringWithFormat:@"%c", _bold]]
-        stringByReplacingOccurrencesOfString:@"%kind" withString:skind]];
+        stringByReplacingOccurrencesOfString:@"%_kind" withString:skind]];
     
     return output;
 }

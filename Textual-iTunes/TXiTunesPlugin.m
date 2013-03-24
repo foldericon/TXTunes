@@ -62,10 +62,47 @@ NSWindow *myWindow;
           [self.connectionText setEnabled:YES];
      if (self.channelsValue == 2)
           [self.channelText setEnabled:YES];
+
      if ([self.formatText isNotEqualTo:@""])
-          [self.formatText setStringValue:self.formatString];
+//          [self.formatText setStringValue:self.formatString];
+          [self.formatText setObjectValue:[self separateStringIntoTokens:self.formatString]];
      else
-          [self.formatText setStringValue:TXiTunesPluginDefaultFormatString];
+          [self.formatText setObjectValue:[self separateStringIntoTokens:TXiTunesPluginDefaultFormatString]];
+     [self.formatText setTokenizingCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@""]];
+     [self.formatText setDelegate:self];
+     [self.tokenfield_number setStringValue:TRIGGER_NUMBER];
+     [self.tokenfield_number setDelegate:self];
+     [self.tokenfield_track setStringValue:TRIGGER_TRACK];
+     [self.tokenfield_track setDelegate:self];
+     [self.tokenfield_artist setStringValue:TRIGGER_ARTIST];
+     [self.tokenfield_artist setDelegate:self];
+     [self.tokenfield_album setStringValue:TRIGGER_ALBUM];
+     [self.tokenfield_album setDelegate:self];
+     [self.tokenfield_albumartist setStringValue:TRIGGER_ALBUMARTIST];
+     [self.tokenfield_albumartist setDelegate:self];
+     [self.tokenfield_kind setStringValue:TRIGGER_KIND];
+     [self.tokenfield_kind setDelegate:self];
+     [self.tokenfield_samplerate setStringValue:TRIGGER_SAMPLERATE];
+     [self.tokenfield_samplerate setDelegate:self];
+     [self.tokenfield_genre setStringValue:TRIGGER_GENRE];
+     [self.tokenfield_genre setDelegate:self];
+     [self.tokenfield_length setStringValue:TRIGGER_LENGTH];
+     [self.tokenfield_length setDelegate:self];
+     [self.tokenfield_bitrate setStringValue:TRIGGER_BITRATE];
+     [self.tokenfield_bitrate setDelegate:self];
+     [self.tokenfield_bpm setStringValue:TRIGGER_BPM];
+     [self.tokenfield_bpm setDelegate:self];
+     [self.tokenfield_playedcount setStringValue:TRIGGER_PLAYEDCOUNT];
+     [self.tokenfield_playedcount setDelegate:self];
+     [self.tokenfield_skippedcount setStringValue:TRIGGER_SKIPPEDCOUNT];
+     [self.tokenfield_skippedcount setDelegate:self];
+     [self.tokenfield_comment setStringValue:TRIGGER_COMMENT];
+     [self.tokenfield_comment setDelegate:self];
+     [self.tokenfield_rating setStringValue:TRIGGER_RATING];
+     [self.tokenfield_rating setDelegate:self];
+     [self.tokenfield_year setStringValue:TRIGGER_YEAR];
+     [self.tokenfield_year setDelegate:self];
+     
 }
 
 - (IBAction)enable:(id)sender {
@@ -96,8 +133,9 @@ NSWindow *myWindow;
 }
 
 - (IBAction)setFormatString:(id)sender {
+     
      NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
-     [dict setObject:[self.formatText stringValue] forKey:TXiTunesPluginFormatStringKey];
+     [dict setObject:[[sender objectValue] componentsJoinedByString:@""] forKey:TXiTunesPluginFormatStringKey];
      [self setPreferences:dict];
 }
 
@@ -137,6 +175,150 @@ NSWindow *myWindow;
 
 - (IBAction)donate:(id)sender {
      [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LTNFNNKFPLS6L"]];
+}
+
+#pragma mark Token Field Delegate
+
+- (NSArray *)tokenField:(NSTokenField *)tokenField shouldAddObjects:(NSArray *)tokens atIndex:(NSUInteger)index
+{
+     NSString *tokenString = [tokens componentsJoinedByString:@""];
+     return [self separateStringIntoTokens:tokenString];
+}
+
+- (NSArray *)tokenField:(NSTokenField *)tokenField readFromPasteboard:(NSPasteboard *)pboard
+{
+     return [self separateStringIntoTokens:[pboard stringForType:NSStringPboardType]];
+}
+
+- (BOOL)tokenField:(NSTokenField *)tokenField writeRepresentedObjects:(NSArray *)objects toPasteboard:(NSPasteboard *)pboard
+{
+     [pboard setString:[objects componentsJoinedByString:@""] forType:NSStringPboardType];
+     return YES;
+}
+
+- (NSTokenStyle)tokenField:(NSTokenField *)tokenField styleForRepresentedObject:(id)representedObject
+{
+     if ([representedObject hasPrefix:@"%_"]) {
+          return NSRoundedTokenStyle;
+     } else {
+          return NSPlainTextTokenStyle;
+     }
+}
+
+- (NSString *)tokenField:(NSTokenField *)tokenField displayStringForRepresentedObject:(id)representedObject
+{
+     if ([representedObject isEqualToString:TRIGGER_NUMBER]) {
+          return @"Number";
+     } else if ([representedObject isEqualToString:TRIGGER_TRACK]) {
+          return @"Title";
+     } else if ([representedObject isEqualToString:TRIGGER_ARTIST]) {
+          return @"Artist";
+     } else if ([representedObject isEqualToString:TRIGGER_ALBUM]) {
+          return @"Album";
+     } else if ([representedObject isEqualToString:TRIGGER_ALBUMARTIST]) {
+          return @"Album Artist";
+     } else if ([representedObject isEqualToString:TRIGGER_KIND]) {
+          return @"Kind";
+     } else if ([representedObject isEqualToString:TRIGGER_SAMPLERATE]) {
+          return @"Sample Rate";
+     } else if ([representedObject isEqualToString:TRIGGER_GENRE]) {
+          return @"Genre";
+     } else if ([representedObject isEqualToString:TRIGGER_LENGTH]) {
+          return @"Length";
+     } else if ([representedObject isEqualToString:TRIGGER_BITRATE]) {
+          return @"Bitrate";
+     } else if ([representedObject isEqualToString:TRIGGER_BPM]) {
+          return @"BPM";
+     } else if ([representedObject isEqualToString:TRIGGER_PLAYEDCOUNT]) {
+          return @"Played Count";
+     } else if ([representedObject isEqualToString:TRIGGER_SKIPPEDCOUNT]) {
+          return @"Skipped Count";
+     } else if ([representedObject isEqualToString:TRIGGER_COMMENT]) {
+          return @"Comment";
+     } else if ([representedObject isEqualToString:TRIGGER_RATING]) {
+          return @"Rating";
+     } else if ([representedObject isEqualToString:TRIGGER_YEAR]) {
+          return @"Year";
+     } else {
+          return nil;
+     }}
+
+- (id)tokenField:(NSTokenField *)tokenField representedObjectForEditingString:(NSString *)editingString
+{
+     return editingString;
+}
+
+- (NSString *)tokenField:(NSTokenField *)tokenField editingStringForRepresentedObject:(id)representedObject
+{
+     // Tokens should not be editable
+     return nil;
+}
+
+- (NSArray *)separateStringIntoTokens:(NSString *)string
+{
+     NSMutableArray *tokens = [NSMutableArray array];
+     
+     int i = 0;
+     while (i < [string length]) {
+          unsigned int start = i;
+          
+          // Evaluate if it known token
+          if ([[string substringFromIndex:i] hasPrefix:@"%_"]) {
+                NSString *substringFromIndex = [string substringFromIndex:i];
+                if ([substringFromIndex hasPrefix:TRIGGER_NUMBER]) {
+                    i += [TRIGGER_NUMBER length];
+                } else if ([substringFromIndex hasPrefix:TRIGGER_TRACK]) {
+                    i += [TRIGGER_TRACK length];
+                } else if ([substringFromIndex hasPrefix:TRIGGER_ARTIST]) {
+                    i += [TRIGGER_ARTIST length];
+                } else if ([substringFromIndex hasPrefix:TRIGGER_ALBUM]) {
+                    i += [TRIGGER_ALBUM length];
+                } else if ([substringFromIndex hasPrefix:TRIGGER_ALBUMARTIST]) {
+                    i += [TRIGGER_ALBUMARTIST length];
+                } else if ([substringFromIndex hasPrefix:TRIGGER_KIND]) {
+                    i += [TRIGGER_KIND length];
+                } else if ([substringFromIndex hasPrefix:TRIGGER_SAMPLERATE]) {
+                    i += [TRIGGER_SAMPLERATE length];
+                } else if ([substringFromIndex hasPrefix:TRIGGER_GENRE]) {
+                    i += [TRIGGER_GENRE length];
+                } else if ([substringFromIndex hasPrefix:TRIGGER_LENGTH]) {
+                    i += [TRIGGER_LENGTH length];
+                } else if ([substringFromIndex hasPrefix:TRIGGER_BITRATE]) {
+                    i += [TRIGGER_BITRATE length];
+                } else if ([substringFromIndex hasPrefix:TRIGGER_BPM]) {
+                    i += [TRIGGER_BPM length];
+                } else if ([substringFromIndex hasPrefix:TRIGGER_PLAYEDCOUNT]) {
+                    i += [TRIGGER_PLAYEDCOUNT length];
+                } else if ([substringFromIndex hasPrefix:TRIGGER_SKIPPEDCOUNT]) {
+                    i += [TRIGGER_SKIPPEDCOUNT length];
+                } else if ([substringFromIndex hasPrefix:TRIGGER_COMMENT]) {
+                    i += [TRIGGER_COMMENT length];
+                } else if ([substringFromIndex hasPrefix:TRIGGER_RATING]) {
+                    i += [TRIGGER_RATING length];
+                } else if ([substringFromIndex hasPrefix:TRIGGER_YEAR]) {
+                    i += [TRIGGER_YEAR length];
+                } else {
+                    for (; i < [string length]; i++) {
+                         if ([[string substringFromIndex:(i + 1)] hasPrefix:@"%_"]) {
+                              i++;
+                              break;
+                         }
+                    }
+                }
+               // Search for start of next token
+          } else {
+               for (; i < [string length]; i++) {
+                    if ([[string substringFromIndex:(i + 1)] hasPrefix:@"%_"]) {
+                         i++;
+                         break;
+                    }
+               }
+          }
+          
+          [tokens addObject:[string substringWithRange:NSMakeRange(start, i - start)]];
+     }
+     
+     return tokens;
 }
 
 #pragma mark -

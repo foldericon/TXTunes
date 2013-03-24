@@ -17,7 +17,7 @@ NSString *TXiTunesPluginChannelsKey =  @"TXiTunesPluginChannels";
 NSString *TXiTunesPluginChannelNameKey =  @"TXiTunesPluginChannelName";
 NSString *TXiTunesPluginStyleKey =  @"TXiTunesPluginStyle";
 NSString *TXiTunesPluginFormatStringKey =  @"TXiTunesPluginFormatString";
-NSString *TXiTunesPluginDefaultFormatString = @"I'm currently listening to: %track by %artist from album %album";
+NSString *TXiTunesPluginDefaultFormatString = @"I'm currently listening to: %_track by %_artist from the album %_album";
 
 @implementation NSObject (TXiTunesPluginPrefs)
 
