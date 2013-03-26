@@ -58,20 +58,33 @@ unichar _color = 0x03;
 
 -(NSString *)getAnnounceString:(iTunesApplication *)itunes
 {
-    NSString *number = [NSString stringWithFormat:@"%ld", (long)[[itunes currentTrack] trackNumber]];
-    NSString *track = [NSString stringWithFormat:@"%@", [[itunes currentTrack] name]];
-    NSString *artist = [NSString stringWithFormat:@"%@", [[itunes currentTrack] artist]];
-    NSString *albumArtist = [NSString stringWithFormat:@"%@", [[itunes currentTrack] albumArtist]];
-    NSString *album = [NSString stringWithFormat:@"%@", [[itunes currentTrack] album]];
-    NSString *genre = [NSString stringWithFormat:@"%@", [[itunes currentTrack] genre]];
-    NSString *year = [NSString stringWithFormat:@"%ld", (long)[[itunes currentTrack] year]];
-    NSString *playcount = [NSString stringWithFormat:@"%ld", (long)[[itunes currentTrack] playedCount]];
-    NSString *skipcount = [NSString stringWithFormat:@"%ld", (long)[[itunes currentTrack] skippedCount]];
-    NSString *kind = [NSString stringWithFormat:@"%@", [[itunes currentTrack] kind]];
-    NSString *comment = [NSString stringWithFormat:@"%@", [[itunes currentTrack] comment]];
-    if([comment isEqualToString:@""]){
-        comment = @"n/a";
-    }
+     NSString *number = [NSString stringWithFormat:@"%ld", (long)[[itunes currentTrack] trackNumber]];
+     NSString *track = [NSString stringWithFormat:@"%@", [[itunes currentTrack] name]];
+     NSString *artist = [NSString stringWithFormat:@"%@", [[itunes currentTrack] artist]];
+     NSString *albumArtist = [NSString stringWithFormat:@"%@", [[itunes currentTrack] albumArtist]];
+     NSString *album = [NSString stringWithFormat:@"%@", [[itunes currentTrack] album]];
+     NSString *genre = [NSString stringWithFormat:@"%@", [[itunes currentTrack] genre]];
+     NSString *year = [NSString stringWithFormat:@"%ld", (long)[[itunes currentTrack] year]];
+     NSString *playcount = [NSString stringWithFormat:@"%ld", (long)[[itunes currentTrack] playedCount]];
+     NSString *skipcount = [NSString stringWithFormat:@"%ld", (long)[[itunes currentTrack] skippedCount]];
+     NSString *kind = [NSString stringWithFormat:@"%@", [[itunes currentTrack] kind]];
+     NSString *comment = [NSString stringWithFormat:@"%@", [[itunes currentTrack] comment]];
+
+     if([track isEqualToString:@""])
+          track = @"n/a";
+     if([artist isEqualToString:@""])
+          artist = @"n/a";
+     if([albumArtist isEqualToString:@""])
+          albumArtist = @"n/a";
+     if([album isEqualToString:@""])
+          album = @"n/a";
+     if([genre isEqualToString:@""])
+          genre = @"n/a";
+     if([year isEqualToString:@""])
+          year = @"n/a";
+     if([comment isEqualToString:@""])
+          comment = @"n/a";
+     
     NSString *skind;
 //    NSLog(@"CATEGORY: %@", [[itunes currentTrack] category]);
     if([kind isEqualToString:@"MPEG audio file"]){
