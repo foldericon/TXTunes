@@ -80,13 +80,12 @@ unichar _color = 0x03;
           album = @"n/a";
      if([genre isEqualToString:@""])
           genre = @"n/a";
-     if([year isEqualToString:@""])
+     if([year isEqualToString:@"0"])
           year = @"n/a";
      if([comment isEqualToString:@""])
           comment = @"n/a";
      
     NSString *skind;
-//    NSLog(@"CATEGORY: %@", [[itunes currentTrack] category]);
     if([kind isEqualToString:@"MPEG audio file"]){
         skind=@"MP3";
     } else if([kind isEqualToString:@"Apple Lossless audio file"]){
@@ -107,7 +106,7 @@ unichar _color = 0x03;
     NSString *bpm = [NSString stringWithFormat:@"%ld", (long) [[itunes currentTrack] bpm]];
     NSString *samplerate = [NSString stringWithFormat:@"%ld", (long) [[itunes currentTrack] sampleRate]];
     NSString *rating = [self getRating:[[itunes currentTrack] rating]];
-    NSString *output = [NSString stringWithString:[[[[[[[[[[[[[[[[[[[self formatString] stringByReplacingOccurrencesOfString:@"%_number" withString:number] stringByReplacingOccurrencesOfString:@"%_track" withString:track]  stringByReplacingOccurrencesOfString:@"%_albumartist" withString:albumArtist] stringByReplacingOccurrencesOfString:@"%_artist" withString:artist] stringByReplacingOccurrencesOfString:@"%_album" withString:album] stringByReplacingOccurrencesOfString:@"%_genre" withString:genre] stringByReplacingOccurrencesOfString:@"%_year" withString:year] stringByReplacingOccurrencesOfString:@"%_bitrate" withString:bitrate] stringByReplacingOccurrencesOfString:@"%_length" withString:length] stringByReplacingOccurrencesOfString:@"%_playedcount" withString:playcount] stringByReplacingOccurrencesOfString:@"%_rating" withString:rating] stringByReplacingOccurrencesOfString:@"%_skippedcount" withString:skipcount] stringByReplacingOccurrencesOfString:@"%_bpm" withString:bpm]
+    NSString *output = [NSString stringWithString:[[[[[[[[[[[[[[[[[[[self formatString] stringByReplacingOccurrencesOfString:@"%_number" withString:number] stringByReplacingOccurrencesOfString:@"%_track" withString:track]  stringByReplacingOccurrencesOfString:@"%_aartist" withString:albumArtist] stringByReplacingOccurrencesOfString:@"%_artist" withString:artist] stringByReplacingOccurrencesOfString:@"%_album" withString:album] stringByReplacingOccurrencesOfString:@"%_genre" withString:genre] stringByReplacingOccurrencesOfString:@"%_year" withString:year] stringByReplacingOccurrencesOfString:@"%_bitrate" withString:bitrate] stringByReplacingOccurrencesOfString:@"%_length" withString:length] stringByReplacingOccurrencesOfString:@"%_playedcount" withString:playcount] stringByReplacingOccurrencesOfString:@"%_rating" withString:rating] stringByReplacingOccurrencesOfString:@"%_skippedcount" withString:skipcount] stringByReplacingOccurrencesOfString:@"%_bpm" withString:bpm]
         stringByReplacingOccurrencesOfString:@"%_comment" withString:comment] stringByReplacingOccurrencesOfString:@"%_samplerate" withString:samplerate]
         stringByReplacingOccurrencesOfString:@"%c" withString:[NSString stringWithFormat:@"%c", _color]]
         stringByReplacingOccurrencesOfString:@"%b" withString:[NSString stringWithFormat:@"%c", _bold]]
@@ -118,32 +117,34 @@ unichar _color = 0x03;
 
 -(void)announceToChannel:(IRCChannel *)channel
 {
-
     iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
-    NSString *output = [self getAnnounceString:itunes];
-     IRCClient *client = self.worldController.selectedClient;
-    if (self.styleValue == 0) {
-        if (self.debugEnabled)
-             [client printDebugInformation:[NSString stringWithFormat:@"(action) %@", output] channel:channel];
-         [client sendCommand:[NSString stringWithFormat:@"me %@", output] completeTarget:YES target:[channel name]];
-    } else {
-        if (self.debugEnabled)
-             [client printDebugInformation:[NSString stringWithFormat:@"%@", output] channel:channel];
-         [client sendCommand:[NSString stringWithFormat:@"msg %@ %@", [channel name], output]];
-    }
-
+     NSString *message = [self getAnnounceString:itunes];
+     if (self.debugEnabled)
+          [channel.client printDebugInformation:[NSString stringWithFormat:@"%@", message] channel:channel];
+     if (self.styleValue == 0)
+          [[channel client] sendCommand:[NSString stringWithFormat:@"me %@", message] completeTarget:YES target:[channel name]];
+     else
+          [[channel client] sendCommand:[NSString stringWithFormat:@"msg %@ %@", [channel name], message]];
 }
 
 -(void)sendAnnounceString:(NSString *)announceString asAction:(BOOL)action
 {
-     NSArray *connections, *channels;
+     NSMutableArray *connections = [NSMutableArray array];
+     NSMutableArray *channels = [NSMutableArray array];
+     NSArray *untrimmedChannels, *untrimmedConnections;
      NSInteger style = action ? 0 : self.styleValue;
      
      if (self.connectionsValue == 2){
-          connections = [[self.connectionName lowercaseString] componentsSeparatedByString:@" "];
+          untrimmedConnections = [[[self.connectionName lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] componentsSeparatedByString:@","];
+          for(NSString *string in untrimmedConnections) {
+               [connections addObject:[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+          }
      }
      if (self.channelsValue == 2){
-          channels = [[self.channelName lowercaseString] componentsSeparatedByString:@" "];
+          untrimmedChannels = [[[self.channelName lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] componentsSeparatedByString:@","];
+          for(NSString *string in untrimmedChannels) {
+               [channels addObject:[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+          }
      }
      
      switch (self.connectionsValue) {

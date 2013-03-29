@@ -45,7 +45,7 @@ NSWindow *myWindow;
 
 - (NSString *)preferencesMenuItemName
 {
-     return @"iTunes Plugin";
+     return @"iTunes";
 }
 
 - (void)awakeFromNib
@@ -213,10 +213,10 @@ NSWindow *myWindow;
           return @"Title";
      } else if ([representedObject isEqualToString:TRIGGER_ARTIST]) {
           return @"Artist";
-     } else if ([representedObject isEqualToString:TRIGGER_ALBUM]) {
-          return @"Album";
      } else if ([representedObject isEqualToString:TRIGGER_ALBUMARTIST]) {
           return @"Album Artist";
+     } else if ([representedObject isEqualToString:TRIGGER_ALBUM]) {
+          return @"Album";
      } else if ([representedObject isEqualToString:TRIGGER_KIND]) {
           return @"Kind";
      } else if ([representedObject isEqualToString:TRIGGER_SAMPLERATE]) {
@@ -395,28 +395,29 @@ NSWindow *myWindow;
 				  command:(NSString *)commandString
 {
 //     NSString *channelName = client.worldController.selectedChannel.name;
-     NSLog(@"CommandString: %@", commandString);
      if([commandString isNotEqualTo:@"ITUNES"])
           return;
-     NSArray *components = [messageString componentsSeparatedByString:@" "];
+     NSArray *components = [[messageString stringByTrimmingCharactersInSet:
+                             [NSCharacterSet whitespaceAndNewlineCharacterSet]] componentsSeparatedByString:@" "];
      NSArray *required = [NSArray arrayWithObjects:@"stats", @"start", @"pause", @"stop", @"prev", @"next", @"shuffle", @"rate", nil];
      iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
-     if([components count] < 1){
-          [observer announceToChannel:self.worldController.selectedChannel];
-     } else if([components count] == 1){
+     if([components count] == 1){
+          if([[components objectAtIndex:0] isEqualToString:@""]){
+               [observer announceToChannel:self.worldController.selectedChannel];
+          }
           if([[components objectAtIndex:0] isEqualToString:@"help"]){
-               [client printDebugInformation:@"/itunes.....................sends your current track infos to the selected channel or query"];
-               [client printDebugInformation:@"/itunes <channel>...........sends your current track infos to <channel>"];
-               [client printDebugInformation:@"/itunes auto................toggles auto announce on/off"];
-               [client printDebugInformation:@"/itunes debug...............toggles debug messages on/off"];
-               [client printDebugInformation:@"/itunes stats...............sends infos about your itunes library to the selected channel or query"];
-               [client printDebugInformation:@"/itunes pause...............play/pause playback"];
-               [client printDebugInformation:@"/itunes stop................stops playback"];
-               [client printDebugInformation:@"/itunes prev................plays previous track"];
-               [client printDebugInformation:@"/itunes next................plays next track"];
-               [client printDebugInformation:@"/itunes shuffle.............toggles shuffle on/off"];
-               [client printDebugInformation:@"/itunes rate <1-10>.........sets the rating of the current track"];
-               [client printDebugInformation:@"/itunes comment <comment>...sets the comment of the current track"];
+               [client printDebugInformation:@"/itunes                     sends your current track infos to the selected channel or query"];
+               [client printDebugInformation:@"/itunes <channel>           sends your current track infos to <channel>"];
+               [client printDebugInformation:@"/itunes auto                toggles auto announce on/off"];
+               [client printDebugInformation:@"/itunes debug               toggles debug messages on/off"];
+               [client printDebugInformation:@"/itunes stats               sends infos about your itunes library to the selected channel or query"];
+               [client printDebugInformation:@"/itunes pause               play/pause playback"];
+               [client printDebugInformation:@"/itunes stop                stops playback"];
+               [client printDebugInformation:@"/itunes prev                plays previous track"];
+               [client printDebugInformation:@"/itunes next                plays next track"];
+               [client printDebugInformation:@"/itunes shuffle             toggles shuffle on/off"];
+               [client printDebugInformation:@"/itunes rate <1-10>         sets the rating of the current track"];
+               [client printDebugInformation:@"/itunes comment <comment>   sets the comment of the current track"];
           }
           if([[components objectAtIndex:0] isEqualToString:@"auto"]){
                if(self.pluginEnabled){
@@ -451,9 +452,11 @@ NSWindow *myWindow;
                }
           }
           if([[components objectAtIndex:0] hasPrefix:@"#"]){
-               for(IRCChannel *channel in self.worldController.selectedClient.channels){
-                    if ([[components objectAtIndex:1] isEqualToString:[channel name]]){
-                         [observer announceToChannel:channel];
+               for(IRCClient *client in [self.worldController clients]) {
+                    for(IRCChannel *channel in [client channels]){
+                         if ([[components objectAtIndex:0] isEqualToString:[channel name]]){
+                              [observer announceToChannel:channel];
+                         }
                     }
                }
           }

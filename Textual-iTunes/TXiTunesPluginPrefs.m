@@ -26,7 +26,7 @@ NSString *TXiTunesPluginDefaultFormatString = @"I'm currently listening to: %_tr
 {
      if (![[NSFileManager defaultManager] fileExistsAtPath:[self preferencesPath]])
      {
-          NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"YES", TXiTunesPluginEnabledKey, @"NO", TXiTunesPluginDebugKey, @"NO", TXiTunesPluginExtrasKey, @"0", TXiTunesPluginConnectionsKey, @"0", TXiTunesPluginChannelsKey, @"", TXiTunesPluginConnectionNameKey, @"", TXiTunesPluginChannelNameKey, @"1", TXiTunesPluginStyleKey, TXiTunesPluginDefaultFormatString, TXiTunesPluginFormatStringKey, nil];
+          NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"YES", TXiTunesPluginEnabledKey, @"NO", TXiTunesPluginDebugKey, @"NO", TXiTunesPluginExtrasKey, @"1", TXiTunesPluginConnectionsKey, @"1", TXiTunesPluginChannelsKey, @"", TXiTunesPluginConnectionNameKey, @"", TXiTunesPluginChannelNameKey, @"1", TXiTunesPluginStyleKey, TXiTunesPluginDefaultFormatString, TXiTunesPluginFormatStringKey, nil];
           [self setPreferences:dict];
      }
      

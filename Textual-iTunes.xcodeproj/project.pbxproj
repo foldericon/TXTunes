@@ -13,6 +13,7 @@
 		DA45AC2916F322DB00CE0B72 /* Observer.m in Sources */ = {isa = PBXBuildFile; fileRef = DA45AC2816F322DB00CE0B72 /* Observer.m */; };
 		DA45AC2C16F3257500CE0B72 /* TXiTunesPluginPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = DA45AC2B16F3257500CE0B72 /* TXiTunesPluginPrefs.m */; };
 		DAAF116916F480B90031D3E4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF116816F480B90031D3E4 /* Cocoa.framework */; };
+		DABC64BB1701DCF4004A8FF0 /* TXiTunesFormatTokenField.m in Sources */ = {isa = PBXBuildFile; fileRef = DABC64BA1701DCF4004A8FF0 /* TXiTunesFormatTokenField.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,8 @@
 		DA45AC2A16F3257500CE0B72 /* TXiTunesPluginPrefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXiTunesPluginPrefs.h; sourceTree = "<group>"; };
 		DA45AC2B16F3257500CE0B72 /* TXiTunesPluginPrefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXiTunesPluginPrefs.m; sourceTree = "<group>"; };
 		DAAF116816F480B90031D3E4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		DABC64B91701DCF4004A8FF0 /* TXiTunesFormatTokenField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXiTunesFormatTokenField.h; sourceTree = "<group>"; };
+		DABC64BA1701DCF4004A8FF0 /* TXiTunesFormatTokenField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXiTunesFormatTokenField.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +79,8 @@
 		DA45AC0616F3109400CE0B72 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				DABC64B91701DCF4004A8FF0 /* TXiTunesFormatTokenField.h */,
+				DABC64BA1701DCF4004A8FF0 /* TXiTunesFormatTokenField.m */,
 				DA45AC2A16F3257500CE0B72 /* TXiTunesPluginPrefs.h */,
 				DA45AC2B16F3257500CE0B72 /* TXiTunesPluginPrefs.m */,
 				DA45AC2716F322DB00CE0B72 /* Observer.h */,
@@ -188,6 +193,7 @@
 				DA45AC2416F3138E00CE0B72 /* TXiTunesPlugin.m in Sources */,
 				DA45AC2916F322DB00CE0B72 /* Observer.m in Sources */,
 				DA45AC2C16F3257500CE0B72 /* TXiTunesPluginPrefs.m in Sources */,
+				DABC64BB1701DCF4004A8FF0 /* TXiTunesFormatTokenField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

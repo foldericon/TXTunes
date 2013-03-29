@@ -13,7 +13,7 @@
 #define TRIGGER_TRACK				@"%_track"
 #define TRIGGER_ARTIST				@"%_artist"
 #define TRIGGER_ALBUM				@"%_album"
-#define TRIGGER_ALBUMARTIST			@"%_albumartist"
+#define TRIGGER_ALBUMARTIST			@"%_aartist"
 #define TRIGGER_KIND                @"%_kind"
 #define TRIGGER_SAMPLERATE          @"%_samplerate"
 #define TRIGGER_GENRE				@"%_genre"
