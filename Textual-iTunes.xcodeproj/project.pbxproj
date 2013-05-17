@@ -17,10 +17,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DA27040D17467ACD005F1F4F /* iTunes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTunes.h; sourceTree = "<group>"; };
 		DA45ABFD16F3109400CE0B72 /* Textual-iTunes.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Textual-iTunes.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA45AC0816F3109400CE0B72 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA45AC1416F3114200CE0B72 /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
-		DA45AC1D16F312BC00CE0B72 /* iTunes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTunes.h; sourceTree = "<group>"; };
 		DA45AC1E16F312BC00CE0B72 /* TextualApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextualApplication.h; sourceTree = "<group>"; };
 		DA45AC2016F3131E00CE0B72 /* PreferencePane.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencePane.xib; sourceTree = "<group>"; };
 		DA45AC2216F3138E00CE0B72 /* TXiTunesPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXiTunesPlugin.h; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 		DA45AC1C16F312BC00CE0B72 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				DA45AC1D16F312BC00CE0B72 /* iTunes.h */,
+				DA27040D17467ACD005F1F4F /* iTunes.h */,
 				DA45AC1E16F312BC00CE0B72 /* TextualApplication.h */,
 			);
 			name = Headers;
