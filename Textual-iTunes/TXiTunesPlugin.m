@@ -53,6 +53,7 @@ NSWindow *myWindow;
      [self.enableBox setState:([self pluginEnabled] ? NSOnState : NSOffState)];
      [self.debugBox setState:([self debugEnabled] ? NSOnState : NSOffState)];
      [self.extrasBox setState:([self extrasEnabled] ? NSOnState : NSOffState)];
+     [self.awayMessageBox setState:([self awayMessageEnabled] ? NSOnState : NSOffState)];
      [self.styleRadio selectCellWithTag:self.styleValue];
      [self.connectionsRadio selectCellWithTag:self.connectionsValue];
      [self.channelsRadio selectCellWithTag:self.channelsValue];
@@ -123,6 +124,13 @@ NSWindow *myWindow;
      BOOL enabled = ([self.extrasBox state]==NSOnState);
      NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
      [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXiTunesPluginExtrasKey];
+     [self setPreferences:dict];
+}
+
+- (IBAction)awayMessage:(id)sender {
+     BOOL enabled = ([self.awayMessageBox state]==NSOnState);
+     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+     [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXiTunesPluginAwayMessageKey];
      [self setPreferences:dict];
 }
 
@@ -394,7 +402,6 @@ NSWindow *myWindow;
 				  message:(NSString *)messageString
 				  command:(NSString *)commandString
 {
-//     NSString *channelName = client.worldController.selectedChannel.name;
      if([commandString isNotEqualTo:@"ITUNES"])
           return;
      NSArray *components = [[messageString stringByTrimmingCharactersInSet:

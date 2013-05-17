@@ -11,6 +11,7 @@
 NSString *TXiTunesPluginEnabledKey = @"TXiTunesPluginEnabled";
 NSString *TXiTunesPluginDebugKey =  @"TXiTunesPluginDebug";
 NSString *TXiTunesPluginExtrasKey = @"TXiTunesPluginExtras";
+NSString *TXiTunesPluginAwayMessageKey = @"TXiTunesPluginAwayMessage";
 NSString *TXiTunesPluginConnectionsKey =  @"TXiTunesPluginConnections";
 NSString *TXiTunesPluginConnectionNameKey =  @"TXiTunesPluginConnectionName";
 NSString *TXiTunesPluginChannelsKey =  @"TXiTunesPluginChannels";
@@ -26,7 +27,7 @@ NSString *TXiTunesPluginDefaultFormatString = @"I'm currently listening to: %_tr
 {
      if (![[NSFileManager defaultManager] fileExistsAtPath:[self preferencesPath]])
      {
-          NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"YES", TXiTunesPluginEnabledKey, @"NO", TXiTunesPluginDebugKey, @"NO", TXiTunesPluginExtrasKey, @"1", TXiTunesPluginConnectionsKey, @"1", TXiTunesPluginChannelsKey, @"", TXiTunesPluginConnectionNameKey, @"", TXiTunesPluginChannelNameKey, @"1", TXiTunesPluginStyleKey, TXiTunesPluginDefaultFormatString, TXiTunesPluginFormatStringKey, nil];
+          NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"YES", TXiTunesPluginEnabledKey, @"NO", TXiTunesPluginDebugKey, @"NO", TXiTunesPluginExtrasKey, @"NO", TXiTunesPluginAwayMessageKey,@"1", TXiTunesPluginConnectionsKey, @"1", TXiTunesPluginChannelsKey, @"", TXiTunesPluginConnectionNameKey, @"", TXiTunesPluginChannelNameKey, @"1", TXiTunesPluginStyleKey, TXiTunesPluginDefaultFormatString, TXiTunesPluginFormatStringKey, nil];
           [self setPreferences:dict];
      }
      
@@ -56,6 +57,11 @@ NSString *TXiTunesPluginDefaultFormatString = @"I'm currently listening to: %_tr
 - (BOOL)extrasEnabled
 {
      return [[self.preferences objectForKey:TXiTunesPluginExtrasKey] boolValue];
+}
+
+- (BOOL)awayMessageEnabled
+{
+     return [[self.preferences objectForKey:TXiTunesPluginAwayMessageKey] boolValue];
 }
 
 - (NSString *)formatString

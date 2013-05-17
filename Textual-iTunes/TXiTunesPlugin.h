@@ -31,6 +31,7 @@
      __weak NSButton *_enableBox;
      __weak NSButton *_debugBox;
      __weak NSButton *_extrasBox;
+     __weak NSButton *_awayMessageBox;    
      __weak NSMatrix *_channelsRadio;
      __weak NSMatrix *_connectionsRadio;
      __weak NSMatrix *_styleRadio;
@@ -65,6 +66,7 @@
 - (IBAction)setChannelName:(id)sender;
 - (IBAction)donate:(id)sender;
 - (IBAction)setFormatString:(id)sender;
+- (IBAction)awayMessage:(id)sender;
 
 - (void)messageSentByUser:(IRCClient *)client
 				  message:(NSString *)messageString
@@ -78,6 +80,7 @@
 @property (weak) IBOutlet NSButton *enableBox;
 @property (weak) IBOutlet NSButton *debugBox;
 @property (weak) IBOutlet NSButton *extrasBox;
+@property (weak) IBOutlet NSButton *awayMessageBox;
 @property (weak) IBOutlet NSMatrix *channelsRadio;
 @property (weak) IBOutlet NSMatrix *styleRadio;
 @property (weak) IBOutlet NSTextField *channelText;

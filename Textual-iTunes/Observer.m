@@ -7,6 +7,7 @@
 //
 
 #import "Observer.h"
+#import "IRCClient.h"
 #import "TXiTunesPlugin.h"
 
 @implementation Observer
@@ -125,6 +126,52 @@ unichar _color = 0x03;
           [[channel client] sendCommand:[NSString stringWithFormat:@"me %@", message] completeTarget:YES target:[channel name]];
      else
           [[channel client] sendCommand:[NSString stringWithFormat:@"msg %@ %@", [channel name], message]];
+}
+
+-(void)setAway
+{
+     iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];     
+     NSMutableArray *connections = [NSMutableArray array];
+     NSArray *untrimmedConnections;     
+     if (self.connectionsValue == 2){
+          untrimmedConnections = [[[self.connectionName lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] componentsSeparatedByString:@","];
+          for(NSString *string in untrimmedConnections) {
+               [connections addObject:[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+          }
+     }
+     NSString *reason = [NSString stringWithFormat:@"♬ %@ - %@", [[itunes currentTrack] artist], [[itunes currentTrack] name]];
+     switch (self.connectionsValue) {
+          case 0:
+               // all connections
+               for(IRCClient *client in self.worldController.clients){
+                    if([itunes playerState] == 'kPSP'){
+                         [client toggleAwayStatus:YES withReason:reason];
+                    } else {
+                         [client toggleAwayStatus:NO];
+                    }
+               }
+          break;
+          case 1:
+               // selected connection
+               if([itunes playerState] == 'kPSP'){
+                    [self.worldController.selectedClient toggleAwayStatus:YES withReason:reason];
+               } else {
+                    [self.worldController.selectedClient toggleAwayStatus:NO];
+               }
+          break;
+          case 2:
+               // connection with name
+               for(IRCClient *client in self.worldController.clients){
+                    if([connections containsObject:[[client name] lowercaseString]]){
+                         if([itunes playerState] == 'kPSP'){
+                              [client toggleAwayStatus:YES withReason:reason];
+                         } else {
+                              [client toggleAwayStatus:NO];
+                         }
+                    }
+               }
+          break;
+     }
 }
 
 -(void)sendAnnounceString:(NSString *)announceString asAction:(BOOL)action
@@ -246,14 +293,19 @@ unichar _color = 0x03;
 
 -(void)trackNotification:(NSNotification *)notif
 {
-    if ([self pluginEnabled] || [self debugEnabled]){
-        iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
-        if ([itunes playerState] == 'kPSP' && [itunes playerPosition] < 3 && [[itunes currentTrack] size] > 0){
-             NSString *output = [self getAnnounceString:itunes];
-             [self sendAnnounceString:output asAction:NO];
-        }
- 
-    }
+     iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];     
+     if([[itunes currentTrack] size] > 0) {
+          if ([self pluginEnabled] || [self debugEnabled]){
+             if ([itunes playerState] == 'kPSP' && [itunes playerPosition] < 3 && [[itunes currentTrack] size] > 0){
+                  NSString *output = [self getAnnounceString:itunes];
+                  [self sendAnnounceString:output asAction:NO];
+             }
+
+          }
+          if(self.awayMessageEnabled) {
+               [self setAway];
+          }
+     }
 }
 
 @end
