@@ -310,15 +310,12 @@ unichar _color = 0x03;
 
 -(void)trackNotification:(NSNotification *)notif
 {
-     iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];     
-     if([[itunes currentTrack] size] > 0) {
-          if ([self pluginEnabled] || [self debugEnabled]){
-             if ([itunes playerState] == 'kPSP' && [itunes playerPosition] < 3 && [[itunes currentTrack] size] > 0){
-                  NSString *output = [self getAnnounceString:itunes];
-                  [self sendAnnounceString:output asAction:NO];
-             }
+     iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+     if ([self pluginEnabled] || [self debugEnabled]){
+        if ([itunes playerState] == 'kPSP' && [itunes playerPosition] < 3 && [[itunes currentTrack] size] > 0){
+             [self sendAnnounceString:[self getAnnounceString:itunes] asAction:NO];
+        }
 
-          }
      }
      if(self.awayMessageEnabled) {
           [self setAway];

@@ -24,7 +24,6 @@
 #import "Observer.h"
 
 @interface TXiTunesPlugin ()
-// @property (nonatomic, nweak) NSView *preferencesPaneView;
 @property (nonatomic, nweak) NSView *preferencePaneView;
 @end
 
@@ -35,14 +34,12 @@ NSWindow *myWindow;
 #pragma mark -
 #pragma mark Memory Allocation & Deallocation
 
-/* Allocation & Deallocation */
 - (void)pluginLoadedIntoMemory:(IRCWorld *)world
 {
      [NSBundle loadNibNamed:@"PreferencePane" owner:self];
      if(!observer){
           observer = [[Observer alloc] init];
           NSDistributedNotificationCenter *center = [NSDistributedNotificationCenter defaultCenter];
-          //                [center removeObserver:observer name:@"com.apple.iTunes.playerInfo" object:nil];
           [center addObserver:observer selector:@selector(trackNotification:) name:@"com.apple.iTunes.playerInfo" object:nil];
      }
 }
@@ -79,7 +76,6 @@ NSWindow *myWindow;
           [self.channelText setEnabled:YES];
 
      if ([self.formatText isNotEqualTo:@""])
-//          [self.formatText setStringValue:self.formatString];
           [self.formatText setObjectValue:[self separateStringIntoTokens:self.formatString]];
      else
           [self.formatText setObjectValue:[self separateStringIntoTokens:TXiTunesPluginDefaultFormatString]];
@@ -272,7 +268,6 @@ NSWindow *myWindow;
 
 - (NSString *)tokenField:(NSTokenField *)tokenField editingStringForRepresentedObject:(id)representedObject
 {
-     // Tokens should not be editable
      return nil;
 }
 
@@ -284,7 +279,6 @@ NSWindow *myWindow;
      while (i < [string length]) {
           unsigned int start = i;
           
-          // Evaluate if it known token
           if ([[string substringFromIndex:i] hasPrefix:@"%_"]) {
                 NSString *substringFromIndex = [string substringFromIndex:i];
                 if ([substringFromIndex hasPrefix:TRIGGER_NUMBER]) {
@@ -327,7 +321,6 @@ NSWindow *myWindow;
                          }
                     }
                 }
-               // Search for start of next token
           } else {
                for (; i < [string length]; i++) {
                     if ([[string substringFromIndex:(i + 1)] hasPrefix:@"%_"]) {
@@ -510,7 +503,7 @@ NSWindow *myWindow;
           }
      } else if([components count] == 2){
           if([[components objectAtIndex:0] isEqualToString:@"comment"]){
-               [[itunes currentTrack] setComment:[[[components objectAtIndex:1] stringByReplacingOccurrencesOfString:@"http://www.youtube.com/watch?v=" withString:@"youtu.be/"] stringByReplacingOccurrencesOfString:@"http://youtube.com/watch?v=" withString:@"youtu.be/"]];
+               [[itunes currentTrack] setComment:[components objectAtIndex:1]];
                if([self extrasEnabled])
                     [observer sendAnnounceString:[NSString stringWithFormat:@"added comment: %@", [[itunes currentTrack] comment]] asAction:YES];
                if([self debugEnabled])
