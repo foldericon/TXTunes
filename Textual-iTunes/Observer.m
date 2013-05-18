@@ -144,7 +144,9 @@ unichar _color = 0x03;
 
 -(void)setAway
 {
-     iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];     
+     iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+     NSString *artist = [NSString stringWithFormat:@"%@", [[itunes currentTrack] artist]];
+     NSString *title = [NSString stringWithFormat:@"%@", [[itunes currentTrack] name]];
      NSMutableArray *connections = [NSMutableArray array];
      NSArray *untrimmedConnections;     
      if (self.connectionsValue == 2){
@@ -153,23 +155,24 @@ unichar _color = 0x03;
                [connections addObject:[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
           }
      }
-     NSString *reason = [NSString stringWithFormat:@"♬ %@ - %@", [[itunes currentTrack] artist], [[itunes currentTrack] name]];
+
+     NSString *reason = [NSString stringWithFormat:@"♬ %@ - %@", artist, title];
      switch (self.connectionsValue) {
           case 0:
                // all connections
                for(IRCClient *client in self.worldController.clients){
-                    if([itunes playerState] == 'kPSP'){
+                    if([itunes playerState] == 'kPSP' && [title isNotEqualTo:@"(null)"]){
                          [client toggleAwayStatus:YES withReason:reason];
-                    } else {
+                    } else if (client.isAway) {
                          [client toggleAwayStatus:NO];
                     }
                }
           break;
           case 1:
                // selected connection
-               if([itunes playerState] == 'kPSP'){
+               if([itunes playerState] == 'kPSP' && [title isNotEqualTo:@"(null)"]){
                     [self.worldController.selectedClient toggleAwayStatus:YES withReason:reason];
-               } else {
+               } else if (self.worldController.selectedClient.isAway) {
                     [self.worldController.selectedClient toggleAwayStatus:NO];
                }
           break;
@@ -177,9 +180,9 @@ unichar _color = 0x03;
                // connection with name
                for(IRCClient *client in self.worldController.clients){
                     if([connections containsObject:[[client name] lowercaseString]]){
-                         if([itunes playerState] == 'kPSP'){
+                         if([itunes playerState] == 'kPSP' && [title isNotEqualTo:@"(null)"]){
                               [client toggleAwayStatus:YES withReason:reason];
-                         } else {
+                         } else if (client.isAway) {
                               [client toggleAwayStatus:NO];
                          }
                     }
@@ -316,9 +319,9 @@ unichar _color = 0x03;
              }
 
           }
-          if(self.awayMessageEnabled) {
-               [self setAway];
-          }
+     }
+     if(self.awayMessageEnabled) {
+          [self setAway];
      }
 }
 
