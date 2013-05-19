@@ -78,7 +78,6 @@
 - (IBAction)setChannels:(id)sender;
 - (IBAction)setConnectionName:(id)sender;
 - (IBAction)setChannelName:(id)sender;
-- (IBAction)donate:(id)sender;
 - (IBAction)setFormatString:(id)sender;
 - (IBAction)awayMessage:(id)sender;
 

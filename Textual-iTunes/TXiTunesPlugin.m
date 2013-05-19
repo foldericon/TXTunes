@@ -191,10 +191,6 @@ NSWindow *myWindow;
      [self setPreferences:dict];
 }
 
-- (IBAction)donate:(id)sender {
-     [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LTNFNNKFPLS6L"]];
-}
-
 #pragma mark Token Field Delegate
 
 - (NSArray *)tokenField:(NSTokenField *)tokenField shouldAddObjects:(NSArray *)tokens atIndex:(NSUInteger)index
