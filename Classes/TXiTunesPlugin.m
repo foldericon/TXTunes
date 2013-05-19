@@ -144,6 +144,10 @@ NSWindow *myWindow;
      [self setPreferences:dict];
 }
 
+- (IBAction)showHelp:(id)sender {
+     [self.worldController.selectedClient sendCommand:@"itunes help"];
+}
+
 - (IBAction)style:(id)sender {
      NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
      [dict setObject:[NSNumber numberWithLong:[self.styleRadio selectedTag]] forKey:TXiTunesPluginStyleKey];

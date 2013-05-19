@@ -81,6 +81,7 @@
 - (IBAction)setChannelName:(id)sender;
 - (IBAction)setFormatString:(id)sender;
 - (IBAction)awayMessage:(id)sender;
+- (IBAction)showHelp:(id)sender;
 
 - (void)messageSentByUser:(IRCClient *)client
 				  message:(NSString *)messageString
