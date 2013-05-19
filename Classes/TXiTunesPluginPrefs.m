@@ -44,7 +44,7 @@ NSString *TXiTunesPluginDefaultFormatString = @"I'm currently listening to: %_tr
 {
      if (![[NSFileManager defaultManager] fileExistsAtPath:[self preferencesPath]])
      {
-          NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"YES", TXiTunesPluginEnabledKey, @"NO", TXiTunesPluginDebugKey, @"NO", TXiTunesPluginExtrasKey, @"NO", TXiTunesPluginAwayMessageKey, @"1", TXiTunesPluginConnectionsKey, @"1", TXiTunesPluginChannelsKey, @"", TXiTunesPluginConnectionNameKey, @"", TXiTunesPluginChannelNameKey, @"1", TXiTunesPluginStyleKey, TXiTunesPluginDefaultAwayFormatString, TXiTunesPluginAwayFormatStringKey, TXiTunesPluginDefaultFormatString, TXiTunesPluginFormatStringKey, nil];
+          NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"NO", TXiTunesPluginEnabledKey, @"NO", TXiTunesPluginDebugKey, @"NO", TXiTunesPluginExtrasKey, @"NO", TXiTunesPluginAwayMessageKey, @"1", TXiTunesPluginConnectionsKey, @"1", TXiTunesPluginChannelsKey, @"", TXiTunesPluginConnectionNameKey, @"", TXiTunesPluginChannelNameKey, @"1", TXiTunesPluginStyleKey, TXiTunesPluginDefaultAwayFormatString, TXiTunesPluginAwayFormatStringKey, TXiTunesPluginDefaultFormatString, TXiTunesPluginFormatStringKey, nil];
           [self setPreferences:dict];
      }
      
