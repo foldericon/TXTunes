@@ -21,7 +21,6 @@
 */
 
 #import "Observer.h"
-#import "IRCClient.h"
 #import "TXiTunesPlugin.h"
 
 @implementation Observer

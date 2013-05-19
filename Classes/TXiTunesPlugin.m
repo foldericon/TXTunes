@@ -56,7 +56,7 @@ NSWindow *myWindow;
 
 - (NSString *)preferencesMenuItemName
 {
-     return @"iTunes";
+     return @"TXTunes";
 }
 
 - (void)awakeFromNib

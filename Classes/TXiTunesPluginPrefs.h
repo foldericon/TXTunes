@@ -20,6 +20,8 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#import <Cocoa/Cocoa.h>
+
 extern NSString *TXiTunesPluginEnabledKey;
 extern NSString *TXiTunesPluginDebugKey;
 extern NSString *TXiTunesPluginExtrasKey;

@@ -25,6 +25,6 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2013 Toby P. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string></string>
+	<string>TXiTunesPlugin</string>
 </dict>
 </plist>

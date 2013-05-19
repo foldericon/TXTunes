@@ -20,6 +20,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import <Cocoa/Cocoa.h>
 #import "TextualApplication.h"
 #import "TXiTunesPluginPrefs.h"
 
