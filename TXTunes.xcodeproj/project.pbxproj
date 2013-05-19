@@ -87,10 +87,10 @@
 			children = (
 				DAC50E6F1748D1F40049686D /* Observer.h */,
 				DAC50E701748D1F40049686D /* Observer.m */,
-				DAC50E711748D1F40049686D /* TXiTunesPlugin.h */,
-				DAC50E721748D1F40049686D /* TXiTunesPlugin.m */,
 				DAC50E731748D1F40049686D /* TXiTunesPluginPrefs.h */,
 				DAC50E741748D1F40049686D /* TXiTunesPluginPrefs.m */,
+				DAC50E711748D1F40049686D /* TXiTunesPlugin.h */,
+				DAC50E721748D1F40049686D /* TXiTunesPlugin.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";

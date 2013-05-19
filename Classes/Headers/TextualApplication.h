@@ -65,10 +65,11 @@
 	@class IRCTreeItem;
 	@class IRCUser;
 	@class IRCWorld;
-	@class TVCLogRenderer;
-	@class TDCAboutPanelSWindowController;
+	@class TDCAboutPanel;
 	@class TDCAddressBookSheet;
-	@class TDCHighlightSheet;
+	@class TDCHighlightEntryMatchCondition;
+	@class TDCHighlightEntrySheet;
+	@class TDCHighlightListSheet;
 	@class TDCInviteSheet;
 	@class TDCListDialog;
 	@class TDCModeSheet;
@@ -97,10 +98,12 @@
 	@class TLOPopupPrompts;
 	@class TLORegularExpression;
 	@class TLOSoundPlayer;
+	@class TLOSpeechSynthesizer;
 	@class TLOTimer;
 	@class TLOTimerCommand;
 	@class TLOpenLink;
 	@class TPCPreferences;
+	@class TPCPreferencesImportExport;
 	@class TPCPreferencesMigrationAssistant;
 	@class TPCThemeController;
 	@class TPCThemeSettings;
@@ -111,10 +114,11 @@
 	@class TVCInputTextFieldBackground;
 	@class TVCListSeparatorCell;
 	@class TVCListView;
-    @class TVCLogController;
-    @class TVCLogControllerOperationQueue;
+	@class TVCLogController;
+	@class TVCLogControllerOperationQueue;
 	@class TVCLogLine;
 	@class TVCLogPolicy;
+	@class TVCLogRenderer;
 	@class TVCLogScriptEventSink;
 	@class TVCLogView;
 	@class TVCMainWindow;
@@ -123,13 +127,21 @@
 	@class TVCMainWindowSegmentedControl;
 	@class TVCMemberList;
 	@class TVCMemberListCell;
-    @class TVCMemberListUserInfoPopover;
-	@class TVCServerList;
+	@class TVCMemberListScrollClipView;
+	@class TVCMemberListScrollView;
+	@class TVCMemberListUserInfoPopover;
+	@class TVCServerList; // This has a lot of classes.
 	@class TVCServerListCell;
-	@class TVCTextFieldSTextView;
+	@class TVCServerListCellBadge;
+	@class TVCServerListCellChildItem;
+	@class TVCServerListCellGroupItem;
+	@class TVCServerListScrollClipView;
+	@class TVCServerListScrollView;
+	@class TVCTextField;
 	@class TVCTextFormatterMenu;
 	@class TVCThinSplitView;
 	@class TVCWebViewAutoScroll;
+	@class TVCserverlistRowCell;
 	@class TXMasterController;
 	@class TXMenuController;
 
@@ -140,24 +152,26 @@
 	#import "DDInvocation.h"
 	#import "GCDAsyncSocket.h"
 	#import "GCDAsyncSocketExtensions.h"
+	#import "GRMustache.h"
+	#import "GRMustacheAvailabilityMacros.h"
+	#import "GRMustacheConfiguration.h"
+	#import "GRMustacheContext.h"
+	#import "GRMustacheError.h"
+	#import "GRMustacheFilter.h"
+	#import "GRMustacheLocalizer.h"
+	#import "GRMustacheRendering.h"
+	#import "GRMustacheTag.h"
+	#import "GRMustacheTagDelegate.h"
+	#import "GRMustacheTemplate.h"
+	#import "GRMustacheTemplateRepository.h"
+	#import "GRMustacheVersion.h"
 	#import "GTMDefines.h"
-	#import "GTMGarbageCollection.h"
 	#import "GTMEncodeHTML.h"
 	#import "GTMEncodeURL.h"
-    #import "RLMAsyncSocket.h"
-    #import "GRMustache.h"
-    #import "GRMustacheAvailabilityMacros.h"
-    #import "GRMustacheConfiguration.h"
-    #import "GRMustacheContext.h"
-    #import "GRMustacheError.h"
-    #import "GRMustacheFilter.h"
-    #import "GRMustacheLocalizer.h"
-    #import "GRMustacheRendering.h"
-    #import "GRMustacheTag.h"
-    #import "GRMustacheTagDelegate.h"
-    #import "GRMustacheTemplate.h"
-    #import "GRMustacheTemplateRepository.h"
-    #import "GRMustacheVersion.h"
+	#import "GTMGarbageCollection.h"
+	#import "OELReachability.h"
+	#import "OELiVersion.h"
+	#import "RLMAsyncSocket.h"
 
 	/* IRC Controllers — Core. */
 
@@ -184,10 +198,12 @@
 	/* Framework Extensions (Helpers). */
 
 	#import "NSArrayHelper.h"
+	#import "NSByteCountFormatterHelper.h"
 	#import "NSColorHelper.h"
 	#import "NSDateHelper.h"
 	#import "NSDictionaryHelper.h"
 	#import "NSFontHelper.h"
+	#import "NSImageHelper.h"
 	#import "NSNumberHelper.h"
 	#import "NSOutlineViewHelper.h"
 	#import "NSPasteboardHelper.h"
@@ -198,13 +214,15 @@
 	#import "NSStringHelper.h"
 	#import "NSTextFieldHelper.h"
 	#import "NSWindowHelper.h"
+	#import "NSUserDefaultsHelper.h"
 
 	/* Dialogs. */
 
 	#import "TDCSheetBase.h"
 	#import "TDCAboutPanel.h"
 	#import "TDCAddressBookSheet.h"
-	#import "TDCHighlightSheet.h"
+	#import "TDCHighlightEntrySheet.h"
+	#import "TDCHighlightListSheet.h"
 	#import "TDCInviteSheet.h"
 	#import "TDCListDialog.h"
 	#import "TDCModeSheet.h"
@@ -238,6 +256,7 @@
 	#import "TLOPopupPrompts.h"
 	#import "TLORegularExpression.h"
 	#import "TLOSoundPlayer.h"
+	#import "TLOSpeechSynthesizer.h"
 	#import "TLOTimer.h"
 	#import "TLOTimerCommand.h"
 	#import "TLOpenLink.h"
@@ -246,6 +265,7 @@
 
 	#import "TPCPreferences.h"
 	#import "TPCPreferencesMigrationAssistant.h"
+	#import "TPCPreferencesImportExport.h"
 	#import "TPCThemeController.h"
 	#import "TPCThemeSettings.h"
 
@@ -257,8 +277,8 @@
 	#import "TVCInputTextField.h"
 	#import "TVCListSeparatorCell.h"
 	#import "TVCListView.h"
-    #import "TVCLogController.h"
-    #import "TVCLogControllerOperationQueue.h"
+	#import "TVCLogController.h"
+	#import "TVCLogControllerOperationQueue.h"
 	#import "TVCLogLine.h"
 	#import "TVCLogPolicy.h"
 	#import "TVCLogRenderer.h"
@@ -269,9 +289,10 @@
 	#import "TVCMainWindowSegmentedControl.h"
 	#import "TVCMemberList.h"
 	#import "TVCMemberListCell.h"
-    #import "TVCMemberListUserInfoPopover.h"
+	#import "TVCMemberListUserInfoPopover.h"
 	#import "TVCServerList.h"
 	#import "TVCServerListCell.h"
+	#import "TVCServerListCellBadge.h"
 	#import "TVCTextField.h"
 	#import "TVCTextFormatterMenu.h"
 	#import "TVCThinSplitView.h"

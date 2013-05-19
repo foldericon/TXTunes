@@ -32,7 +32,9 @@ extern NSString *TXiTunesPluginConnectionNameKey;
 extern NSString *TXiTunesPluginChannelNameKey;
 extern NSString *TXiTunesPluginStyleKey;
 extern NSString *TXiTunesPluginFormatStringKey;
+extern NSString *TXiTunesPluginAwayFormatStringKey;
 extern NSString *TXiTunesPluginDefaultFormatString;
+extern NSString *TXiTunesPluginDefaultAwayFormatString;
 
 @interface NSObject (TXiTunesPluginPrefs)
 
@@ -42,6 +44,7 @@ extern NSString *TXiTunesPluginDefaultFormatString;
 @property (readonly) BOOL debugEnabled;
 @property (readonly) BOOL extrasEnabled;
 @property (readonly) BOOL awayMessageEnabled;
+@property (readonly) NSString *awayFormatString;
 @property (readonly) NSString *formatString;
 @property (readonly) NSInteger styleValue;
 @property (readonly) NSInteger connectionsValue;

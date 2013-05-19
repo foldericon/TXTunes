@@ -42,7 +42,6 @@
 #define TRIGGER_YEAR				@"%_year"
 
 @interface TXiTunesPlugin : NSObject <THOPluginProtocol, NSTokenFieldDelegate> {
-     
      __weak NSButton *_enableBox;
      __weak NSButton *_debugBox;
      __weak NSButton *_extrasBox;
@@ -53,6 +52,7 @@
      __weak NSTextField *_connectionText;
      __weak NSTextField *_channelText;
      __weak NSTokenField *_formatText;
+     __weak NSTokenField *_awayFormatText;
      __weak NSTokenField *_tokenfield_number;
      __weak NSTokenField *_tokenfield_track;
      __weak NSTokenField *_tokenfield_artist;
@@ -82,6 +82,7 @@
 - (IBAction)setFormatString:(id)sender;
 - (IBAction)awayMessage:(id)sender;
 - (IBAction)showHelp:(id)sender;
+- (IBAction)setAwayFormatString:(id)sender;
 
 - (void)messageSentByUser:(IRCClient *)client
 				  message:(NSString *)messageString
@@ -102,6 +103,7 @@
 @property (weak) IBOutlet NSMatrix *connectionsRadio;
 @property (weak) IBOutlet NSTextField *connectionText;
 @property (weak) IBOutlet NSTokenField *formatText;
+@property (weak) IBOutlet NSTokenField *awayFormatText;
 @property (weak) IBOutlet NSTokenField *tokenfield_number;
 @property (weak) IBOutlet NSTokenField *tokenfield_track;
 @property (weak) IBOutlet NSTokenField *tokenfield_artist;

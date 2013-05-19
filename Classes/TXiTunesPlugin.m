@@ -74,11 +74,20 @@ NSWindow *myWindow;
           [self.connectionText setEnabled:YES];
      if (self.channelsValue == 2)
           [self.channelText setEnabled:YES];
-
+     if (self.awayMessageEnabled)
+          [self.awayFormatText setEnabled:YES];
+     else
+          [self.awayFormatText setEnabled:NO];
      if ([self.formatText isNotEqualTo:@""])
           [self.formatText setObjectValue:[self separateStringIntoTokens:self.formatString]];
      else
           [self.formatText setObjectValue:[self separateStringIntoTokens:TXiTunesPluginDefaultFormatString]];
+     if ([self.awayFormatText isNotEqualTo:@""])
+          [self.awayFormatText setObjectValue:[self separateStringIntoTokens:self.awayFormatString]];
+     else
+          [self.awayFormatText setObjectValue:[self separateStringIntoTokens:TXiTunesPluginDefaultAwayFormatString]];
+     [self.awayFormatText setTokenizingCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@""]];
+     [self.awayFormatText setDelegate:self];
      [self.formatText setTokenizingCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@""]];
      [self.formatText setDelegate:self];
      [self.tokenfield_number setStringValue:TRIGGER_NUMBER];
@@ -139,6 +148,10 @@ NSWindow *myWindow;
 
 - (IBAction)awayMessage:(id)sender {
      BOOL enabled = ([self.awayMessageBox state]==NSOnState);
+     if(enabled)
+          [self.awayFormatText setEnabled:YES];
+     else
+          [self.awayFormatText setEnabled:NO];
      NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
      [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXiTunesPluginAwayMessageKey];
      [self setPreferences:dict];
@@ -158,6 +171,12 @@ NSWindow *myWindow;
      
      NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
      [dict setObject:[[sender objectValue] componentsJoinedByString:@""] forKey:TXiTunesPluginFormatStringKey];
+     [self setPreferences:dict];
+}
+
+- (IBAction)setAwayFormatString:(id)sender {
+     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+     [dict setObject:[[sender objectValue] componentsJoinedByString:@""] forKey:TXiTunesPluginAwayFormatStringKey];
      [self setPreferences:dict];
 }
 

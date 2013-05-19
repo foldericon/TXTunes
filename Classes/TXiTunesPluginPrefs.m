@@ -31,8 +31,11 @@ NSString *TXiTunesPluginConnectionNameKey =  @"TXiTunesPluginConnectionName";
 NSString *TXiTunesPluginChannelsKey =  @"TXiTunesPluginChannels";
 NSString *TXiTunesPluginChannelNameKey =  @"TXiTunesPluginChannelName";
 NSString *TXiTunesPluginStyleKey =  @"TXiTunesPluginStyle";
+NSString *TXiTunesPluginAwayFormatStringKey =  @"TXiTunesPluginAwayFormatString";
+NSString *TXiTunesPluginDefaultAwayFormatString = @"♬ %_artist - %_track";
 NSString *TXiTunesPluginFormatStringKey =  @"TXiTunesPluginFormatString";
 NSString *TXiTunesPluginDefaultFormatString = @"I'm currently listening to: %_track by %_artist from the album %_album";
+
 
 @implementation NSObject (TXiTunesPluginPrefs)
 
@@ -41,7 +44,7 @@ NSString *TXiTunesPluginDefaultFormatString = @"I'm currently listening to: %_tr
 {
      if (![[NSFileManager defaultManager] fileExistsAtPath:[self preferencesPath]])
      {
-          NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"YES", TXiTunesPluginEnabledKey, @"NO", TXiTunesPluginDebugKey, @"NO", TXiTunesPluginExtrasKey, @"NO", TXiTunesPluginAwayMessageKey,@"1", TXiTunesPluginConnectionsKey, @"1", TXiTunesPluginChannelsKey, @"", TXiTunesPluginConnectionNameKey, @"", TXiTunesPluginChannelNameKey, @"1", TXiTunesPluginStyleKey, TXiTunesPluginDefaultFormatString, TXiTunesPluginFormatStringKey, nil];
+          NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"YES", TXiTunesPluginEnabledKey, @"NO", TXiTunesPluginDebugKey, @"NO", TXiTunesPluginExtrasKey, @"NO", TXiTunesPluginAwayMessageKey, @"1", TXiTunesPluginConnectionsKey, @"1", TXiTunesPluginChannelsKey, @"", TXiTunesPluginConnectionNameKey, @"", TXiTunesPluginChannelNameKey, @"1", TXiTunesPluginStyleKey, TXiTunesPluginDefaultAwayFormatString, TXiTunesPluginAwayFormatStringKey, TXiTunesPluginDefaultFormatString, TXiTunesPluginFormatStringKey, nil];
           [self setPreferences:dict];
      }
      
@@ -81,6 +84,11 @@ NSString *TXiTunesPluginDefaultFormatString = @"I'm currently listening to: %_tr
 - (NSString *)formatString
 {
      return [self.preferences objectForKey:TXiTunesPluginFormatStringKey];
+}
+
+- (NSString *)awayFormatString
+{
+     return [self.preferences objectForKey:TXiTunesPluginAwayFormatStringKey];
 }
 
 - (NSInteger)styleValue
