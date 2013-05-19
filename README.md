@@ -1,7 +1,14 @@
-Textual-iTunes - iTunes Extension for Textual
-=============================================
+TXTunes - Advanced iTunes Extension for Textual
+===============================================
 
 Written by Tobias Pollmann (foldericon)
+
+Dependencies
+------------
+
+Textual 3.x
+iTunes 11.0.3
+Xcode 4.6
 
 Installation
 ------------
