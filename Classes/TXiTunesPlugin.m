@@ -440,7 +440,6 @@ NSWindow *myWindow;
           }
           if([[components objectAtIndex:0] isEqualToString:@"help"]){
                [client printDebugInformation:@"/itunes                     sends your current track infos to the selected channel or query" forCommand:@"372"];
-               [client printDebugInformation:@"/itunes                     sends your current track infos to the selected channel or query" forCommand:@"372"];
                [client printDebugInformation:@"/itunes <channel>           sends your current track infos to <channel>" forCommand:@"372"];
                [client printDebugInformation:@"/itunes auto                toggles auto announce on/off" forCommand:@"372"];
                [client printDebugInformation:@"/itunes debug               toggles debug messages on/off" forCommand:@"372"];
