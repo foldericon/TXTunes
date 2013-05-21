@@ -439,18 +439,19 @@ NSWindow *myWindow;
                [observer announceToChannel:self.worldController.selectedChannel];
           }
           if([[components objectAtIndex:0] isEqualToString:@"help"]){
-               [client printDebugInformation:@"/itunes                     sends your current track infos to the selected channel or query"];
-               [client printDebugInformation:@"/itunes <channel>           sends your current track infos to <channel>"];
-               [client printDebugInformation:@"/itunes auto                toggles auto announce on/off"];
-               [client printDebugInformation:@"/itunes debug               toggles debug messages on/off"];
-               [client printDebugInformation:@"/itunes stats               sends infos about your itunes library to the selected channel or query"];
-               [client printDebugInformation:@"/itunes pause               play/pause playback"];
-               [client printDebugInformation:@"/itunes stop                stops playback"];
-               [client printDebugInformation:@"/itunes prev                plays previous track"];
-               [client printDebugInformation:@"/itunes next                plays next track"];
-               [client printDebugInformation:@"/itunes shuffle             toggles shuffle on/off"];
-               [client printDebugInformation:@"/itunes rate <1-10>         sets the rating of the current track"];
-               [client printDebugInformation:@"/itunes comment <comment>   sets the comment of the current track"];
+               [client printDebugInformation:@"/itunes                     sends your current track infos to the selected channel or query" forCommand:@"372"];
+               [client printDebugInformation:@"/itunes                     sends your current track infos to the selected channel or query" forCommand:@"372"];
+               [client printDebugInformation:@"/itunes <channel>           sends your current track infos to <channel>" forCommand:@"372"];
+               [client printDebugInformation:@"/itunes auto                toggles auto announce on/off" forCommand:@"372"];
+               [client printDebugInformation:@"/itunes debug               toggles debug messages on/off" forCommand:@"372"];
+               [client printDebugInformation:@"/itunes stats               sends infos about your itunes library to the selected channel or query" forCommand:@"372"];
+               [client printDebugInformation:@"/itunes pause               play/pause playback" forCommand:@"372"];
+               [client printDebugInformation:@"/itunes stop                stops playback" forCommand:@"372"];
+               [client printDebugInformation:@"/itunes prev                plays previous track" forCommand:@"372"];
+               [client printDebugInformation:@"/itunes next                plays next track" forCommand:@"372"];
+               [client printDebugInformation:@"/itunes shuffle             toggles shuffle on/off" forCommand:@"372"];
+               [client printDebugInformation:@"/itunes rate <1-10>         sets the rating of the current track" forCommand:@"372"];
+               [client printDebugInformation:@"/itunes comment <comment>   sets the comment of the current track" forCommand:@"372"];
           }
           if([[components objectAtIndex:0] isEqualToString:@"auto"]){
                if(self.pluginEnabled){
