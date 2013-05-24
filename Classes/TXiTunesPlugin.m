@@ -416,6 +416,11 @@ NSWindow *myWindow;
      return [NSString stringWithFormat:@"%@ %@", numberString, masure];
 }
 
+- (void)echo:(NSString *)msg
+{
+     [self.worldController.selectedClient printDebugInformation:msg forCommand:@"372"];
+}
+
 #pragma mark -
 #pragma mark User Input
 
@@ -439,30 +444,30 @@ NSWindow *myWindow;
                [observer announceToChannel:self.worldController.selectedChannel];
           }
           if([[components objectAtIndex:0] isEqualToString:@"help"]){
-               [client printDebugInformation:@"/itunes                     sends your current track infos to the selected channel or query" forCommand:@"372"];
-               [client printDebugInformation:@"/itunes <channel>           sends your current track infos to <channel>" forCommand:@"372"];
-               [client printDebugInformation:@"/itunes auto                toggles auto announce on/off" forCommand:@"372"];
-               [client printDebugInformation:@"/itunes debug               toggles debug messages on/off" forCommand:@"372"];
-               [client printDebugInformation:@"/itunes stats               sends infos about your itunes library to the selected channel or query" forCommand:@"372"];
-               [client printDebugInformation:@"/itunes pause               play/pause playback" forCommand:@"372"];
-               [client printDebugInformation:@"/itunes stop                stops playback" forCommand:@"372"];
-               [client printDebugInformation:@"/itunes prev                plays previous track" forCommand:@"372"];
-               [client printDebugInformation:@"/itunes next                plays next track" forCommand:@"372"];
-               [client printDebugInformation:@"/itunes shuffle             toggles shuffle on/off" forCommand:@"372"];
-               [client printDebugInformation:@"/itunes rate <1-10>         sets the rating of the current track" forCommand:@"372"];
-               [client printDebugInformation:@"/itunes comment <comment>   sets the comment of the current track" forCommand:@"372"];
+               [self echo:@"/itunes                     sends your current track infos to the selected channel or query"];
+               [self echo:@"/itunes <channel>           sends your current track infos to <channel>"];
+               [self echo:@"/itunes auto                toggles auto announce on/off"];
+               [self echo:@"/itunes debug               toggles debug messages on/off"];
+               [self echo:@"/itunes stats               sends infos about your itunes library to the selected channel or query"];
+               [self echo:@"/itunes pause               play/pause playback"];
+               [self echo:@"/itunes stop                stops playback"];
+               [self echo:@"/itunes prev                plays previous track"];
+               [self echo:@"/itunes next                plays next track"];
+               [self echo:@"/itunes shuffle             toggles shuffle on/off"];
+               [self echo:@"/itunes rate <1-10>         sets the rating of the current track"];
+               [self echo:@"/itunes comment <comment>   sets the comment of the current track"];
           }
           if([[components objectAtIndex:0] isEqualToString:@"auto"]){
                if(self.pluginEnabled){
                     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
                     [dict setObject:[NSNumber numberWithBool:NO] forKey:TXiTunesPluginEnabledKey];
                     [self setPreferences:dict];
-                    [client printDebugInformation:@"auto announce disabled"];
+                    [self echo:@"auto announce disabled"];
                } else {
                     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
                     [dict setObject:[NSNumber numberWithBool:YES] forKey:TXiTunesPluginEnabledKey];
                     [self setPreferences:dict];
-                    [client printDebugInformation:@"auto announce enabled"];
+                    [self echo:@"auto announce enabled"];
                }
           }
           if([[components objectAtIndex:0] isEqualToString:@"debug"]){
@@ -470,12 +475,12 @@ NSWindow *myWindow;
                     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
                     [dict setObject:[NSNumber numberWithBool:NO] forKey:TXiTunesPluginDebugKey];
                     [self setPreferences:dict];
-                    [client printDebugInformation:@"debug messages disabled"];
+                    [self echo:@"debug messages disabled"];
                } else {
                     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
                     [dict setObject:[NSNumber numberWithBool:YES] forKey:TXiTunesPluginDebugKey];
                     [self setPreferences:dict];
-                    [client printDebugInformation:@"debug messages enabled"];
+                    [self echo:@"debug messages enabled"];
                }
           }
           
@@ -513,10 +518,10 @@ NSWindow *myWindow;
           }
           if([[components objectAtIndex:0] isEqualToString:@"shuffle"]){
                if ([[itunes currentPlaylist] shuffle]){
-                    [client printDebugInformation:@"iTunes Shuffle OFF"];
+                    [self echo:@"iTunes Shuffle OFF"];
                     [[itunes currentPlaylist] setShuffle:NO];
                } else {
-                    [client printDebugInformation:@"iTunes Shuffle ON"];
+                    [self echo:@"iTunes Shuffle ON"];
                     [[itunes currentPlaylist] setShuffle:YES];
                }
           }
@@ -526,7 +531,7 @@ NSWindow *myWindow;
                if([self extrasEnabled])
                     [observer sendAnnounceString:[NSString stringWithFormat:@"added comment: %@", [[itunes currentTrack] comment]] asAction:YES];
                if([self debugEnabled])
-                    [client printDebugInformation:[NSString stringWithFormat:@"added comment: %@", [[itunes currentTrack] comment]]];
+                    [self echo:[NSString stringWithFormat:@"added comment: %@", [[itunes currentTrack] comment]]];
           }
           if([[components objectAtIndex:0] isEqualToString:@"rate"]){
                if([[components objectAtIndex:1] integerValue] > 0 && [[components objectAtIndex:1] integerValue] < 11){
@@ -534,7 +539,7 @@ NSWindow *myWindow;
                     if([self extrasEnabled])
                          [observer sendAnnounceString:[NSString stringWithFormat:@"rated the current track to: %@", [observer getRating:([[components objectAtIndex:1] integerValue]*10)]] asAction:YES];
                     if([self debugEnabled])
-                         [client printDebugInformation:[NSString stringWithFormat:@"rated the current track to: %@", [observer getRating:([[components objectAtIndex:1] integerValue]*10)]]];
+                         [self echo:[NSString stringWithFormat:@"rated the current track to: %@", [observer getRating:([[components objectAtIndex:1] integerValue]*10)]]];
                }
           }
      }     
