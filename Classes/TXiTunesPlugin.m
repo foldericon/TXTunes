@@ -437,7 +437,7 @@ NSWindow *myWindow;
           return;
      NSArray *components = [[messageString stringByTrimmingCharactersInSet:
                              [NSCharacterSet whitespaceAndNewlineCharacterSet]] componentsSeparatedByString:@" "];
-     NSArray *required = [NSArray arrayWithObjects:@"stats", @"start", @"pause", @"stop", @"prev", @"next", @"shuffle", @"rate", nil];
+     NSArray *required = [NSArray arrayWithObjects:@"stats", @"start", @"pause", @"stop", @"prev", @"next", @"rate", nil];
      iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
      if([components count] == 1){
           if([[components objectAtIndex:0] isEqualToString:@""]){
@@ -453,7 +453,6 @@ NSWindow *myWindow;
                [self echo:@"/itunes stop                stops playback"];
                [self echo:@"/itunes prev                plays previous track"];
                [self echo:@"/itunes next                plays next track"];
-               [self echo:@"/itunes shuffle             toggles shuffle on/off"];
                [self echo:@"/itunes rate <1-10>         sets the rating of the current track"];
                [self echo:@"/itunes comment <comment>   sets the comment of the current track"];
           }
@@ -515,15 +514,6 @@ NSWindow *myWindow;
           }
           if([[components objectAtIndex:0] isEqualToString:@"prev"]){
                [itunes previousTrack];
-          }
-          if([[components objectAtIndex:0] isEqualToString:@"shuffle"]){
-               if ([[itunes currentPlaylist] shuffle]){
-                    [self echo:@"iTunes Shuffle OFF"];
-                    [[itunes currentPlaylist] setShuffle:NO];
-               } else {
-                    [self echo:@"iTunes Shuffle ON"];
-                    [[itunes currentPlaylist] setShuffle:YES];
-               }
           }
      } else if([components count] == 2){
           if([[components objectAtIndex:0] isEqualToString:@"comment"]){
