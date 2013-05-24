@@ -44,6 +44,11 @@ NSWindow *myWindow;
      }
 }
 
+- (void)dealloc
+{
+     [[NSDistributedNotificationCenter defaultCenter] removeObserver:observer name:@"com.apple.iTunes.playerInfo" object:nil];
+}
+
 #pragma mark -
 #pragma mark Preference Pane
 
