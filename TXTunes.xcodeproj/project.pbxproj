@@ -28,7 +28,6 @@
 		DAC50E731748D1F40049686D /* TXiTunesPluginPrefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXiTunesPluginPrefs.h; path = Classes/TXiTunesPluginPrefs.h; sourceTree = "<group>"; };
 		DAC50E741748D1F40049686D /* TXiTunesPluginPrefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TXiTunesPluginPrefs.m; path = Classes/TXiTunesPluginPrefs.m; sourceTree = "<group>"; };
 		DAC50E791748D2130049686D /* iTunes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iTunes.h; path = Classes/Headers/iTunes.h; sourceTree = "<group>"; };
-		DAC50E7A1748D2130049686D /* TextualApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextualApplication.h; path = Classes/Headers/TextualApplication.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,7 +98,6 @@
 			isa = PBXGroup;
 			children = (
 				DAC50E791748D2130049686D /* iTunes.h */,
-				DAC50E7A1748D2130049686D /* TextualApplication.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
