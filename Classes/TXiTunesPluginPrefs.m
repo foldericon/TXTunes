@@ -34,7 +34,7 @@ NSString *TXiTunesPluginStyleKey =  @"TXiTunesPluginStyle";
 NSString *TXiTunesPluginAwayFormatStringKey =  @"TXiTunesPluginAwayFormatString";
 NSString *TXiTunesPluginDefaultAwayFormatString = @"♬ %_artist - %_track";
 NSString *TXiTunesPluginFormatStringKey =  @"TXiTunesPluginFormatString";
-NSString *TXiTunesPluginDefaultFormatString = @"I'm currently listening to: %_track by %_artist from the album %_album";
+NSString *TXiTunesPluginDefaultFormatString = @"is listening to %_track by %_artist from the album %_album";
 
 
 @implementation NSObject (TXiTunesPluginPrefs)
@@ -44,7 +44,7 @@ NSString *TXiTunesPluginDefaultFormatString = @"I'm currently listening to: %_tr
 {
      if (![[NSFileManager defaultManager] fileExistsAtPath:[self preferencesPath]])
      {
-          NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"NO", TXiTunesPluginEnabledKey, @"NO", TXiTunesPluginDebugKey, @"NO", TXiTunesPluginExtrasKey, @"NO", TXiTunesPluginAwayMessageKey, @"1", TXiTunesPluginConnectionsKey, @"1", TXiTunesPluginChannelsKey, @"", TXiTunesPluginConnectionNameKey, @"", TXiTunesPluginChannelNameKey, @"1", TXiTunesPluginStyleKey, TXiTunesPluginDefaultAwayFormatString, TXiTunesPluginAwayFormatStringKey, TXiTunesPluginDefaultFormatString, TXiTunesPluginFormatStringKey, nil];
+          NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"NO", TXiTunesPluginEnabledKey, @"NO", TXiTunesPluginDebugKey, @"NO", TXiTunesPluginExtrasKey, @"NO", TXiTunesPluginAwayMessageKey, @"1", TXiTunesPluginConnectionsKey, @"1", TXiTunesPluginChannelsKey, @"", TXiTunesPluginConnectionNameKey, @"", TXiTunesPluginChannelNameKey, @"0", TXiTunesPluginStyleKey, TXiTunesPluginDefaultAwayFormatString, TXiTunesPluginAwayFormatStringKey, TXiTunesPluginDefaultFormatString, TXiTunesPluginFormatStringKey, nil];
           [self setPreferences:dict];
      }
      
