@@ -53,16 +53,10 @@ unichar _color = 0x03;
 {
     if ([channel isChannel] && [[channel memberList] count] > 0){
         if (style == 0){
-            if([self debugEnabled]){
-                 [[channel client] printDebugInformation:[NSString stringWithFormat:@"(action) %@", message] channel:channel];
-            } 
             if ([self pluginEnabled]) {
                  [[channel client] sendCommand:[NSString stringWithFormat:@"me %@", message] completeTarget:YES target:[channel name]];                 
             }
         } else {
-            if([self debugEnabled]){
-                 [[channel client] printDebugInformation:[NSString stringWithFormat:@"%@", message] channel:channel];
-            }
             if ([self pluginEnabled]) {
                  [[channel client] sendCommand:[NSString stringWithFormat:@"msg %@ %@", [channel name], message]];
             }
@@ -133,8 +127,6 @@ unichar _color = 0x03;
 {
     iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
      NSString *message = [self getAnnounceString:itunes];
-     if (self.debugEnabled)
-          [channel.client printDebugInformation:[NSString stringWithFormat:@"%@", message] channel:channel];
      if (self.styleValue == 0)
           [[channel client] sendCommand:[NSString stringWithFormat:@"me %@", message] completeTarget:YES target:[channel name]];
      else
@@ -310,7 +302,7 @@ unichar _color = 0x03;
 -(void)trackNotification:(NSNotification *)notif
 {
      iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
-     if ([self pluginEnabled] || [self debugEnabled]){
+     if ([self pluginEnabled]){
         if ([itunes playerState] == 'kPSP' && [itunes playerPosition] < 3 && [[itunes currentTrack] size] > 0){
              [self sendAnnounceString:[self getAnnounceString:itunes] asAction:NO];
         }

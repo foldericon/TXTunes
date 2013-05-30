@@ -23,7 +23,6 @@
 #import <Cocoa/Cocoa.h>
 
 extern NSString *TXiTunesPluginEnabledKey;
-extern NSString *TXiTunesPluginDebugKey;
 extern NSString *TXiTunesPluginExtrasKey;
 extern NSString *TXiTunesPluginAwayMessageKey;
 extern NSString *TXiTunesPluginConnectionsKey;
@@ -41,7 +40,6 @@ extern NSString *TXiTunesPluginDefaultAwayFormatString;
 @property (assign) NSDictionary *preferences;
 @property (readonly) NSString *preferencesPath;
 @property (readonly) BOOL pluginEnabled;
-@property (readonly) BOOL debugEnabled;
 @property (readonly) BOOL extrasEnabled;
 @property (readonly) BOOL awayMessageEnabled;
 @property (readonly) NSString *awayFormatString;

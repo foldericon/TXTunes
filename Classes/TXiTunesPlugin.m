@@ -67,7 +67,6 @@ NSWindow *myWindow;
 - (void)awakeFromNib
 {
      [self.enableBox setState:([self pluginEnabled] ? NSOnState : NSOffState)];
-     [self.debugBox setState:([self debugEnabled] ? NSOnState : NSOffState)];
      [self.extrasBox setState:([self extrasEnabled] ? NSOnState : NSOffState)];
      [self.awayMessageBox setState:([self awayMessageEnabled] ? NSOnState : NSOffState)];
      [self.styleRadio selectCellWithTag:self.styleValue];
@@ -134,13 +133,6 @@ NSWindow *myWindow;
      BOOL enabled = ([self.enableBox state]==NSOnState);
      NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
      [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXiTunesPluginEnabledKey];
-     [self setPreferences:dict];
-}
-
-- (IBAction)debug:(id)sender {
-     BOOL enabled = ([self.debugBox state]==NSOnState);
-     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
-     [dict setObject:[NSNumber numberWithBool:enabled] forKey:TXiTunesPluginDebugKey];
      [self setPreferences:dict];
 }
 
@@ -452,7 +444,6 @@ NSWindow *myWindow;
                [self echo:@"/itunes                     sends your current track infos to the selected channel or query"];
                [self echo:@"/itunes <channel>           sends your current track infos to <channel>"];
                [self echo:@"/itunes auto                toggles auto announce on/off"];
-               [self echo:@"/itunes debug               toggles debug messages on/off"];
                [self echo:@"/itunes stats               sends infos about your itunes library to the selected channel or query"];
                [self echo:@"/itunes pause               play/pause playback"];
                [self echo:@"/itunes stop                stops playback"];
@@ -472,19 +463,6 @@ NSWindow *myWindow;
                     [dict setObject:[NSNumber numberWithBool:YES] forKey:TXiTunesPluginEnabledKey];
                     [self setPreferences:dict];
                     [self echo:@"auto announce enabled"];
-               }
-          }
-          if([[components objectAtIndex:0] isEqualToString:@"debug"]){
-               if(self.debugEnabled){
-                    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
-                    [dict setObject:[NSNumber numberWithBool:NO] forKey:TXiTunesPluginDebugKey];
-                    [self setPreferences:dict];
-                    [self echo:@"debug messages disabled"];
-               } else {
-                    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
-                    [dict setObject:[NSNumber numberWithBool:YES] forKey:TXiTunesPluginDebugKey];
-                    [self setPreferences:dict];
-                    [self echo:@"debug messages enabled"];
                }
           }
           
@@ -525,15 +503,13 @@ NSWindow *myWindow;
                [[itunes currentTrack] setComment:[components objectAtIndex:1]];
                if([self extrasEnabled])
                     [observer sendAnnounceString:[NSString stringWithFormat:@"added comment: %@", [[itunes currentTrack] comment]] asAction:YES];
-               if([self debugEnabled])
-                    [self echo:[NSString stringWithFormat:@"added comment: %@", [[itunes currentTrack] comment]]];
+               [self echo:[NSString stringWithFormat:@"added comment: %@", [[itunes currentTrack] comment]]];
           }
           if([[components objectAtIndex:0] isEqualToString:@"rate"]){
                if([[components objectAtIndex:1] integerValue] > 0 && [[components objectAtIndex:1] integerValue] < 11){
                     [[itunes currentTrack] setRating:([[components objectAtIndex:1] integerValue]*10)];
                     if([self extrasEnabled])
                          [observer sendAnnounceString:[NSString stringWithFormat:@"rated the current track to: %@", [observer getRating:([[components objectAtIndex:1] integerValue]*10)]] asAction:YES];
-                    if([self debugEnabled])
                          [self echo:[NSString stringWithFormat:@"rated the current track to: %@", [observer getRating:([[components objectAtIndex:1] integerValue]*10)]]];
                }
           }
