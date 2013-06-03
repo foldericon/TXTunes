@@ -164,7 +164,7 @@ NSWindow *myWindow;
 }
 
 - (IBAction)showHelp:(id)sender {
-     [self.worldController.selectedClient sendCommand:@"itunes help"];
+     [self printHelp];
 }
 
 - (IBAction)style:(id)sender {
@@ -424,7 +424,30 @@ NSWindow *myWindow;
 
 - (void)echo:(NSString *)msg
 {
-     [self.worldController.selectedClient printDebugInformation:msg forCommand:@"372"];
+     [self.worldController.selectedClient printDebugInformation:msg forCommand:@"-100"];
+}
+
+- (void)printHelp
+{
+     IRCClient *client = self.worldController.selectedClient;
+     [client printDebugInformation:@"\00311   __________         __________ " forCommand:@"375"];
+     [client printDebugInformation:@"\00311  |___    ___|__    _|___    ___|" forCommand:@"372"];
+     [client printDebugInformation:@"\00311      |  |  \\   \\  /   / |  | __  __  ______  ______   _______" forCommand:@"372"];
+     [client printDebugInformation:@"\00311      |  |   \\   \\/   /  |  ||  ||  ||  __  \\/  __  \\ /  _____|" forCommand:@"372"];
+     [client printDebugInformation:@"\00311      |  |    /      \\   |  ||  ||  ||  ||  ||  |_|  ||  |____" forCommand:@"372"];
+     [client printDebugInformation:@"\00311      |  |   /   /\\   \\  |  ||  ||  ||  ||  || _____/ \\____   \\" forCommand:@"372"];
+     [client printDebugInformation:@"\00311______|__|__/___/__\\___\\_|__|_\\____/_|__||__|\\______|______|  |______________________________" forCommand:@"372"];
+     [client printDebugInformation:@"\00311\037___________Advanced iTunes extension for Textual______________\037/                 is.gd/P9Fgri \003\00311|" forCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes\002                    \026sends your current track infos to the selected channel or query   \003\00311|" forCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes <channel>\002          \026sends your current track infos to <channel>                       \003\00311|" forCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes stats\002              \026sends itunes library statistics to the selected channel or query  \003\00311|" forCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes auto\002               \026toggles auto announce on/off                                      \003\00311|" forCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes pause\002              \026play/pause playback                                               \003\00311|" forCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes stop\002               \026stops playback                                                    \003\00311|" forCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes prev\002               \026plays previous track                                              \003\00311|" forCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes next\002               \026plays next track                                                  \003\00311|" forCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes rate <1-10>\002        \026sets the rating of the current track                              \003\00311|" forCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes comment <comment>\002  \026sets the comment of the current track                             \003\00311|" forCommand:@"376"];
 }
 
 #pragma mark -
@@ -450,16 +473,7 @@ NSWindow *myWindow;
                [observer announceToChannel:self.worldController.selectedChannel];
           }
           if([[components objectAtIndex:0] isEqualToString:@"help"]){
-               [self echo:@"/itunes                     sends your current track infos to the selected channel or query"];
-               [self echo:@"/itunes <channel>           sends your current track infos to <channel>"];
-               [self echo:@"/itunes auto                toggles auto announce on/off"];
-               [self echo:@"/itunes stats               sends infos about your itunes library to the selected channel or query"];
-               [self echo:@"/itunes pause               play/pause playback"];
-               [self echo:@"/itunes stop                stops playback"];
-               [self echo:@"/itunes prev                plays previous track"];
-               [self echo:@"/itunes next                plays next track"];
-               [self echo:@"/itunes rate <1-10>         sets the rating of the current track"];
-               [self echo:@"/itunes comment <comment>   sets the comment of the current track"];
+               [self printHelp];
           }
           if([[components objectAtIndex:0] isEqualToString:@"auto"]){
                if(self.pluginEnabled){
