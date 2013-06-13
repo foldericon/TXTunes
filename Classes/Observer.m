@@ -317,7 +317,7 @@ unichar _color = 0x03;
         }
 
      }
-     if(self.awayMessageEnabled) {
+     if(self.awayMessageEnabled && [[itunes currentTrack] size] > 0) {
           [self setAway];
      }
 }
