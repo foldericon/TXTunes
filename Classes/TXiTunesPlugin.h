@@ -83,8 +83,8 @@
 - (IBAction)extras:(id)sender;
 - (IBAction)style:(id)sender;
 - (IBAction)setConnections:(id)sender;
+- (IBAction)showConnections:(id)sender;
 - (IBAction)setChannels:(id)sender;
-- (IBAction)setConnectionName:(id)sender;
 - (IBAction)setChannelName:(id)sender;
 - (IBAction)setFormatString:(id)sender;
 - (IBAction)awayMessage:(id)sender;
@@ -107,7 +107,7 @@
 @property (weak) IBOutlet NSMatrix *styleRadio;
 @property (weak) IBOutlet NSTextField *channelText;
 @property (weak) IBOutlet NSMatrix *connectionsRadio;
-@property (weak) IBOutlet NSTextField *connectionText;
+@property (weak) IBOutlet NSButton *connectionsButton;
 @property (weak) IBOutlet NSTokenField *formatText;
 @property (weak) IBOutlet NSTokenField *awayFormatText;
 @property (weak) IBOutlet NSTokenField *tokenfield_number;

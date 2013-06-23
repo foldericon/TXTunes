@@ -75,16 +75,27 @@ NSWindow *myWindow;
 
 - (void)awakeFromNib
 {
-     [self.enableBox setState:([self pluginEnabled] ? NSOnState : NSOffState)];
+     if([self.preferences objectForKey:TXiTunesPluginConnectionNameKey]){
+          NSArray *ary = [[self.preferences objectForKey:TXiTunesPluginConnectionNameKey] componentsSeparatedByString:@","];
+          for(IRCClient *client in self.worldController.clients){
+               if([ary containsObjectIgnoringCase:client.name]) {
+                    [self addOrRemoveConnection:client];
+               }
+          }
+          NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+          [dict removeObjectForKey:TXiTunesPluginConnectionNameKey];
+          [self setPreferences:dict];
+     }
+     [self updateConnectionsButtonTitle];
+     [self.enableBox setState:([self announceEnabled] ? NSOnState : NSOffState)];
      [self.extrasBox setState:([self extrasEnabled] ? NSOnState : NSOffState)];
      [self.awayMessageBox setState:([self awayMessageEnabled] ? NSOnState : NSOffState)];
      [self.styleRadio selectCellWithTag:self.styleValue];
      [self.connectionsRadio selectCellWithTag:self.connectionsValue];
      [self.channelsRadio selectCellWithTag:self.channelsValue];
-     [self.connectionText setStringValue:self.connectionName];
      [self.channelText setStringValue:self.channelName];
      if (self.connectionsValue == 2)
-          [self.connectionText setEnabled:YES];
+          [self.connectionsButton setEnabled:YES];
      if (self.channelsValue == 2)
           [self.channelText setEnabled:YES];
      if (self.awayMessageEnabled)
@@ -135,7 +146,33 @@ NSWindow *myWindow;
      [self.tokenfield_rating setDelegate:self];
      [self.tokenfield_year setStringValue:TRIGGER_YEAR];
      [self.tokenfield_year setDelegate:self];
-     
+}
+
+- (void)updateConnectionsButtonTitle
+{
+     int i=0;
+     [self.connectionsButton setTitle:@"pick one or more"];
+     for(IRCClient *client in self.worldController.clients) {
+          if([self.connectionTargets containsObject:client.config.itemUUID]){
+               if(i==0) [self.connectionsButton setTitle:client.name];
+               else [self.connectionsButton setTitle:[NSString stringWithFormat:@"%@, %@", self.connectionsButton.title, client.name]];
+          }
+          i++;
+     }
+}
+
+- (void)addOrRemoveConnection:(IRCClient *)client
+{
+     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+     NSMutableArray *ary = [[NSMutableArray alloc] initWithArray:self.connectionTargets];
+     if([ary containsObject:client.config.itemUUID]){
+          [ary removeObject:client.config.itemUUID];
+     } else {
+          [ary addObject:client.config.itemUUID];
+     }
+     [dict setObject:ary forKey:TXiTunesPluginConnectionTargetsKey];
+     [self setPreferences:dict];
+     [self updateConnectionsButtonTitle];
 }
 
 - (IBAction)enable:(id)sender {
@@ -186,11 +223,44 @@ NSWindow *myWindow;
      [self setPreferences:dict];
 }
 
+- (IBAction)showConnections:(id)sender {
+     NSRect frame = [(NSButton *)sender frame];
+     NSPoint menuOrigin = [[(NSButton *)sender superview] convertPoint:NSMakePoint(frame.origin.x, frame.origin.y)
+                                                                toView:nil];
+     
+     NSEvent *event =  [NSEvent mouseEventWithType:NSLeftMouseDown
+                                          location:menuOrigin
+                                     modifierFlags:NSLeftMouseDownMask
+                                         timestamp:0
+                                      windowNumber:[[(NSButton *)sender window] windowNumber]
+                                           context:[[(NSButton *)sender window] graphicsContext]
+                                       eventNumber:0
+                                        clickCount:1
+                                          pressure:1];
+     
+     NSMenu *menu = [[NSMenu alloc] init];
+     menu.autoenablesItems=NO;
+     NSArray *clients = self.worldController.clients;
+     for(int i=(int)clients.count-1; i>-1; i--) {
+          NSMenuItem *item = [[NSMenuItem alloc] init];
+          item.representedObject = clients[i];
+          item.title = [clients[i] name];
+          item.action = @selector(addConnectionTarget:);
+          item.keyEquivalent = @"";
+          item.target = self;
+          if([self.connectionTargets containsObject:[[clients[i] config] itemUUID]]) {
+               [item setState:NSOnState];
+          }
+          [menu insertItem:item atIndex:0];
+     }
+     [NSMenu popUpContextMenu:menu withEvent:event forView:(NSButton *)sender];
+}
+
 - (IBAction)setConnections:(id)sender {
      if ([self.connectionsRadio selectedTag] == 2){
-          [self.connectionText setEnabled:YES];
+          [self.connectionsButton setEnabled:YES];
      } else {
-          [self.connectionText setEnabled:NO];
+          [self.connectionsButton setEnabled:NO];
      }
      NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
      [dict setObject:[NSNumber numberWithLong:[self.connectionsRadio selectedTag]] forKey:TXiTunesPluginConnectionsKey];
@@ -208,16 +278,14 @@ NSWindow *myWindow;
      [self setPreferences:dict];
 }
 
-- (IBAction)setConnectionName:(id)sender {
-     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
-     [dict setObject:[self.connectionText stringValue] forKey:TXiTunesPluginConnectionNameKey];
-     [self setPreferences:dict];
-}
-
 - (IBAction)setChannelName:(id)sender {
      NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
      [dict setObject:[self.channelText stringValue] forKey:TXiTunesPluginChannelNameKey];
      [self setPreferences:dict];
+}
+
+- (IBAction)addConnectionTarget:(id)sender {
+     [self addOrRemoveConnection:[sender representedObject]];
 }
 
 #pragma mark Token Field Delegate
@@ -476,7 +544,7 @@ NSWindow *myWindow;
                [self printHelp];
           }
           if([[components objectAtIndex:0] isEqualToString:@"auto"]){
-               if(self.pluginEnabled){
+               if(self.announceEnabled){
                     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
                     [dict setObject:[NSNumber numberWithBool:NO] forKey:TXiTunesPluginEnabledKey];
                     [self setPreferences:dict];
