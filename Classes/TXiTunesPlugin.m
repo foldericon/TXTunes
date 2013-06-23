@@ -203,14 +203,14 @@ NSWindow *myWindow;
      if(self.connectionsValue == 0 || self.connectionsValue == 1){
           for(IRCClient *client in self.worldController.clients) {
                for(IRCChannel *channel in client.channels) {
-                    [channels addObject:channel.name];
+                    if(channel.isChannel) [channels addObject:channel.name];
                }
           }
      } else {
           for(IRCClient *client in self.worldController.clients) {
                if([self.connectionTargets containsObject:client.config.itemUUID]){
                     for(IRCChannel *channel in client.channels){
-                         [channels addObject:channel.name];
+                         if(channel.isChannel) [channels addObject:channel.name];
                     }
                }
           }

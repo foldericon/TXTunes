@@ -185,18 +185,18 @@ unichar _color = 0x03;
           case 0:
                for(IRCClient *client in [self getConnections]) {
                     for (IRCChannel *channel in client.channels) {
-                         if(channel.isActive) [self sendMessage:announceString toChannel:channel withStyle:style];
+                         if(channel.isChannel && channel.isActive) [self sendMessage:announceString toChannel:channel withStyle:style];
                     }
                }
                break;
           case 1:
-               if(self.worldController.selectedChannel.isActive)
+               if(self.worldController.selectedChannel.isActive && self.worldController.selectedChannel.isChannel)
                     [self sendMessage:announceString toChannel:self.worldController.selectedChannel withStyle:style];
                break;
           case 2:
                for(IRCClient *client in [self getConnections]) {
                     for (IRCChannel *channel in client.channels) {
-                         if(channel.isActive && [self.channelTargets containsObjectIgnoringCase:channel.name])
+                         if(channel.isChannel && channel.isActive && [self.channelTargets containsObjectIgnoringCase:channel.name])
                               [self sendMessage:announceString toChannel:channel withStyle:style];
                     }
                }
