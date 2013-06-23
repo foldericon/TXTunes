@@ -39,6 +39,7 @@ extern NSString *TXiTunesPluginChannelsKey;
 extern NSString *TXiTunesPluginConnectionNameKey;
 extern NSString *TXiTunesPluginConnectionTargetsKey;
 extern NSString *TXiTunesPluginChannelNameKey;
+extern NSString *TXiTunesPluginChannelTargetsKey;
 extern NSString *TXiTunesPluginStyleKey;
 extern NSString *TXiTunesPluginFormatStringKey;
 extern NSString *TXiTunesPluginAwayFormatStringKey;
@@ -58,6 +59,6 @@ extern NSString *TXiTunesPluginDefaultAwayFormatString;
 @property (readonly) NSInteger connectionsValue;
 @property (readonly) NSInteger channelsValue;
 @property (readonly) NSArray *connectionTargets;
-@property (readonly) NSString *channelName;
+@property (readonly) NSArray *channelTargets;
 
 @end

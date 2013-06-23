@@ -208,7 +208,8 @@ unichar _color = 0x03;
           connections = [self getConnections];
      }
      if (self.channelsValue == 2){
-          untrimmedChannels = [[[self.channelName lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] componentsSeparatedByString:@","];
+//          untrimmedChannels = [[[self.channelName lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] componentsSeparatedByString:@","];
+          untrimmedChannels = self.channelTargets;
           for(NSString *string in untrimmedChannels) {
                [channels addObject:[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
           }

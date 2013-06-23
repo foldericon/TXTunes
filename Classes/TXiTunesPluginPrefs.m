@@ -39,6 +39,7 @@ NSString *TXiTunesPluginConnectionNameKey =  @"TXiTunesPluginConnectionName";
 NSString *TXiTunesPluginConnectionTargetsKey =  @"TXiTunesPluginConnectionTargets";
 NSString *TXiTunesPluginChannelsKey =  @"TXiTunesPluginChannels";
 NSString *TXiTunesPluginChannelNameKey =  @"TXiTunesPluginChannelName";
+NSString *TXiTunesPluginChannelTargetsKey =  @"TXiTunesPluginChannelTargets";
 NSString *TXiTunesPluginStyleKey =  @"TXiTunesPluginStyle";
 NSString *TXiTunesPluginAwayFormatStringKey =  @"TXiTunesPluginAwayFormatString";
 NSString *TXiTunesPluginDefaultAwayFormatString = @"♬ %_artist - %_track";
@@ -53,12 +54,27 @@ NSString *TXiTunesPluginDefaultFormatString = @"is listening to %_track by %_art
 {
      if (![[NSFileManager defaultManager] fileExistsAtPath:[self preferencesPath]])
      {
-          NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"NO", TXiTunesPluginEnabledKey, @"NO", TXiTunesPluginExtrasKey, @"NO", TXiTunesPluginAwayMessageKey, @"1", TXiTunesPluginConnectionsKey, @"1", TXiTunesPluginChannelsKey, [NSArray array], TXiTunesPluginConnectionNameKey, @"", TXiTunesPluginChannelNameKey, @"0", TXiTunesPluginStyleKey, TXiTunesPluginDefaultAwayFormatString, TXiTunesPluginAwayFormatStringKey, TXiTunesPluginDefaultFormatString, TXiTunesPluginFormatStringKey, nil];
+          NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"NO", TXiTunesPluginEnabledKey,
+                                @"NO", TXiTunesPluginExtrasKey,
+                                @"NO", TXiTunesPluginAwayMessageKey,
+                                @"1", TXiTunesPluginConnectionsKey,
+                                @"1", TXiTunesPluginChannelsKey,
+                                [NSArray array], TXiTunesPluginConnectionTargetsKey,
+                                [NSArray array], TXiTunesPluginChannelTargetsKey,
+                                @"0", TXiTunesPluginStyleKey,
+                                TXiTunesPluginDefaultAwayFormatString, TXiTunesPluginAwayFormatStringKey,
+                                TXiTunesPluginDefaultFormatString, TXiTunesPluginFormatStringKey,
+                              nil];
           [self setPreferences:dict];
      }
      NSMutableDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[self preferencesPath]];
      if([[dict allKeys] containsObject:TXiTunesPluginConnectionTargetsKey] == NO) {
           [dict setObject:[NSArray array] forKey:TXiTunesPluginConnectionTargetsKey];
+          [self setPreferences:dict];
+     }
+     if([[dict allKeys] containsObject:TXiTunesPluginChannelTargetsKey] == NO) {
+          [dict setObject:[NSArray array] forKey:TXiTunesPluginChannelTargetsKey];
           [self setPreferences:dict];
      }
      return [NSDictionary dictionaryWithContentsOfFile:[self preferencesPath]];
@@ -119,9 +135,9 @@ NSString *TXiTunesPluginDefaultFormatString = @"is listening to %_track by %_art
      return [self.preferences objectForKey:TXiTunesPluginConnectionTargetsKey];
 }
 
-- (NSString *)channelName
+- (NSArray *)channelTargets
 {
-     return [self.preferences objectForKey:TXiTunesPluginChannelNameKey];
+     return [self.preferences objectForKey:TXiTunesPluginChannelTargetsKey];
 }
 
 

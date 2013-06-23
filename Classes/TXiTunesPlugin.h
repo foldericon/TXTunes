@@ -84,8 +84,10 @@
 - (IBAction)style:(id)sender;
 - (IBAction)setConnections:(id)sender;
 - (IBAction)showConnections:(id)sender;
+- (IBAction)showChannels:(id)sender;
 - (IBAction)setChannels:(id)sender;
-- (IBAction)setChannelName:(id)sender;
+- (IBAction)setChannelTargets:(id)sender;
+
 - (IBAction)setFormatString:(id)sender;
 - (IBAction)awayMessage:(id)sender;
 - (IBAction)showHelp:(id)sender;

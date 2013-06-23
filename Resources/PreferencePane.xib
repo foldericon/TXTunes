@@ -47,6 +47,35 @@
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
+					<object class="NSButton" id="519006651">
+						<reference key="NSNextResponder" ref="808477201"/>
+						<int key="NSvFlags">268</int>
+						<string key="NSFrame">{{471, 319}, {35, 32}}</string>
+						<reference key="NSSuperview" ref="808477201"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="517399069"/>
+						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<bool key="NSEnabled">YES</bool>
+						<object class="NSButtonCell" key="NSCell" id="444872584">
+							<int key="NSCellFlags">67108864</int>
+							<int key="NSCellFlags2">134217728</int>
+							<string key="NSContents">▾</string>
+							<object class="NSFont" key="NSSupport" id="893243606">
+								<string key="NSName">LucidaGrande</string>
+								<double key="NSSize">13</double>
+								<int key="NSfFlags">1044</int>
+							</object>
+							<string key="NSCellIdentifier">_NS:9</string>
+							<reference key="NSControlView" ref="519006651"/>
+							<int key="NSButtonFlags">-2038284288</int>
+							<int key="NSButtonFlags2">129</int>
+							<string key="NSAlternateContents"/>
+							<string key="NSKeyEquivalent"/>
+							<int key="NSPeriodicDelay">200</int>
+							<int key="NSPeriodicInterval">25</int>
+						</object>
+						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
+					</object>
 					<object class="NSButton" id="354103354">
 						<reference key="NSNextResponder" ref="808477201"/>
 						<int key="NSvFlags">268</int>
@@ -60,11 +89,7 @@
 							<int key="NSCellFlags">67108864</int>
 							<int key="NSCellFlags2">134217728</int>
 							<string key="NSContents">Connections</string>
-							<object class="NSFont" key="NSSupport" id="893243606">
-								<string key="NSName">LucidaGrande</string>
-								<double key="NSSize">13</double>
-								<int key="NSfFlags">1044</int>
-							</object>
+							<reference key="NSSupport" ref="893243606"/>
 							<string key="NSCellIdentifier">_NS:9</string>
 							<reference key="NSControlView" ref="354103354"/>
 							<int key="NSButtonFlags">-2038284288</int>
@@ -1473,7 +1498,7 @@
 						<string key="NSFrame">{{298, 308}, {159, 17}}</string>
 						<reference key="NSSuperview" ref="808477201"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="517399069"/>
+						<reference key="NSNextKeyView" ref="519006651"/>
 						<string key="NSReuseIdentifierKey">_NS:3944</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="641454007">
@@ -1541,7 +1566,7 @@
 					<object class="NSTextField" id="340832057">
 						<reference key="NSNextResponder" ref="808477201"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{301, 325}, {228, 22}}</string>
+						<string key="NSFrame">{{301, 325}, {175, 22}}</string>
 						<reference key="NSSuperview" ref="808477201"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="488134586"/>
@@ -2286,14 +2311,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">setChannelName:</string>
-						<reference key="source" ref="91317637"/>
-						<reference key="destination" ref="340832057"/>
-					</object>
-					<int key="connectionID">300</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">enable:</string>
 						<reference key="source" ref="91317637"/>
 						<reference key="destination" ref="962797096"/>
@@ -2572,6 +2589,22 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					</object>
 					<int key="connectionID">467</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">showChannels:</string>
+						<reference key="source" ref="91317637"/>
+						<reference key="destination" ref="519006651"/>
+					</object>
+					<int key="connectionID">483</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">setChannelTargets:</string>
+						<reference key="source" ref="91317637"/>
+						<reference key="destination" ref="340832057"/>
+					</object>
+					<int key="connectionID">484</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -2623,6 +2656,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<reference ref="684808303"/>
 							<reference ref="1037421464"/>
 							<reference ref="354103354"/>
+							<reference ref="519006651"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">View</string>
@@ -3210,6 +3244,20 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<reference key="object" ref="218684210"/>
 						<reference key="parent" ref="838358372"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">477</int>
+						<reference key="object" ref="519006651"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="444872584"/>
+						</object>
+						<reference key="parent" ref="808477201"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">478</int>
+						<reference key="object" ref="444872584"/>
+						<reference key="parent" ref="519006651"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -3302,6 +3350,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>461.IBPluginDependency</string>
 					<string>470.IBPluginDependency</string>
 					<string>471.IBPluginDependency</string>
+					<string>477.IBPluginDependency</string>
+					<string>478.IBPluginDependency</string>
 					<string>7.IBPluginDependency</string>
 				</object>
 				<object class="NSArray" key="dict.values">
@@ -3397,6 +3447,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -3411,7 +3463,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">473</int>
+			<int key="maxID">484</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3429,15 +3481,19 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string>extras:</string>
 							<string>setAwayFormatString:</string>
 							<string>setChannelName:</string>
+							<string>setChannelTargets:</string>
 							<string>setChannels:</string>
 							<string>setConnections:</string>
 							<string>setFormatString:</string>
+							<string>showChannels:</string>
 							<string>showConnections:</string>
 							<string>showHelp:</string>
 							<string>style:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3462,9 +3518,11 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string>extras:</string>
 							<string>setAwayFormatString:</string>
 							<string>setChannelName:</string>
+							<string>setChannelTargets:</string>
 							<string>setChannels:</string>
 							<string>setConnections:</string>
 							<string>setFormatString:</string>
+							<string>showChannels:</string>
 							<string>showConnections:</string>
 							<string>showHelp:</string>
 							<string>style:</string>
@@ -3496,6 +3554,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">setChannelTargets:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">setChannels:</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -3505,6 +3567,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">setFormatString:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showChannels:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">

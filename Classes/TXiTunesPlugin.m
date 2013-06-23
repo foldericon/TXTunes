@@ -86,14 +86,23 @@ NSWindow *myWindow;
           [dict removeObjectForKey:TXiTunesPluginConnectionNameKey];
           [self setPreferences:dict];
      }
+     
+     if([self.preferences objectForKey:TXiTunesPluginChannelNameKey]){
+          NSArray *ary = [[[[self.preferences objectForKey:TXiTunesPluginChannelNameKey] lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@","] componentsSeparatedByString:@","];
+          NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+          [dict setObject:ary forKey:TXiTunesPluginChannelTargetsKey];
+          [dict removeObjectForKey:TXiTunesPluginChannelNameKey];
+          [self setPreferences:dict];
+     }
+     
      [self updateConnectionsButtonTitle];
+     [self updateChannelsText];
      [self.enableBox setState:([self announceEnabled] ? NSOnState : NSOffState)];
      [self.extrasBox setState:([self extrasEnabled] ? NSOnState : NSOffState)];
      [self.awayMessageBox setState:([self awayMessageEnabled] ? NSOnState : NSOffState)];
      [self.styleRadio selectCellWithTag:self.styleValue];
      [self.connectionsRadio selectCellWithTag:self.connectionsValue];
      [self.channelsRadio selectCellWithTag:self.channelsValue];
-     [self.channelText setStringValue:self.channelName];
      if (self.connectionsValue == 2)
           [self.connectionsButton setEnabled:YES];
      if (self.channelsValue == 2)
@@ -156,8 +165,21 @@ NSWindow *myWindow;
           if([self.connectionTargets containsObject:client.config.itemUUID]){
                if(i==0) [self.connectionsButton setTitle:client.name];
                else [self.connectionsButton setTitle:[NSString stringWithFormat:@"%@, %@", self.connectionsButton.title, client.name]];
+               i++;
           }
-          i++;
+     }
+}
+
+- (void)updateChannelsText
+{
+     int i=0;
+     [self.channelText setStringValue:@""];
+     for(NSString *channel in [self getChannelNames]){
+          if([self.channelTargets containsObjectIgnoringCase:channel]){
+               if(i==0) [self.channelText setStringValue:channel];
+               else [self.channelText setStringValue:[NSString stringWithFormat:@"%@, %@", self.channelText.stringValue, channel]];
+               i++;
+          }
      }
 }
 
@@ -173,6 +195,27 @@ NSWindow *myWindow;
      [dict setObject:ary forKey:TXiTunesPluginConnectionTargetsKey];
      [self setPreferences:dict];
      [self updateConnectionsButtonTitle];
+}
+
+- (NSArray*)getChannelNames
+{
+     NSMutableArray *channels = [[NSMutableArray alloc] init];
+     if(self.connectionsValue == 0 || self.connectionsValue == 1){
+          for(IRCClient *client in self.worldController.clients) {
+               for(IRCChannel *channel in client.channels) {
+                    [channels addObject:channel.name];
+               }
+          }
+     } else {
+          for(IRCClient *client in self.worldController.clients) {
+               if([self.connectionTargets containsObject:client.config.itemUUID]){
+                    for(IRCChannel *channel in client.channels){
+                         [channels addObject:channel.name];
+                    }
+               }
+          }
+     }
+     return channels;
 }
 
 - (IBAction)enable:(id)sender {
@@ -256,6 +299,46 @@ NSWindow *myWindow;
      [NSMenu popUpContextMenu:menu withEvent:event forView:(NSButton *)sender];
 }
 
+- (IBAction)showChannels:(id)sender {
+     NSMutableArray *channels = [[NSMutableArray alloc] initWithArray:[self getChannelNames]];
+     NSArray *copy = [channels copy];
+     NSInteger index = [copy count] - 1;
+     for (id object in [copy reverseObjectEnumerator]) {
+          if ([channels indexOfObject:object inRange:NSMakeRange(0, index)] != NSNotFound) {
+               [channels removeObjectAtIndex:index];
+          }
+          index--;
+     }
+     NSRect frame = [(NSTextField *)self.channelText frame];
+     NSPoint menuOrigin = [[(NSButton *)sender superview] convertPoint:NSMakePoint(frame.origin.x, frame.origin.y-5)
+                                                                toView:nil];
+     
+     NSEvent *event =  [NSEvent mouseEventWithType:NSLeftMouseDown
+                                          location:menuOrigin
+                                     modifierFlags:NSLeftMouseDownMask
+                                         timestamp:0
+                                      windowNumber:[[(NSButton *)sender window] windowNumber]
+                                           context:[[(NSButton *)sender window] graphicsContext]
+                                       eventNumber:0
+                                        clickCount:1
+                                          pressure:1];
+     
+     NSMenu *menu = [[NSMenu alloc] init];
+     menu.autoenablesItems=NO;
+     for(NSString *channel in [channels reverseObjectEnumerator]) {
+          NSMenuItem *item = [[NSMenuItem alloc] init];
+          item.title = channel;
+          item.action = @selector(addChannelTarget:);
+          item.keyEquivalent = @"";
+          item.target = self;
+          if([self.channelTargets containsObjectIgnoringCase:channel]) {
+               [item setState:NSOnState];
+          }
+          [menu insertItem:item atIndex:0];
+     }
+     [NSMenu popUpContextMenu:menu withEvent:event forView:(NSButton *)sender];
+}
+
 - (IBAction)setConnections:(id)sender {
      if ([self.connectionsRadio selectedTag] == 2){
           [self.connectionsButton setEnabled:YES];
@@ -278,14 +361,28 @@ NSWindow *myWindow;
      [self setPreferences:dict];
 }
 
-- (IBAction)setChannelName:(id)sender {
+- (IBAction)setChannelTargets:(id)sender {
+     NSArray *ary = [[[self.channelText.stringValue lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@""] componentsSeparatedByString:@","];
      NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
-     [dict setObject:[self.channelText stringValue] forKey:TXiTunesPluginChannelNameKey];
+     [dict setObject:ary forKey:TXiTunesPluginChannelTargetsKey];
      [self setPreferences:dict];
 }
 
 - (IBAction)addConnectionTarget:(id)sender {
      [self addOrRemoveConnection:[sender representedObject]];
+}
+
+- (IBAction)addChannelTarget:(id)sender {
+     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
+     NSMutableArray *ary = [[NSMutableArray alloc] initWithArray:self.channelTargets];
+     if([ary containsObjectIgnoringCase:[(NSMenuItem*)sender title]]){
+          [ary removeObject:[[(NSMenuItem*)sender title] lowercaseString]];
+     } else {
+          [ary addObject:[[(NSMenuItem*)sender title] lowercaseString]];
+     }
+     [dict setObject:ary forKey:TXiTunesPluginChannelTargetsKey];
+     [self setPreferences:dict];
+     [self updateChannelsText];
 }
 
 #pragma mark Token Field Delegate
