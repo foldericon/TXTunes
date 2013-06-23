@@ -73,7 +73,7 @@ unichar _color = 0x03;
     }
 }
 
--(NSString *)getAnnounceString:(iTunesApplication *)itunes
+-(NSString *)getAnnounceString:(iTunesApplication *)itunes withFormat:(NSString *)formatString
 {
      NSString *number = [NSString stringWithFormat:@"%ld", (long)[[itunes currentTrack] trackNumber]];
      NSString *track = [NSString stringWithFormat:@"%@", [[itunes currentTrack] name]];
@@ -123,7 +123,7 @@ unichar _color = 0x03;
     NSString *bpm = [NSString stringWithFormat:@"%ld", (long) [[itunes currentTrack] bpm]];
     NSString *samplerate = [NSString stringWithFormat:@"%ld", (long) [[itunes currentTrack] sampleRate]];
     NSString *rating = [self getRating:[[itunes currentTrack] rating]];
-    NSString *output = [NSString stringWithString:[[[[[[[[[[[[[[[[[[[self formatString] stringByReplacingOccurrencesOfString:@"%_number" withString:number] stringByReplacingOccurrencesOfString:@"%_track" withString:track]  stringByReplacingOccurrencesOfString:@"%_aartist" withString:albumArtist] stringByReplacingOccurrencesOfString:@"%_artist" withString:artist] stringByReplacingOccurrencesOfString:@"%_album" withString:album] stringByReplacingOccurrencesOfString:@"%_genre" withString:genre] stringByReplacingOccurrencesOfString:@"%_year" withString:year] stringByReplacingOccurrencesOfString:@"%_bitrate" withString:bitrate] stringByReplacingOccurrencesOfString:@"%_length" withString:length] stringByReplacingOccurrencesOfString:@"%_playedcount" withString:playcount] stringByReplacingOccurrencesOfString:@"%_rating" withString:rating] stringByReplacingOccurrencesOfString:@"%_skippedcount" withString:skipcount] stringByReplacingOccurrencesOfString:@"%_bpm" withString:bpm]
+    NSString *output = [NSString stringWithString:[[[[[[[[[[[[[[[[[[formatString stringByReplacingOccurrencesOfString:@"%_number" withString:number] stringByReplacingOccurrencesOfString:@"%_track" withString:track]  stringByReplacingOccurrencesOfString:@"%_aartist" withString:albumArtist] stringByReplacingOccurrencesOfString:@"%_artist" withString:artist] stringByReplacingOccurrencesOfString:@"%_album" withString:album] stringByReplacingOccurrencesOfString:@"%_genre" withString:genre] stringByReplacingOccurrencesOfString:@"%_year" withString:year] stringByReplacingOccurrencesOfString:@"%_bitrate" withString:bitrate] stringByReplacingOccurrencesOfString:@"%_length" withString:length] stringByReplacingOccurrencesOfString:@"%_playedcount" withString:playcount] stringByReplacingOccurrencesOfString:@"%_rating" withString:rating] stringByReplacingOccurrencesOfString:@"%_skippedcount" withString:skipcount] stringByReplacingOccurrencesOfString:@"%_bpm" withString:bpm]
         stringByReplacingOccurrencesOfString:@"%_comment" withString:comment] stringByReplacingOccurrencesOfString:@"%_samplerate" withString:samplerate]
         stringByReplacingOccurrencesOfString:@"%c" withString:[NSString stringWithFormat:@"%c", _color]]
         stringByReplacingOccurrencesOfString:@"%b" withString:[NSString stringWithFormat:@"%c", _bold]]
@@ -135,7 +135,7 @@ unichar _color = 0x03;
 - (void)announceToChannel:(IRCChannel *)channel
 {
     iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
-     NSString *message = [self getAnnounceString:itunes];
+     NSString *message = [self getAnnounceString:itunes withFormat:self.formatString];
      if (self.styleValue == 0)
           [[channel client] sendCommand:[NSString stringWithFormat:@"me %@", message] completeTarget:YES target:[channel name]];
      else
@@ -145,10 +145,22 @@ unichar _color = 0x03;
 - (NSArray*)getConnections
 {
      NSMutableArray *conns = [[NSMutableArray alloc] init];
-     for(IRCClient *client in self.worldController.clients) {
-          if(client.isConnected && [self.connectionTargets containsObject:client.config.itemUUID]){
-               [conns addObject:client];
-          }
+     switch (self.connectionsValue) {
+          case 0:
+               for(IRCClient *client in self.worldController.clients){
+                    if(client.isConnected) [conns addObject:client];
+               }
+          break;
+          case 1:
+               if(self.worldController.selectedClient.isConnected) [conns addObject:self.worldController.selectedClient];
+          break;
+          case 2:
+               for(IRCClient *client in self.worldController.clients) {
+                    if(client.isConnected && [self.connectionTargets containsObject:client.config.itemUUID]){
+                         [conns addObject:client];
+                    }
+               }
+          break;
      }
      return conns;
 }
@@ -156,151 +168,37 @@ unichar _color = 0x03;
 - (void)setAway
 {
      iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
-     NSString *artist = [NSString stringWithFormat:@"%@", [[itunes currentTrack] artist]];
-     NSString *title = [NSString stringWithFormat:@"%@", [[itunes currentTrack] name]];
-     NSArray *connections;
-
-     if (self.connectionsValue == 2){
-          connections = [self getConnections];
-     }
-
-     NSString *reason = [NSString stringWithFormat:@"♬ %@ - %@", artist, title];
-     switch (self.connectionsValue) {
-          case 0:
-               // all connections
-               for(IRCClient *client in self.worldController.clients){
-                    if([itunes playerState] == 'kPSP' && [title isNotEqualTo:@"(null)"]){
-                         [client toggleAwayStatus:YES withReason:reason];
-                    } else if (client.isAway) {
-                         [client toggleAwayStatus:NO];
-                    }
-               }
-          break;
-          case 1:
-               // selected connection
-               if([itunes playerState] == 'kPSP' && [title isNotEqualTo:@"(null)"]){
-                    [self.worldController.selectedClient toggleAwayStatus:YES withReason:reason];
-               } else if (self.worldController.selectedClient.isAway) {
-                    [self.worldController.selectedClient toggleAwayStatus:NO];
-               }
-          break;
-          case 2:
-               // connection with name
-               for(IRCClient *client in connections){
-                    if([itunes playerState] == 'kPSP' && [title isNotEqualTo:@"(null)"]){
-                         [client toggleAwayStatus:YES withReason:reason];
-                    } else if (client.isAway) {
-                         [client toggleAwayStatus:NO];
-                    }
-               }
-          break;
+     NSString *reason = [self getAnnounceString:itunes withFormat:self.awayFormatString];
+     for (IRCClient *client in [self getConnections]) {
+          if([itunes playerState] == 'kPSP' && [itunes.currentTrack.name isNotEqualTo:@"(null)"]){
+               [client toggleAwayStatus:YES withReason:reason];
+          } else if(client.isAway) {
+               [client toggleAwayStatus:NO];
+          }
      }
 }
 
 -(void)sendAnnounceString:(NSString *)announceString asAction:(BOOL)action
 {
-     NSArray *connections;
-     NSMutableArray *channels = [NSMutableArray array];
-     NSArray *untrimmedChannels;
-     NSInteger style = action ? 0 : self.styleValue;
-     
-     if (self.connectionsValue == 2){
-          connections = [self getConnections];
-     }
-     if (self.channelsValue == 2){
-//          untrimmedChannels = [[[self.channelName lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] componentsSeparatedByString:@","];
-          untrimmedChannels = self.channelTargets;
-          for(NSString *string in untrimmedChannels) {
-               [channels addObject:[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
-          }
-     }
-     
-     switch (self.connectionsValue) {
+     NSInteger style = action ? 0 : self.styleValue;     
+     switch (self.channelsValue) {
           case 0:
-               // All Connections
-               switch ([self channelsValue]) {
-                    case 0:
-                         // All Channels
-                         for(IRCClient *client in self.worldController.clients){
-                              for(IRCChannel *channel in [client channels]){
-                                   if([channel isChannel]){
-                                        [self sendMessage:announceString toChannel:channel withStyle:style];
-                                   }
-                              }
-                         }
-                         break;
-                    case 1:
-                         // Selected Channel
-                         for(IRCClient *client in self.worldController.clients){
-                              if ([self.worldController.selectedChannel client] == client){
-                                   [self sendMessage:announceString toChannel:self.worldController.selectedChannel withStyle:style];
-                              }
-                         }
-                         break;
-                    case 2:
-                         // Channel with Name
-                         for(IRCClient *client in self.worldController.clients){
-                              if([client isClient] && [client isConnected]){
-                                   for(IRCChannel *channel in [client channels]){
-                                        if([channels containsObject:[[channel name] lowercaseString]]){
-                                             [self sendMessage:announceString toChannel:channel withStyle:style];
-                                        }
-                                   }
-                              }
-                         }
-                         break;
+               for(IRCClient *client in [self getConnections]) {
+                    for (IRCChannel *channel in client.channels) {
+                         if(channel.isActive) [self sendMessage:announceString toChannel:channel withStyle:style];
+                    }
                }
                break;
           case 1:
-               // Selected Connection
-               switch ([self channelsValue]) {
-                    case 0:
-                         // ALl Channels
-                         for(IRCChannel *channel in self.worldController.selectedClient.channels){
-                              [self sendMessage:announceString toChannel:channel withStyle:style];
-                         }
-                         break;
-                    case 1:
-                         // Selected Channel
-                         [self sendMessage:announceString toChannel:self.worldController.selectedChannel withStyle:style];
-                         break;
-                    case 2:
-                         // Channel with Name
-                         for(IRCChannel *channel in self.worldController.selectedClient.channels){
-                              if([channels containsObject:[[channel name] lowercaseString]]){
-                                   [self sendMessage:announceString toChannel:channel withStyle:style];
-                              }
-                         }
-                         break;
-               }
+               if(self.worldController.selectedChannel.isActive)
+                    [self sendMessage:announceString toChannel:self.worldController.selectedChannel withStyle:style];
                break;
           case 2:
-               // Connection with Name
-               switch ([self channelsValue]) {
-                    case 0:
-                         // All Channels
-                         for(IRCClient *client in connections){
-                              for(IRCChannel *channel in [client channels]){
-                                   [self sendMessage:announceString toChannel:channel withStyle:style];
-                              }
-                         }
-                         break;
-                    case 1:
-                         // Selected Channel
-                         for(IRCClient *client in connections){
-                              [self sendMessage:announceString toChannel:self.worldController.selectedChannel withStyle:style];
-                         }
-                         break;
-                    case 2:
-                         // Channel with Name
-                         for(IRCClient *client in connections){
-                              for(IRCChannel *channel in [client channels]){
-                                   if([channels containsObject:[[channel name] lowercaseString]]){
-                                        [self sendMessage:announceString toChannel:channel withStyle:style];
-                                   }
-                              }
-                         }
-                         break;
+               for(IRCClient *client in [self getConnections]) {
+                    for (IRCChannel *channel in client.channels) {
+                         if(channel.isActive && [self.channelTargets containsObjectIgnoringCase:channel.name])
+                              [self sendMessage:announceString toChannel:channel withStyle:style];
+                    }
                }
                break;
      }
@@ -311,7 +209,7 @@ unichar _color = 0x03;
      iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
      if ([self announceEnabled]){
         if ([itunes playerState] == 'kPSP' && [itunes playerPosition] < 3 && [[itunes currentTrack] size] > 0){
-             [self sendAnnounceString:[self getAnnounceString:itunes] asAction:NO];
+             [self sendAnnounceString:[self getAnnounceString:itunes withFormat:self.formatString] asAction:NO];
         }
 
      }
