@@ -159,30 +159,61 @@ NSWindow *myWindow;
      [self.tokenfield_year setDelegate:self];
 }
 
+-(NSString*)truncateString:(NSString*)string toWidth:(CGFloat)width withAttributes:(NSDictionary*)attributes
+{
+     int min = 0, max = (int)string.length, mid;
+     while (min < max) {
+          mid = (min+max)/2;
+          
+          NSString *currentString = [string substringToIndex:mid];
+          CGSize currentSize = [currentString sizeWithAttributes:attributes];
+          
+          if (currentSize.width < width){
+               min = mid + 1;
+          } else if (currentSize.width > width) {
+               max = mid - 1;
+          } else {
+               min = mid;
+               break;
+          }
+     }
+     return [string substringToIndex:min];
+}
+
 - (void)updateConnectionsButtonTitle
 {
      int i=0;
-     [self.connectionsButton setTitle:@"pick one or more"];
+     NSString *title = @"pick one or more";
      for(IRCClient *client in self.worldController.clients) {
           if([self.connectionTargets containsObject:client.config.itemUUID]){
-               if(i==0) [self.connectionsButton setTitle:client.name];
-               else [self.connectionsButton setTitle:[NSString stringWithFormat:@"%@, %@", self.connectionsButton.title, client.name]];
+               if(i==0) title = client.name;
+               else title = [NSString stringWithFormat:@"%@, %@", title, client.name];
                i++;
           }
      }
+     CGSize size = [title sizeWithAttributes:self.connectionsButton.attributedTitle.attributes];
+     CGFloat width = self.connectionsButton.frame.size.width-30;
+     if((int)size.width > (int)width) {
+          title = [self truncateString:title
+                               toWidth:width
+                        withAttributes:self.connectionsButton.attributedTitle.attributes];
+          title = [NSString stringWithFormat:@"%@...", [title substringToIndex:title.length-3]];
+     }
+     [self.connectionsButton setTitle:title];
 }
 
 - (void)updateChannelsText
 {
      int i=0;
-     [self.channelText setStringValue:@""];
+     NSString *string = @"";
      for(NSString *channel in [self getChannelNames]){
           if([self.channelTargets containsObjectIgnoringCase:channel]){
-               if(i==0) [self.channelText setStringValue:channel];
-               else [self.channelText setStringValue:[NSString stringWithFormat:@"%@, %@", self.channelText.stringValue, channel]];
+               if(i==0) string = channel;
+               else string = [NSString stringWithFormat:@"%@, %@", string, channel];
                i++;
           }
      }
+     [self.channelText setStringValue:string];
 }
 
 - (void)addOrRemoveConnection:(IRCClient *)client
