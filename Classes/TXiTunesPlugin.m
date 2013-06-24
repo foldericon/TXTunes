@@ -248,6 +248,11 @@ NSWindow *myWindow;
                }
           }
      }
+     for(NSString *channel in self.channelTargets) {
+          if([channels containsObjectIgnoringCase:channel] == NO) {
+               [channels addObject:channel];
+          }
+     }
      return channels;
 }
 
@@ -401,6 +406,7 @@ NSWindow *myWindow;
      NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
      [dict setObject:ary forKey:TXiTunesPluginChannelTargetsKey];
      [self setPreferences:dict];
+     [self updateChannelsText];
 }
 
 - (IBAction)addConnectionTarget:(id)sender {
