@@ -301,7 +301,7 @@ NSWindow *myWindow;
 
 - (IBAction)showConnections:(id)sender {
      NSRect frame = [(NSButton *)sender frame];
-     NSPoint menuOrigin = [[(NSButton *)sender superview] convertPoint:NSMakePoint(frame.origin.x, frame.origin.y)
+     NSPoint menuOrigin = [[(NSButton *)sender superview] convertPoint:NSMakePoint(frame.origin.x+5, frame.origin.y)
                                                                 toView:nil];
      
      NSEvent *event =  [NSEvent mouseEventWithType:NSLeftMouseDown
@@ -343,7 +343,7 @@ NSWindow *myWindow;
           index--;
      }
      NSRect frame = [(NSTextField *)self.channelText frame];
-     NSPoint menuOrigin = [[(NSButton *)sender superview] convertPoint:NSMakePoint(frame.origin.x, frame.origin.y-5)
+     NSPoint menuOrigin = [[(NSButton *)sender superview] convertPoint:NSMakePoint(frame.origin.x, frame.origin.y-7)
                                                                 toView:nil];
      
      NSEvent *event =  [NSEvent mouseEventWithType:NSLeftMouseDown
