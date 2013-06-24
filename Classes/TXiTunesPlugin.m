@@ -105,8 +105,10 @@ NSWindow *myWindow;
      [self.channelsRadio selectCellWithTag:self.channelsValue];
      if (self.connectionsValue == 2)
           [self.connectionsButton setEnabled:YES];
-     if (self.channelsValue == 2)
+     if (self.channelsValue == 2) {
           [self.channelText setEnabled:YES];
+          [self.channelsButton setEnabled:YES];
+     }
      if (self.awayMessageEnabled)
           [self.awayFormatText setEnabled:YES];
      else
@@ -353,8 +355,10 @@ NSWindow *myWindow;
 - (IBAction)setChannels:(id)sender {
      if ([self.channelsRadio selectedTag] == 2){
           [self.channelText setEnabled:YES];
+          [self.channelsButton setEnabled:YES];
      } else {
           [self.channelText setEnabled:NO];
+          [self.channelsButton setEnabled:NO];
      }
      NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
      [dict setObject:[NSNumber numberWithLong:[self.channelsRadio selectedTag]] forKey:TXiTunesPluginChannelsKey];

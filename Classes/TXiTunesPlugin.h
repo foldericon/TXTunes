@@ -110,6 +110,7 @@
 @property (weak) IBOutlet NSTextField *channelText;
 @property (weak) IBOutlet NSMatrix *connectionsRadio;
 @property (weak) IBOutlet NSButton *connectionsButton;
+@property (weak) IBOutlet NSButton *channelsButton;
 @property (weak) IBOutlet NSTokenField *formatText;
 @property (weak) IBOutlet NSTokenField *awayFormatText;
 @property (weak) IBOutlet NSTokenField *tokenfield_number;
