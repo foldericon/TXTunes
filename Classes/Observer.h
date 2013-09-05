@@ -30,7 +30,7 @@
 
 
 #import <Cocoa/Cocoa.h>
-#import "iTunes.h"
+#import "Headers/iTunes.h"
 #import "TextualApplication.h"
 
 @interface Observer : NSObject
