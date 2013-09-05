@@ -63,11 +63,25 @@ unichar _color = 0x03;
     if ([channel isChannel] && [[channel memberList] count] > 0){
         if (style == 0){
             if ([self announceEnabled]) {
-                 [[channel client] sendCommand:[NSString stringWithFormat:@"me %@", message] completeTarget:YES target:[channel name]];                 
+                 [channel.client sendLine:[NSString stringWithFormat:@"privmsg %@ :%cACTION %@%c", channel.name, _action, message, _action]];
+                 [channel.client print:channel
+                                  type:TVCLogLineActionType
+                                  nick:channel.client.localNickname
+                                  text:message
+                             encrypted:NSObjectIsNotEmpty(channel.config.encryptionKey)
+                            receivedAt:[NSDate date]
+                               command:@"ME"];
             }
         } else {
             if ([self announceEnabled]) {
-                 [[channel client] sendCommand:[NSString stringWithFormat:@"msg %@ %@", [channel name], message]];
+                 [channel.client sendLine:[NSString stringWithFormat:@"privmsg %@ :%@", channel.name, message]];
+                 [channel.client print:channel
+                                  type:TVCLogLinePrivateMessageType
+                                  nick:channel.client.localNickname
+                                  text:message
+                             encrypted:NSObjectIsNotEmpty(channel.config.encryptionKey)
+                            receivedAt:[NSDate date]
+                               command:@"MSG"];
             }
         }
     }
