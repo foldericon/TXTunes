@@ -32,7 +32,6 @@
 #import "TXiTunesPluginPrefs.h"
 
 NSString *TXiTunesPluginEnabledKey = @"TXiTunesPluginEnabled";
-NSString *TXiTunesPluginExtrasKey = @"TXiTunesPluginExtras";
 NSString *TXiTunesPluginAwayMessageKey = @"TXiTunesPluginAwayMessage";
 NSString *TXiTunesPluginConnectionsKey =  @"TXiTunesPluginConnections";
 NSString *TXiTunesPluginConnectionNameKey =  @"TXiTunesPluginConnectionName";
@@ -56,7 +55,6 @@ NSString *TXiTunesPluginDefaultFormatString = @"is listening to %_track by %_art
      {
           NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"NO", TXiTunesPluginEnabledKey,
-                                @"NO", TXiTunesPluginExtrasKey,
                                 @"NO", TXiTunesPluginAwayMessageKey,
                                 @"1", TXiTunesPluginConnectionsKey,
                                 @"1", TXiTunesPluginChannelsKey,
@@ -93,11 +91,6 @@ NSString *TXiTunesPluginDefaultFormatString = @"is listening to %_track by %_art
 - (BOOL)announceEnabled
 {
      return [[self.preferences objectForKey:TXiTunesPluginEnabledKey] boolValue];
-}
-
-- (BOOL)extrasEnabled
-{
-     return [[self.preferences objectForKey:TXiTunesPluginExtrasKey] boolValue];
 }
 
 - (BOOL)awayMessageEnabled

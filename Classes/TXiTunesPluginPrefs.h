@@ -32,7 +32,6 @@
 #import <Cocoa/Cocoa.h>
 
 extern NSString *TXiTunesPluginEnabledKey;
-extern NSString *TXiTunesPluginExtrasKey;
 extern NSString *TXiTunesPluginAwayMessageKey;
 extern NSString *TXiTunesPluginConnectionsKey;
 extern NSString *TXiTunesPluginChannelsKey;
@@ -51,7 +50,6 @@ extern NSString *TXiTunesPluginDefaultAwayFormatString;
 @property (assign) NSDictionary *preferences;
 @property (readonly) NSString *preferencesPath;
 @property (readonly) BOOL announceEnabled;
-@property (readonly) BOOL extrasEnabled;
 @property (readonly) BOOL awayMessageEnabled;
 @property (readonly) NSString *awayFormatString;
 @property (readonly) NSString *formatString;

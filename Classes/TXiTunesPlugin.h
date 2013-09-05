@@ -52,7 +52,6 @@
 
 @interface TXiTunesPlugin : NSObject <THOPluginProtocol, NSTokenFieldDelegate> {
      __weak NSButton *_enableBox;
-     __weak NSButton *_extrasBox;
      __weak NSButton *_awayMessageBox;    
      __weak NSMatrix *_channelsRadio;
      __weak NSMatrix *_connectionsRadio;
@@ -80,7 +79,6 @@
 }
 
 - (IBAction)enable:(id)sender;
-- (IBAction)extras:(id)sender;
 - (IBAction)style:(id)sender;
 - (IBAction)setConnections:(id)sender;
 - (IBAction)showConnections:(id)sender;
@@ -103,7 +101,6 @@
 - (NSString *)preferencesMenuItemName;
 
 @property (weak) IBOutlet NSButton *enableBox;
-@property (weak) IBOutlet NSButton *extrasBox;
 @property (weak) IBOutlet NSButton *awayMessageBox;
 @property (weak) IBOutlet NSMatrix *channelsRadio;
 @property (weak) IBOutlet NSMatrix *styleRadio;
