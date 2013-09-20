@@ -645,6 +645,7 @@ NSWindow *myWindow;
      [client printDebugInformation:@"\00315\002/itunes\002                    \026sends your current track infos to the selected channel or query   \003\00311|" forCommand:@"372"];
      [client printDebugInformation:@"\00315\002/itunes <channel>\002          \026sends your current track infos to <channel>                       \003\00311|" forCommand:@"372"];
      [client printDebugInformation:@"\00315\002/itunes stats\002              \026sends itunes library statistics to the selected channel or query  \003\00311|" forCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes url\002                \026sends the itunes store url of the current track                   \003\00311|" forCommand:@"372"];
      [client printDebugInformation:@"\00315\002/itunes auto\002               \026toggles auto announce on/off                                      \003\00311|" forCommand:@"372"];
      [client printDebugInformation:@"\00315\002/itunes pause\002              \026play/pause playback                                               \003\00311|" forCommand:@"372"];
      [client printDebugInformation:@"\00315\002/itunes stop\002               \026stops playback                                                    \003\00311|" forCommand:@"372"];
@@ -712,6 +713,36 @@ NSWindow *myWindow;
                iTunesLibraryPlaylist *lp = [[[[library playlists] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"specialKind == %i", iTunesESpKMusic]] objectAtIndex:0];
                NSString *stats = [NSString stringWithFormat:@"I have %ld tracks in my iTunes library (%@ in size) (Total Playtime: %@)", (long) [[lp tracks] count], [self getStringOfSize:[lp size]], [self getStringOfDuration:[lp time]]];
                [client sendCommand:[NSString stringWithFormat:@"MSG %@ %@", [self.worldController.selectedChannel name], stats]];
+          }
+          if([[components objectAtIndex:0] isEqualToString:@"url"]){
+               NSString *storeurl = @"";
+               NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+               NSString *searchTerm = [NSString stringWithFormat:@"%@ %@", itunes.currentTrack.artist, itunes.currentTrack.name];
+               searchTerm = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) searchTerm, NULL, CFSTR("!*'();:@&=+$,/?%#[]"), kCFStringEncodingUTF8));
+               [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&entity=song", searchTerm]]];
+               NSHTTPURLResponse *urlResponse = nil;
+               NSError *error = [[NSError alloc] init];
+               NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
+               if ([urlResponse statusCode] >= 200 && [urlResponse statusCode] < 300) {
+                    if(responseData != nil && NSClassFromString(@"NSJSONSerialization"))
+                    {
+                         NSError *error = nil;
+                         id object = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error];
+                         if(error) { [self echo:@"Error while fetching iTunes store url"]; return; }
+                         if([object isKindOfClass:[NSDictionary class]])
+                         {
+                              NSDictionary *results = object;
+                              for (NSDictionary *result in [results objectForKey:@"results"]) {
+                                   if([itunes.currentTrack.album isEqualTo:@""] || [[result objectForKey:@"collectionName"] isEqualIgnoringCase:itunes.currentTrack.album]) {
+                                        if([[result objectForKey:@"trackViewUrl"] isNotEqualTo:@""]) {
+                                             storeurl = [result objectForKey:@"trackViewUrl"];
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+               if([storeurl isNotEqualTo:@""]) [client sendCommand:[NSString stringWithFormat:@"MSG %@ %@", [self.worldController.selectedChannel name], storeurl]];
           }
           if([[components objectAtIndex:0] isEqualToString:@"pause"]){
                [itunes playpause];
