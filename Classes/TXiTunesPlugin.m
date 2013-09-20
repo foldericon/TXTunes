@@ -473,9 +473,9 @@ NSWindow *myWindow;
      } else if ([representedObject isEqualToString:TRIGGER_BPM]) {
           return @"BPM";
      } else if ([representedObject isEqualToString:TRIGGER_PLAYEDCOUNT]) {
-          return @"Played Count";
+          return @"Play Count";
      } else if ([representedObject isEqualToString:TRIGGER_SKIPPEDCOUNT]) {
-          return @"Skipped Count";
+          return @"Skip Count";
      } else if ([representedObject isEqualToString:TRIGGER_COMMENT]) {
           return @"Comment";
      } else if ([representedObject isEqualToString:TRIGGER_RATING]) {
