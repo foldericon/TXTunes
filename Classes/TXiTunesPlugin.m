@@ -156,6 +156,8 @@ NSWindow *myWindow;
      [self.tokenfield_rating setDelegate:self];
      [self.tokenfield_year setStringValue:TRIGGER_YEAR];
      [self.tokenfield_year setDelegate:self];
+     [self.tokenfield_playlist setStringValue:TRIGGER_PLAYLIST];
+     [self.tokenfield_playlist setDelegate:self];
 }
 
 -(NSString*)truncateString:(NSString*)string toWidth:(CGFloat)width withAttributes:(NSDictionary*)attributes
@@ -480,6 +482,8 @@ NSWindow *myWindow;
           return @"Rating";
      } else if ([representedObject isEqualToString:TRIGGER_YEAR]) {
           return @"Year";
+     } else if ([representedObject isEqualToString:TRIGGER_PLAYLIST]) {
+          return @"Playlist";
      } else {
           return nil;
      }}
@@ -536,6 +540,8 @@ NSWindow *myWindow;
                     i += [TRIGGER_RATING length];
                 } else if ([substringFromIndex hasPrefix:TRIGGER_YEAR]) {
                     i += [TRIGGER_YEAR length];
+                } else if ([substringFromIndex hasPrefix:TRIGGER_PLAYLIST]) {
+                     i += [TRIGGER_PLAYLIST length];
                 } else {
                     for (; i < [string length]; i++) {
                          if ([[string substringFromIndex:(i + 1)] hasPrefix:@"%_"]) {

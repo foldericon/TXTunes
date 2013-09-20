@@ -100,6 +100,7 @@ unichar _color = 0x03;
      NSString *skipcount = [NSString stringWithFormat:@"%ld", (long)[[itunes currentTrack] skippedCount]];
      NSString *kind = [NSString stringWithFormat:@"%@", [[itunes currentTrack] kind]];
      NSString *comment = [NSString stringWithFormat:@"%@", [[itunes currentTrack] comment]];
+     NSString *playlist = [NSString stringWithFormat:@"%@", [[itunes currentPlaylist] name]];
 
      if ([itunes.currentStreamTitle isNotEqualTo:@""]) {
           NSArray *info = [itunes.currentStreamTitle componentsSeparatedByString:@" - "];
@@ -134,6 +135,8 @@ unichar _color = 0x03;
           year = @"n/a";
      if([comment isEqualToString:@""])
           comment = @"n/a";
+     if([playlist isEqualToString:@""])
+          playlist = @"n/a";
      
     NSString *skind;
     if([kind isEqualToString:@"MPEG audio file"]){
@@ -159,12 +162,13 @@ unichar _color = 0x03;
     NSString *bpm = [NSString stringWithFormat:@"%ld", (long) [[itunes currentTrack] bpm]];
     NSString *samplerate = [NSString stringWithFormat:@"%ld", (long) [[itunes currentTrack] sampleRate]];
     NSString *rating = [self getRating:[[itunes currentTrack] rating]];
-    NSString *output = [NSString stringWithString:[[[[[[[[[[[[[[[[[[formatString stringByReplacingOccurrencesOfString:@"%_number" withString:number] stringByReplacingOccurrencesOfString:@"%_track" withString:track]  stringByReplacingOccurrencesOfString:@"%_aartist" withString:albumArtist] stringByReplacingOccurrencesOfString:@"%_artist" withString:artist] stringByReplacingOccurrencesOfString:@"%_album" withString:album] stringByReplacingOccurrencesOfString:@"%_genre" withString:genre] stringByReplacingOccurrencesOfString:@"%_year" withString:year] stringByReplacingOccurrencesOfString:@"%_bitrate" withString:bitrate] stringByReplacingOccurrencesOfString:@"%_length" withString:length] stringByReplacingOccurrencesOfString:@"%_playedcount" withString:playcount] stringByReplacingOccurrencesOfString:@"%_rating" withString:rating] stringByReplacingOccurrencesOfString:@"%_skippedcount" withString:skipcount] stringByReplacingOccurrencesOfString:@"%_bpm" withString:bpm]
+    NSString *output = [NSString stringWithString:[[[[[[[[[[[[[[[[[[[formatString stringByReplacingOccurrencesOfString:@"%_number" withString:number] stringByReplacingOccurrencesOfString:@"%_track" withString:track]  stringByReplacingOccurrencesOfString:@"%_aartist" withString:albumArtist] stringByReplacingOccurrencesOfString:@"%_artist" withString:artist] stringByReplacingOccurrencesOfString:@"%_album" withString:album] stringByReplacingOccurrencesOfString:@"%_genre" withString:genre] stringByReplacingOccurrencesOfString:@"%_year" withString:year] stringByReplacingOccurrencesOfString:@"%_bitrate" withString:bitrate] stringByReplacingOccurrencesOfString:@"%_length" withString:length] stringByReplacingOccurrencesOfString:@"%_playedcount" withString:playcount] stringByReplacingOccurrencesOfString:@"%_rating" withString:rating] stringByReplacingOccurrencesOfString:@"%_skippedcount" withString:skipcount] stringByReplacingOccurrencesOfString:@"%_bpm" withString:bpm]
         stringByReplacingOccurrencesOfString:@"%_comment" withString:comment] stringByReplacingOccurrencesOfString:@"%_samplerate" withString:samplerate]
+        stringByReplacingOccurrencesOfString:@"%_kind" withString:skind]
+        stringByReplacingOccurrencesOfString:@"%_playlist" withString:playlist]
         stringByReplacingOccurrencesOfString:@"%c" withString:[NSString stringWithFormat:@"%c", _color]]
         stringByReplacingOccurrencesOfString:@"%b" withString:[NSString stringWithFormat:@"%c", _bold]]
-        stringByReplacingOccurrencesOfString:@"%_kind" withString:skind]];
-    
+    ];
     output = [output stringByReplacingOccurrencesOfString:@"(null)" withString:@"n/a"];
     return output;
 }

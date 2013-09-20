@@ -49,6 +49,7 @@
 #define TRIGGER_COMMENT             @"%_comment"
 #define TRIGGER_RATING              @"%_rating"
 #define TRIGGER_YEAR				@"%_year"
+#define TRIGGER_PLAYLIST            @"%_playlist"
 
 @interface TXiTunesPlugin : NSObject <THOPluginProtocol, NSTokenFieldDelegate> {
      __weak NSButton *_enableBox;
@@ -76,6 +77,7 @@
      __weak NSTokenField *_tokenfield_comment;
      __weak NSTokenField *_tokenfield_rating;
      __weak NSTokenField *_tokenfield_year;
+     __weak NSTokenField *_tokenfield_playlist;
 }
 
 - (IBAction)enable:(id)sender;
@@ -126,4 +128,5 @@
 @property (weak) IBOutlet NSTokenField *tokenfield_comment;
 @property (weak) IBOutlet NSTokenField *tokenfield_rating;
 @property (weak) IBOutlet NSTokenField *tokenfield_year;
+@property (weak) IBOutlet NSTokenField *tokenfield_playlist;
 @end

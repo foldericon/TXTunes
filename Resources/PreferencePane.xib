@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4504" systemVersion="13A569" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1050" defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="TXiTunesPlugin">
@@ -29,6 +29,7 @@
                 <outlet property="tokenfield_length" destination="397" id="425"/>
                 <outlet property="tokenfield_number" destination="401" id="417"/>
                 <outlet property="tokenfield_playedcount" destination="403" id="428"/>
+                <outlet property="tokenfield_playlist" destination="Lv3-CN-Kuk" id="DBR-ZW-n5x"/>
                 <outlet property="tokenfield_rating" destination="399" id="431"/>
                 <outlet property="tokenfield_samplerate" destination="413" id="423"/>
                 <outlet property="tokenfield_skippedcount" destination="405" id="429"/>
@@ -332,7 +333,7 @@
                                 </tokenFieldCell>
                             </tokenField>
                             <tokenField verticalHuggingPriority="750" id="399">
-                                <rect key="frame" x="425" y="14" width="105" height="17"/>
+                                <rect key="frame" x="341" y="14" width="105" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <tokenFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" alignment="left" title="Rating" allowsEditingTextAttributes="YES" id="400">
                                     <font key="font" metaFont="system"/>
@@ -350,18 +351,18 @@
                                 </tokenFieldCell>
                             </tokenField>
                             <tokenField verticalHuggingPriority="750" id="403">
-                                <rect key="frame" x="8" y="14" width="125" height="17"/>
+                                <rect key="frame" x="8" y="14" width="109" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <tokenFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" alignment="left" title="Played Count" allowsEditingTextAttributes="YES" id="404">
+                                <tokenFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" alignment="left" title="Play Count" allowsEditingTextAttributes="YES" id="404">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </tokenFieldCell>
                             </tokenField>
                             <tokenField verticalHuggingPriority="750" id="405">
-                                <rect key="frame" x="145" y="14" width="135" height="17"/>
+                                <rect key="frame" x="121" y="14" width="111" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <tokenFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" alignment="left" title="Skipped Count" allowsEditingTextAttributes="YES" id="406">
+                                <tokenFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" alignment="left" title="Skip Count" allowsEditingTextAttributes="YES" id="406">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -395,7 +396,7 @@
                                 </tokenFieldCell>
                             </tokenField>
                             <tokenField verticalHuggingPriority="750" id="413">
-                                <rect key="frame" x="81" y="39" width="119" height="17"/>
+                                <rect key="frame" x="83" y="39" width="119" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <tokenFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" alignment="left" title="Sample Rate" allowsEditingTextAttributes="YES" id="414">
                                     <font key="font" metaFont="system"/>
@@ -404,9 +405,18 @@
                                 </tokenFieldCell>
                             </tokenField>
                             <tokenField verticalHuggingPriority="750" id="415">
-                                <rect key="frame" x="301" y="14" width="110" height="17"/>
+                                <rect key="frame" x="233" y="14" width="104" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <tokenFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" alignment="left" title="Comment" allowsEditingTextAttributes="YES" id="416">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </tokenFieldCell>
+                            </tokenField>
+                            <tokenField verticalHuggingPriority="750" id="Lv3-CN-Kuk">
+                                <rect key="frame" x="425" y="14" width="85" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <tokenFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" alignment="left" title="Playlist" allowsEditingTextAttributes="YES" id="mVD-Id-SL4">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
