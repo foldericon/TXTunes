@@ -245,14 +245,16 @@ unichar _color = 0x03;
 -(void)trackNotification:(NSNotification *)notif
 {
      iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
-     if ([self announceEnabled]){
-        if ([itunes playerState] == 'kPSP' && [itunes playerPosition] < 3){
-             [self sendAnnounceString:[self getAnnounceString:itunes withFormat:self.formatString] asAction:NO];
-        }
+     if(itunes.isRunning) {
+          if ([self announceEnabled]){
+             if ([itunes playerState] == 'kPSP' && [itunes playerPosition] < 3){
+                  [self sendAnnounceString:[self getAnnounceString:itunes withFormat:self.formatString] asAction:NO];
+             }
 
-     }
-     if(self.awayMessageEnabled) {
-          [self setAway];
+          }
+          if(self.awayMessageEnabled) {
+               [self setAway];
+          }
      }
 }
 
