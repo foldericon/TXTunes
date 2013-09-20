@@ -101,6 +101,23 @@ unichar _color = 0x03;
      NSString *kind = [NSString stringWithFormat:@"%@", [[itunes currentTrack] kind]];
      NSString *comment = [NSString stringWithFormat:@"%@", [[itunes currentTrack] comment]];
 
+     if ([itunes.currentStreamTitle isNotEqualTo:@""]) {
+          NSArray *info = [itunes.currentStreamTitle componentsSeparatedByString:@" - "];
+          if(info.count > 1) {
+               artist = [info objectAtIndex:0];
+               track = [info objectAtIndex:1];
+          }
+          kind = @"Internet Radio";
+     } else {
+          if(itunes.currentTrack.size == 0 && [itunes.currentTrack.kind isEqualTo:@""]) {
+               kind = @"iTunes Radio";
+          }
+     }
+     
+     if ([track isEqualTo:@""] || [artist isEqualTo:@""]) {
+          return @"";
+     }
+     
      if([track isEqualToString:@""])
           track = @"n/a";
      if([artist isEqualToString:@""])
@@ -123,9 +140,12 @@ unichar _color = 0x03;
         skind=@"ALAC";
     } else if([kind isEqualToString:@"AAC audio file"] || [kind isEqualToString:@"Purchased AAC audio file"]){
         skind=@"AAC";
+    } else if ([kind isNotEqualTo:@""]){
+         skind=kind;
     } else {
-        skind=@"unknown";        
+         skind=@"n/a";
     }
+     
     NSString *bitrate;
     bitrate = [NSString stringWithFormat:@"%ldkbps", (long) [[itunes currentTrack] bitRate]];
     if ([skind isEqualToString:@"MP3"]){
@@ -143,17 +163,19 @@ unichar _color = 0x03;
         stringByReplacingOccurrencesOfString:@"%b" withString:[NSString stringWithFormat:@"%c", _bold]]
         stringByReplacingOccurrencesOfString:@"%_kind" withString:skind]];
     
+    output = [output stringByReplacingOccurrencesOfString:@"(null)" withString:@"n/a"];
     return output;
 }
 
 - (void)announceToChannel:(IRCChannel *)channel
 {
     iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
-     NSString *message = [self getAnnounceString:itunes withFormat:self.formatString];
+     NSString *announceString = [self getAnnounceString:itunes withFormat:self.formatString];
+     NSAssertReturn([announceString isNotEqualTo:@""]);
      if (self.styleValue == 0)
-          [[channel client] sendCommand:[NSString stringWithFormat:@"me %@", message] completeTarget:YES target:[channel name]];
+          [[channel client] sendCommand:[NSString stringWithFormat:@"me %@", announceString] completeTarget:YES target:[channel name]];
      else
-          [[channel client] sendCommand:[NSString stringWithFormat:@"msg %@ %@", [channel name], message]];
+          [[channel client] sendCommand:[NSString stringWithFormat:@"msg %@ %@", [channel name], announceString]];
 }
 
 - (NSArray*)getConnections
@@ -182,10 +204,11 @@ unichar _color = 0x03;
 - (void)setAway
 {
      iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
-     NSString *reason = [self getAnnounceString:itunes withFormat:self.awayFormatString];
+     NSString *announceString = [self getAnnounceString:itunes withFormat:self.awayFormatString];
+     NSAssertReturn([announceString isNotEqualTo:@""]);
      for (IRCClient *client in [self getConnections]) {
           if([itunes playerState] == 'kPSP' && [itunes.currentTrack.name isNotEqualTo:@"(null)"]){
-               [client toggleAwayStatus:YES withReason:reason];
+               [client toggleAwayStatus:YES withReason:announceString];
           } else if(client.isAway) {
                [client toggleAwayStatus:NO];
           }
@@ -194,6 +217,7 @@ unichar _color = 0x03;
 
 -(void)sendAnnounceString:(NSString *)announceString asAction:(BOOL)action
 {
+     NSAssertReturn([announceString isNotEqualTo:@""]);
      NSInteger style = action ? 0 : self.styleValue;     
      switch (self.channelsValue) {
           case 0:
@@ -222,12 +246,12 @@ unichar _color = 0x03;
 {
      iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
      if ([self announceEnabled]){
-        if ([itunes playerState] == 'kPSP' && [itunes playerPosition] < 3 && [[itunes currentTrack] size] > 0){
+        if ([itunes playerState] == 'kPSP' && [itunes playerPosition] < 3){
              [self sendAnnounceString:[self getAnnounceString:itunes withFormat:self.formatString] asAction:NO];
         }
 
      }
-     if(self.awayMessageEnabled && [[itunes currentTrack] size] > 0) {
+     if(self.awayMessageEnabled) {
           [self setAway];
      }
 }
