@@ -110,6 +110,8 @@ unichar _color = 0x03;
           kind = @"Internet Radio";
      } else {
           if(itunes.currentTrack.size == 0 && [itunes.currentTrack.kind isEqualTo:@""]) {
+               // Don't post advertising
+               if([album isEqualTo:@""]) return @"";
                kind = @"iTunes Radio";
           }
      }
