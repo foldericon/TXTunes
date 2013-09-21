@@ -733,10 +733,9 @@ NSWindow *myWindow;
                          {
                               NSDictionary *results = object;
                               for (NSDictionary *result in [results objectForKey:@"results"]) {
-                                   if([itunes.currentTrack.album isEqualTo:@""] || [[result objectForKey:@"collectionName"] isEqualIgnoringCase:itunes.currentTrack.album]) {
-                                        if([[result objectForKey:@"trackViewUrl"] isNotEqualTo:@""]) {
-                                             storeurl = [result objectForKey:@"trackViewUrl"];
-                                        }
+                                   if([[result objectForKey:@"trackViewUrl"] isNotEqualTo:@""]) {
+                                        storeurl = [result objectForKey:@"trackViewUrl"];
+                                        if([[result objectForKey:@"collectionName"] isEqualIgnoringCase:itunes.currentTrack.album]) break;
                                    }
                               }
                          }
