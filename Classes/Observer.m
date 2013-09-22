@@ -62,29 +62,34 @@ unichar _color = 0x03;
 {
     if ([channel isChannel] && [[channel memberList] count] > 0){
         if (style == 0){
-            if ([self announceEnabled]) {
-                 [channel.client sendLine:[NSString stringWithFormat:@"privmsg %@ :%cACTION %@%c", channel.name, _action, message, _action]];
-                 [channel.client print:channel
-                                  type:TVCLogLineActionType
-                                  nick:channel.client.localNickname
-                                  text:message
-                             encrypted:NSObjectIsNotEmpty(channel.config.encryptionKey)
-                            receivedAt:[NSDate date]
-                               command:@"ME"];
-            }
+            [channel.client sendLine:[NSString stringWithFormat:@"privmsg %@ :%cACTION %@%c", channel.name, _action, message, _action]];
+            [channel.client print:channel
+                             type:TVCLogLineActionType
+                             nick:channel.client.localNickname
+                             text:message
+                        encrypted:NSObjectIsNotEmpty(channel.config.encryptionKey)
+                       receivedAt:[NSDate date]
+                          command:@"ME"];
         } else {
-            if ([self announceEnabled]) {
-                 [channel.client sendLine:[NSString stringWithFormat:@"privmsg %@ :%@", channel.name, message]];
-                 [channel.client print:channel
-                                  type:TVCLogLinePrivateMessageType
-                                  nick:channel.client.localNickname
-                                  text:message
-                             encrypted:NSObjectIsNotEmpty(channel.config.encryptionKey)
-                            receivedAt:[NSDate date]
-                               command:@"MSG"];
-            }
+            [channel.client sendLine:[NSString stringWithFormat:@"privmsg %@ :%@", channel.name, message]];
+            [channel.client print:channel
+                             type:TVCLogLinePrivateMessageType
+                             nick:channel.client.localNickname
+                             text:message
+                        encrypted:NSObjectIsNotEmpty(channel.config.encryptionKey)
+                       receivedAt:[NSDate date]
+                          command:@"MSG"];
         }
     }
+}
+
+
+-(BOOL)isNullValue:(NSString *)string
+{
+     if([string isEqualToString:@""] || [string isEqualToString:@"(null)"]) {
+          return YES;
+     }
+     return NO;
 }
 
 -(NSString *)getAnnounceString:(iTunesApplication *)itunes withFormat:(NSString *)formatString
@@ -102,7 +107,7 @@ unichar _color = 0x03;
      NSString *comment = [NSString stringWithFormat:@"%@", [[itunes currentTrack] comment]];
      NSString *playlist = [NSString stringWithFormat:@"%@", [[itunes currentPlaylist] name]];
 
-     if ([itunes.currentStreamTitle isNotEqualTo:@""]) {
+     if ([self isNullValue:itunes.currentStreamTitle] == NO) {
           NSArray *info = [itunes.currentStreamTitle componentsSeparatedByString:@" - "];
           if(info.count > 1) {
                artist = [info objectAtIndex:0];
@@ -117,7 +122,7 @@ unichar _color = 0x03;
           }
      }
      
-     if ([track isEqualTo:@""] || [artist isEqualTo:@""]) {
+     if ([self isNullValue:track] || [self isNullValue:artist]) {
           return @"";
      }
      
@@ -253,9 +258,9 @@ unichar _color = 0x03;
      iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
      if(itunes.isRunning) {
           if ([self announceEnabled]){
-             if ([itunes playerState] == 'kPSP' && [itunes playerPosition] < 3){
-                  [self sendAnnounceString:[self getAnnounceString:itunes withFormat:self.formatString] asAction:NO];
-             }
+               if ([itunes playerState] == 'kPSP'){
+                    [self sendAnnounceString:[self getAnnounceString:itunes withFormat:self.formatString] asAction:NO];
+               }
 
           }
           if(self.awayMessageEnabled) {
