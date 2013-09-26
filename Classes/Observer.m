@@ -86,7 +86,7 @@ unichar _color = 0x03;
 
 -(BOOL)isNullValue:(NSString *)string
 {
-     if([string isEqualToString:@""] || [string isEqualToString:@"(null)"]) {
+     if(!string || [string isEqualToString:@""]) {
           return YES;
      }
      return NO;
@@ -114,33 +114,31 @@ unichar _color = 0x03;
                track = [info objectAtIndex:1];
           }
           kind = @"Internet Radio";
-     } else {
-          if(itunes.currentTrack.size == 0 && [itunes.currentTrack.kind isEqualTo:@""]) {
-               // Don't post advertising
-               if([album isEqualTo:@""]) return @"";
-               kind = @"iTunes Radio";
-          }
+     } else if(itunes.currentTrack.size == 0 && [self isNullValue:itunes.currentTrack.kind]) {
+          // Don't post advertising
+          if([self isNullValue:album]) return @"";
+          kind = @"iTunes Radio";
      }
      
      if ([self isNullValue:track] || [self isNullValue:artist]) {
           return @"";
      }
      
-     if([track isEqualToString:@""])
+     if([self isNullValue:track])
           track = @"n/a";
-     if([artist isEqualToString:@""])
+     if([self isNullValue:artist])
           artist = @"n/a";
-     if([albumArtist isEqualToString:@""])
+     if([self isNullValue:albumArtist])
           albumArtist = @"n/a";
-     if([album isEqualToString:@""])
+     if([self isNullValue:album])
           album = @"n/a";
-     if([genre isEqualToString:@""])
+     if([self isNullValue:genre])
           genre = @"n/a";
-     if([year isEqualToString:@"0"])
+     if([self isNullValue:year])
           year = @"n/a";
-     if([comment isEqualToString:@""])
+     if([self isNullValue:comment])
           comment = @"n/a";
-     if([playlist isEqualToString:@""])
+     if([self isNullValue:playlist])
           playlist = @"n/a";
      
     NSString *skind;
@@ -150,7 +148,7 @@ unichar _color = 0x03;
         skind=@"ALAC";
     } else if([kind isEqualToString:@"AAC audio file"] || [kind isEqualToString:@"Purchased AAC audio file"]){
         skind=@"AAC";
-    } else if ([kind isNotEqualTo:@""]){
+    } else if ([self isNullValue:kind]){
          skind=kind;
     } else {
          skind=@"n/a";
@@ -174,7 +172,6 @@ unichar _color = 0x03;
         stringByReplacingOccurrencesOfString:@"%c" withString:[NSString stringWithFormat:@"%c", _color]]
         stringByReplacingOccurrencesOfString:@"%b" withString:[NSString stringWithFormat:@"%c", _bold]]
     ];
-    output = [output stringByReplacingOccurrencesOfString:@"(null)" withString:@"n/a"];
     return output;
 }
 
