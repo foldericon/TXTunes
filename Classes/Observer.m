@@ -86,7 +86,7 @@ unichar _color = 0x03;
 
 -(BOOL)isNullValue:(NSString *)string
 {
-     if(!string || [string isEqualToString:@""]) {
+     if(!string || [string isEqualToString:@""] || [string isEqualToString:@"(null)"]) {
           return YES;
      }
      return NO;
