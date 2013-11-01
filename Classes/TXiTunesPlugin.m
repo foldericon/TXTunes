@@ -675,6 +675,13 @@ NSWindow *myWindow;
      iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
      if([components count] == 1){
           if([[components objectAtIndex:0] isEqualToString:@""]){
+               if(itunes.isRunning == NO) {
+                    [client printDebugInformation:@"iTunes is not running."];
+                    return;
+               } else if([itunes playerState] != 'kPSP') {
+                    [client printDebugInformation:@"iTunes is not playing."];
+                    return;
+               }
                [observer announceToChannel:self.worldController.selectedChannel];
           }
           if([[components objectAtIndex:0] isEqualToString:@"help"]){
