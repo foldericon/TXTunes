@@ -75,6 +75,7 @@ NSWindow *myWindow;
 
 - (void)awakeFromNib
 {
+     NSLog(@"AWAKE FROM NIB");
      if([self.preferences objectForKey:TXiTunesPluginConnectionNameKey]){
           NSArray *ary = [[self.preferences objectForKey:TXiTunesPluginConnectionNameKey] componentsSeparatedByString:@","];
           for(IRCClient *client in self.worldController.clients){
@@ -692,11 +693,13 @@ NSWindow *myWindow;
                     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
                     [dict setObject:[NSNumber numberWithBool:NO] forKey:TXiTunesPluginEnabledKey];
                     [self setPreferences:dict];
+                    [self.enableBox setState:NSOffState];
                     [self echo:@"auto announce disabled"];
                } else {
                     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
                     [dict setObject:[NSNumber numberWithBool:YES] forKey:TXiTunesPluginEnabledKey];
                     [self setPreferences:dict];
+                    [self.enableBox setState:NSOnState];
                     [self echo:@"auto announce enabled"];
                }
           }
