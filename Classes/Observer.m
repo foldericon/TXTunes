@@ -261,7 +261,15 @@ unichar _color = 0x03;
 
           }
           if(self.awayMessageEnabled) {
-               [self setAway];
+               if([itunes playerState] == 'kPSP') {
+                    [self setAway];
+               } else {
+                    for (IRCClient *client in [self getConnections]) {
+                         if(client.isAway) {
+                              [client toggleAwayStatus:NO];
+                         }
+                    }
+               }
           }
      }
 }
