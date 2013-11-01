@@ -75,7 +75,6 @@ NSWindow *myWindow;
 
 - (void)awakeFromNib
 {
-     NSLog(@"AWAKE FROM NIB");
      if([self.preferences objectForKey:TXiTunesPluginConnectionNameKey]){
           NSArray *ary = [[self.preferences objectForKey:TXiTunesPluginConnectionNameKey] componentsSeparatedByString:@","];
           for(IRCClient *client in self.worldController.clients){
