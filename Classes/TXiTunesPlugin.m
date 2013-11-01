@@ -50,12 +50,15 @@ NSWindow *myWindow;
           observer = [[Observer alloc] init];
           NSDistributedNotificationCenter *center = [NSDistributedNotificationCenter defaultCenter];
           [center addObserver:observer selector:@selector(trackNotification:) name:@"com.apple.iTunes.playerInfo" object:nil];
+          [[NSNotificationCenter defaultCenter] removeObserver:self];
+          [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowClosing:) name:NSWindowWillCloseNotification object:nil];
      }
 }
 
 - (void)dealloc
 {
      [[NSDistributedNotificationCenter defaultCenter] removeObserver:observer name:@"com.apple.iTunes.playerInfo" object:nil];
+     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark -
@@ -158,6 +161,14 @@ NSWindow *myWindow;
      [self.tokenfield_year setDelegate:self];
      [self.tokenfield_playlist setStringValue:TRIGGER_PLAYLIST];
      [self.tokenfield_playlist setDelegate:self];
+}
+
+- (void)windowClosing:(NSNotification*)aNotification {
+     NSWindow *win = [aNotification valueForKey:@"object"];
+     if([win.title isEqualToString:@"Textual Preferences"]) {
+          [self setAwayFormatString:self.awayFormatText];
+          [self setFormatString:self.formatText];
+     }
 }
 
 -(NSString*)truncateString:(NSString*)string toWidth:(CGFloat)width withAttributes:(NSDictionary*)attributes
@@ -421,6 +432,10 @@ NSWindow *myWindow;
 }
 
 #pragma mark Token Field Delegate
+
+-(void)windowWillClose:(NSNotification *)notification {
+     NSLog(@"JAU");
+}
 
 - (NSArray *)tokenField:(NSTokenField *)tokenField shouldAddObjects:(NSArray *)tokens atIndex:(NSUInteger)index
 {
