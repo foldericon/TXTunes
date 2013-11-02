@@ -32,7 +32,6 @@
 #import <Cocoa/Cocoa.h>
 #import "TextualApplication.h"
 #import "TXiTunesPluginPrefs.h"
-#import "TDCPreferencesController.h"
 
 #define TRIGGER_NUMBER              @"%_number"
 #define TRIGGER_TRACK				@"%_track"

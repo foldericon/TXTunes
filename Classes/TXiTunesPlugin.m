@@ -433,10 +433,6 @@ NSWindow *myWindow;
 
 #pragma mark Token Field Delegate
 
--(void)windowWillClose:(NSNotification *)notification {
-     NSLog(@"JAU");
-}
-
 - (NSArray *)tokenField:(NSTokenField *)tokenField shouldAddObjects:(NSArray *)tokens atIndex:(NSUInteger)index
 {
      NSString *tokenString = [tokens componentsJoinedByString:@""];
