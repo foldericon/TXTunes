@@ -166,8 +166,12 @@ NSWindow *myWindow;
 - (void)windowClosing:(NSNotification*)aNotification {
      NSWindow *win = [aNotification valueForKey:@"object"];
      if([win.title isEqualToString:@"Textual Preferences"]) {
-          [self setAwayFormatString:self.awayFormatText];
-          [self setFormatString:self.formatText];
+          if ([self.formatString isNotEqualTo:[[self.formatText objectValue] componentsJoinedByString:@""]]) {
+               [self setFormatString:self.formatText];
+          }
+          if ([self.awayFormatString isNotEqualTo:[[self.awayFormatText objectValue] componentsJoinedByString:@""]]) {
+               [self setAwayFormatString:self.awayFormatText];
+          }
      }
 }
 
