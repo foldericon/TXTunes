@@ -252,6 +252,8 @@ unichar _color = 0x03;
 
 -(void)trackNotification:(NSNotification *)notif
 {
+     NSString *playerState = [notif.userInfo objectForKey:@"Player State"];
+     NSAssertReturn([playerState isNotEqualTo:@"Stopped"]);
      iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
      if(itunes.isRunning) {
           if ([self announceEnabled]){
@@ -261,9 +263,9 @@ unichar _color = 0x03;
 
           }
           if(self.awayMessageEnabled) {
-               if([itunes playerState] == 'kPSP') {
+               if([playerState isEqualToString:@"Playing"]) {
                     [self setAway];
-               } else {
+               } else if ([playerState isEqualToString:@"Paused"]) {
                     for (IRCClient *client in [self getConnections]) {
                          if(client.isAway) {
                               [client toggleAwayStatus:NO];
