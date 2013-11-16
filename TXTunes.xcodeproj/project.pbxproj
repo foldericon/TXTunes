@@ -16,7 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		DA45ABFD16F3109400CE0B72 /* TXTunes.TxtlPlugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TXTunes.TxtlPlugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA45ABFD16F3109400CE0B72 /* TXTunes.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TXTunes.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA45AC1416F3114200CE0B72 /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		DAAF116816F480B90031D3E4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DAC50E5A1748C6A60049686D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
@@ -59,7 +59,7 @@
 		DA45ABFE16F3109400CE0B72 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DA45ABFD16F3109400CE0B72 /* TXTunes.TxtlPlugin */,
+				DA45ABFD16F3109400CE0B72 /* TXTunes.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -119,7 +119,7 @@
 			);
 			name = TXTunes;
 			productName = "Textual-iTunes";
-			productReference = DA45ABFD16F3109400CE0B72 /* TXTunes.TxtlPlugin */;
+			productReference = DA45ABFD16F3109400CE0B72 /* TXTunes.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -254,7 +254,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = TXTunes;
 				PROVISIONING_PROFILE = "";
-				WRAPPER_EXTENSION = TxtlPlugin;
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
 		};
@@ -272,7 +272,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = TXTunes;
 				PROVISIONING_PROFILE = "";
-				WRAPPER_EXTENSION = TxtlPlugin;
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
 		};
