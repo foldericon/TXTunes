@@ -608,37 +608,9 @@ NSWindow *myWindow;
 
 -(NSString *)getStringOfSize:(long long)size
 {
-     NSString *masure;
-     float tsize = [[NSNumber numberWithLongLong:size] floatValue];
-     if(tsize > 1024) {
-          // KB
-          tsize = tsize/1024;
-          masure = @"KB";
-     }
-     if(tsize > 1024) {
-          // MB
-          tsize = tsize/1024;
-          masure = @"MB";
-     }
-     if(tsize > 1024) {
-          // GB
-          tsize = tsize/1024;
-          masure = @"GB";
-     }
-     if(tsize > 1024) {
-          // TB
-          tsize = tsize/1024;
-          masure = @"TB";
-     }
-     tsize = round(tsize*100)/100;
-     
-     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-     [formatter setMaximumFractionDigits:2];
-     [formatter setRoundingMode:NSNumberFormatterRoundHalfUp];
-     
-     NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:tsize]];
-     
-     return [NSString stringWithFormat:@"%@ %@", numberString, masure];
+    NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
+    [formatter setCountStyle:NSByteCountFormatterCountStyleFile];
+    return [formatter stringFromByteCount:size];
 }
 
 - (void)echo:(NSString *)msg
