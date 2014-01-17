@@ -78,26 +78,6 @@ NSWindow *myWindow;
 
 - (void)awakeFromNib
 {
-     if([self.preferences objectForKey:TXiTunesPluginConnectionNameKey]){
-          NSArray *ary = [[self.preferences objectForKey:TXiTunesPluginConnectionNameKey] componentsSeparatedByString:@","];
-          for(IRCClient *client in self.worldController.clients){
-               if([ary containsObjectIgnoringCase:client.name]) {
-                    [self addOrRemoveConnection:client];
-               }
-          }
-          NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
-          [dict removeObjectForKey:TXiTunesPluginConnectionNameKey];
-          [self setPreferences:dict];
-     }
-     
-     if([self.preferences objectForKey:TXiTunesPluginChannelNameKey]){
-          NSArray *ary = [[[[self.preferences objectForKey:TXiTunesPluginChannelNameKey] lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@","] componentsSeparatedByString:@","];
-          NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
-          [dict setObject:ary forKey:TXiTunesPluginChannelTargetsKey];
-          [dict removeObjectForKey:TXiTunesPluginChannelNameKey];
-          [self setPreferences:dict];
-     }
-     
      [self updateConnectionsButtonTitle];
      [self updateChannelsText];
      [self.enableBox setState:([self announceEnabled] ? NSOnState : NSOffState)];
