@@ -60,7 +60,7 @@ unichar _color = 0x03;
 
 -(void)sendMessage:(NSString *)message toChannel:(IRCChannel *)channel withStyle:(NSInteger)style
 {
-    if ([channel isChannel] && [[channel memberList] count] > 0){
+     if (channel.isChannel && channel.numberOfMembers > 0) {
         if (style == 0){
             [channel.client sendLine:[NSString stringWithFormat:@"privmsg %@ :%cACTION %@%c", channel.name, _action, message, _action]];
             [channel.client print:channel
