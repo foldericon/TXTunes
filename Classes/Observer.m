@@ -36,7 +36,7 @@
 
 unichar _action = 0x01;
 unichar _bold = 0x02;        
-unichar _color = 0x03;    
+unichar _color = 0x03;
 
 - (NSString *)getRating:(NSInteger)rating
 {
@@ -94,85 +94,72 @@ unichar _color = 0x03;
 
 -(NSString *)getAnnounceString:(iTunesApplication *)itunes withFormat:(NSString *)formatString
 {
-     NSString *number = [NSString stringWithFormat:@"%ld", (long)[[itunes currentTrack] trackNumber]];
-     NSString *track = [NSString stringWithFormat:@"%@", [[itunes currentTrack] name]];
-     NSString *artist = [NSString stringWithFormat:@"%@", [[itunes currentTrack] artist]];
-     NSString *albumArtist = [NSString stringWithFormat:@"%@", [[itunes currentTrack] albumArtist]];
-     NSString *album = [NSString stringWithFormat:@"%@", [[itunes currentTrack] album]];
-     NSString *genre = [NSString stringWithFormat:@"%@", [[itunes currentTrack] genre]];
-     NSString *year = [NSString stringWithFormat:@"%ld", (long)[[itunes currentTrack] year]];
-     NSString *playcount = [NSString stringWithFormat:@"%ld", (long)[[itunes currentTrack] playedCount]];
-     NSString *skipcount = [NSString stringWithFormat:@"%ld", (long)[[itunes currentTrack] skippedCount]];
-     NSString *kind = [NSString stringWithFormat:@"%@", [[itunes currentTrack] kind]];
-     NSString *comment = [NSString stringWithFormat:@"%@", [[itunes currentTrack] comment]];
-     NSString *playlist = [NSString stringWithFormat:@"%@", [[itunes currentPlaylist] name]];
-
-     if ([self isNullValue:itunes.currentStreamTitle] == NO) {
-          NSArray *info = [itunes.currentStreamTitle componentsSeparatedByString:@" - "];
-          if(info.count > 1) {
-               artist = [info objectAtIndex:0];
-               track = [info objectAtIndex:1];
-          }
-          kind = @"Internet Radio";
-     } else if(itunes.currentTrack.size == 0 && [self isNullValue:itunes.currentTrack.kind]) {
-          // Don't post advertising
-          if([self isNullValue:album]) return @"";
-          kind = @"iTunes Radio";
-     }
-     
-     if ([self isNullValue:track] || [self isNullValue:artist]) {
+     if ([self isNullValue:itunes.currentTrack.name] || [self isNullValue:itunes.currentTrack.artist]) {
           return @"";
      }
      
-     if([self isNullValue:track])
-          track = @"n/a";
-     if([self isNullValue:artist])
-          artist = @"n/a";
-     if([self isNullValue:albumArtist])
-          albumArtist = @"n/a";
-     if([self isNullValue:album])
-          album = @"n/a";
-     if([self isNullValue:genre])
-          genre = @"n/a";
-     if([self isNullValue:year])
-          year = @"n/a";
-     if([self isNullValue:comment])
-          comment = @"n/a";
-     if([self isNullValue:playlist])
-          playlist = @"n/a";
+     NSDictionary *infoDict = @{ @"number"        : [NSString stringWithFormat:@"%ld", (long)itunes.currentTrack.trackNumber],
+                                 @"track"         : [NSString stringWithFormat:@"%@", itunes.currentTrack.name],
+                                 @"artist"        : [NSString stringWithFormat:@"%@", itunes.currentTrack.artist],
+                                 @"albumArtist"   : [self isNullValue:itunes.currentTrack.albumArtist] ? @"n/a" : [NSString stringWithFormat:@"%@", itunes.currentTrack.albumArtist],
+                                 @"album"         : [self isNullValue:itunes.currentTrack.album] ? @"n/a" : [NSString stringWithFormat:@"%@", itunes.currentTrack.album],
+                                 @"genre"         : [self isNullValue:itunes.currentTrack.genre] ? @"n/a" : [NSString stringWithFormat:@"%@", itunes.currentTrack.genre],
+                                 @"year"          : itunes.currentTrack.year == 0 ? @"n/a" : [NSString stringWithFormat:@"%ld", (long)itunes.currentTrack.year],
+                                 @"playcount"     : [NSString stringWithFormat:@"%ld", (long)itunes.currentTrack.playedCount],
+                                 @"skipcount"     : [NSString stringWithFormat:@"%ld", (long)itunes.currentTrack.skippedCount],
+                                 @"kind"          : [NSString stringWithFormat:@"%@", itunes.currentTrack.kind],
+                                 @"comment"       : [self isNullValue:itunes.currentTrack.comment] ? @"n/a" : [NSString stringWithFormat:@"%@", itunes.currentTrack.comment],
+                                 @"playlist"      : [self isNullValue:itunes.currentPlaylist.name] ? @"n/a" : [NSString stringWithFormat:@"%@", itunes.currentPlaylist.name],
+                                 @"bitrate"       : [NSString stringWithFormat:@"%ldkbps (VBR)", (long) itunes.currentTrack.bitRate],
+                                 @"length"        : [NSString stringWithFormat:@"%@", itunes.currentTrack.time],
+                                 @"bpm"           : [NSString stringWithFormat:@"%ld", (long) itunes.currentTrack.bpm],
+                                 @"samplerate"    : [NSString stringWithFormat:@"%ld", (long) itunes.currentTrack.sampleRate],
+                                 @"rating"        : [self getRating:itunes.currentTrack.rating],
+                               };
      
-    NSString *skind;
-    if([kind isEqualToString:@"MPEG audio file"]){
-        skind=@"MP3";
-    } else if([kind isEqualToString:@"Apple Lossless audio file"]){
-        skind=@"ALAC";
-    } else if([kind isEqualToString:@"AAC audio file"] || [kind isEqualToString:@"Purchased AAC audio file"]){
-        skind=@"AAC";
-    } else if ([self isNullValue:kind]){
-         skind=kind;
-    } else {
-         skind=@"n/a";
-    }
+     NSMutableDictionary *mediaInfo = [infoDict mutableCopy];
      
-    NSString *bitrate;
-    bitrate = [NSString stringWithFormat:@"%ldkbps", (long) [[itunes currentTrack] bitRate]];
-    if ([skind isEqualToString:@"MP3"]){
-        if ([[itunes currentTrack] bitRate] % 16 != 0){
-            bitrate = [NSString stringWithFormat:@"%ldkbps (VBR)", (long) [[itunes currentTrack] bitRate]];
-        }
-    }
-    NSString *length = [NSString stringWithFormat:@"%@", [[itunes currentTrack] time]];
-    NSString *bpm = [NSString stringWithFormat:@"%ld", (long) [[itunes currentTrack] bpm]];
-    NSString *samplerate = [NSString stringWithFormat:@"%ld", (long) [[itunes currentTrack] sampleRate]];
-    NSString *rating = [self getRating:[[itunes currentTrack] rating]];
-    NSString *output = [NSString stringWithString:[[[[[[[[[[[[[[[[[[[formatString stringByReplacingOccurrencesOfString:@"%_number" withString:number] stringByReplacingOccurrencesOfString:@"%_track" withString:track]  stringByReplacingOccurrencesOfString:@"%_aartist" withString:albumArtist] stringByReplacingOccurrencesOfString:@"%_artist" withString:artist] stringByReplacingOccurrencesOfString:@"%_album" withString:album] stringByReplacingOccurrencesOfString:@"%_genre" withString:genre] stringByReplacingOccurrencesOfString:@"%_year" withString:year] stringByReplacingOccurrencesOfString:@"%_bitrate" withString:bitrate] stringByReplacingOccurrencesOfString:@"%_length" withString:length] stringByReplacingOccurrencesOfString:@"%_playedcount" withString:playcount] stringByReplacingOccurrencesOfString:@"%_rating" withString:rating] stringByReplacingOccurrencesOfString:@"%_skippedcount" withString:skipcount] stringByReplacingOccurrencesOfString:@"%_bpm" withString:bpm]
-        stringByReplacingOccurrencesOfString:@"%_comment" withString:comment] stringByReplacingOccurrencesOfString:@"%_samplerate" withString:samplerate]
-        stringByReplacingOccurrencesOfString:@"%_kind" withString:skind]
-        stringByReplacingOccurrencesOfString:@"%_playlist" withString:playlist]
-        stringByReplacingOccurrencesOfString:@"%c" withString:[NSString stringWithFormat:@"%c", _color]]
-        stringByReplacingOccurrencesOfString:@"%b" withString:[NSString stringWithFormat:@"%c", _bold]]
-    ];
-    return output;
+     mediaInfo[@"kind"] = [mediaInfo[@"kind"] isEqualToString:@"MPEG audio file"] ? @"MP3" : [mediaInfo[@"kind"] isEqualToString:@"Apple Lossless audio file"] ? @"ALAC" : [mediaInfo[@"kind"] isEqualToString:@"AAC audio file"] || [mediaInfo[@"kind"] isEqualToString:@"Purchased AAC audio file"] ? @"AAC" : mediaInfo[@"kind"];
+     
+     if ([self isNullValue:itunes.currentStreamTitle] == NO) {
+          NSArray *info = [itunes.currentStreamTitle componentsSeparatedByString:@" - "];
+          if(info.count > 1) {
+               mediaInfo[@"artist"] = [info objectAtIndex:0];
+               mediaInfo[@"track"] = [info objectAtIndex:1];
+          }
+          mediaInfo[@"kind"] = @"Internet Radio";
+     } else if(itunes.currentTrack.size == 0 && [self isNullValue:itunes.currentTrack.kind]) {
+          // Don't post advertising
+          if([self isNullValue:mediaInfo[@"album"]]) return @"";
+          mediaInfo[@"kind"] = @"iTunes Radio";
+     }
+     
+     if ([mediaInfo[@"kind"] isEqualToString:@"MP3"] || [mediaInfo[@"kind"] isEqualToString:@"AAC"]){
+          if (itunes.currentTrack.bitRate % 16 != 0){
+               mediaInfo[@"bitrate"] = [NSString stringWithFormat:@"%ldkbps (VBR)", (long) itunes.currentTrack.bitRate];
+          }
+     }
+     
+     return [[[[[[[[[[[[[[[[[[[formatString
+                          stringByReplacingOccurrencesOfString:@"%_number" withString:mediaInfo[@"number"]]
+                          stringByReplacingOccurrencesOfString:@"%_track" withString:mediaInfo[@"track"]]
+                          stringByReplacingOccurrencesOfString:@"%_artist" withString:mediaInfo[@"artist"]]
+                          stringByReplacingOccurrencesOfString:@"%_aartist" withString:mediaInfo[@"albumArtist"]]
+                          stringByReplacingOccurrencesOfString:@"%_album" withString:mediaInfo[@"album"]]
+                          stringByReplacingOccurrencesOfString:@"%_genre" withString:mediaInfo[@"genre"]]
+                          stringByReplacingOccurrencesOfString:@"%_year" withString:mediaInfo[@"year"]]
+                          stringByReplacingOccurrencesOfString:@"%_bitrate" withString:mediaInfo[@"bitrate"]]
+                          stringByReplacingOccurrencesOfString:@"%_length" withString:mediaInfo[@"length"]]
+                          stringByReplacingOccurrencesOfString:@"%_rating" withString:mediaInfo[@"rating"]]
+                          stringByReplacingOccurrencesOfString:@"%_playedcount" withString:mediaInfo[@"playcount"]]
+                          stringByReplacingOccurrencesOfString:@"%_skippedcount" withString:mediaInfo[@"skipcount"]]
+                          stringByReplacingOccurrencesOfString:@"%_bpm" withString:mediaInfo[@"bpm"]]
+                          stringByReplacingOccurrencesOfString:@"%_samplerate" withString:mediaInfo[@"samplerate"]]
+                          stringByReplacingOccurrencesOfString:@"%_comment" withString:mediaInfo[@"comment"]]
+                          stringByReplacingOccurrencesOfString:@"%_kind" withString:mediaInfo[@"kind"]]
+                          stringByReplacingOccurrencesOfString:@"%_playlist" withString:mediaInfo[@"playlist"]]
+                          stringByReplacingOccurrencesOfString:@"%c" withString:[NSString stringWithFormat:@"%c", _color]]
+                          stringByReplacingOccurrencesOfString:@"%b" withString:[NSString stringWithFormat:@"%c", _bold]];
 }
 
 - (void)announceToChannel:(IRCChannel *)channel
