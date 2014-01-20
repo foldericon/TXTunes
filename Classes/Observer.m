@@ -130,7 +130,7 @@ unichar _color = 0x03;
           mediaInfo[@"kind"] = @"Internet Radio";
      } else if(itunes.currentTrack.size == 0 && [self isNullValue:itunes.currentTrack.kind]) {
           // Don't post advertising
-          if([self isNullValue:mediaInfo[@"album"]]) return @"";
+          if([self isNullValue:itunes.currentTrack.album]) return @"";
           mediaInfo[@"kind"] = @"iTunes Radio";
      }
      
