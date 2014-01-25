@@ -151,7 +151,10 @@ NSWindow *myWindow;
           }
           if ([self.awayFormatString isNotEqualTo:[[self.awayFormatText objectValue] componentsJoinedByString:@""]]) {
                [self setAwayFormatString:self.awayFormatText];
+               [self.enableBox becomeFirstResponder];
           }
+          [win makeKeyAndOrderFront:self];
+          [win makeFirstResponder:self.enableBox];
      }
 }
 
