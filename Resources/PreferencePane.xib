@@ -429,9 +429,9 @@
                     <font key="titleFont" metaFont="cellTitle"/>
                 </box>
                 <textField verticalHuggingPriority="750" id="435">
-                    <rect key="frame" x="165" y="0.0" width="231" height="17"/>
+                    <rect key="frame" x="165" y="0.0" width="270" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Copyright © 2013, Tobias Pollmann" id="436">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Copyright © 2013-2014, Tobias Pollmann" id="436">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
