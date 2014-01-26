@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DA45AC1516F3114200CE0B72 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA45AC1416F3114200CE0B72 /* ScriptingBridge.framework */; };
-		DA6D5A921894DC4A002AA42E /* MediaInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6D5A911894DC4A002AA42E /* MediaInfo.m */; };
+		DA6D5A951895C547002AA42E /* MediaInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6D5A941895C547002AA42E /* MediaInfo.m */; };
 		DAAF116916F480B90031D3E4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF116816F480B90031D3E4 /* Cocoa.framework */; };
 		DAC50E5D1748C6A60049686D /* PreferencePane.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAC50E5B1748C6A60049686D /* PreferencePane.xib */; };
 		DAC50E751748D1F40049686D /* Observer.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC50E701748D1F40049686D /* Observer.m */; };
@@ -19,8 +19,8 @@
 /* Begin PBXFileReference section */
 		DA45ABFD16F3109400CE0B72 /* TXTunes.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TXTunes.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA45AC1416F3114200CE0B72 /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
-		DA6D5A901894DC4A002AA42E /* MediaInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaInfo.h; sourceTree = "<group>"; };
-		DA6D5A911894DC4A002AA42E /* MediaInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaInfo.m; sourceTree = "<group>"; };
+		DA6D5A931895C547002AA42E /* MediaInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaInfo.h; path = Classes/MediaInfo.h; sourceTree = "<group>"; };
+		DA6D5A941895C547002AA42E /* MediaInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaInfo.m; path = Classes/MediaInfo.m; sourceTree = "<group>"; };
 		DAAF116816F480B90031D3E4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DAC50E5A1748C6A60049686D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		DAC50E5B1748C6A60049686D /* PreferencePane.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencePane.xib; sourceTree = "<group>"; };
@@ -87,10 +87,10 @@
 		DAC50E781748D1FD0049686D /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				DA6D5A931895C547002AA42E /* MediaInfo.h */,
+				DA6D5A941895C547002AA42E /* MediaInfo.m */,
 				DAC50E6F1748D1F40049686D /* Observer.h */,
 				DAC50E701748D1F40049686D /* Observer.m */,
-				DA6D5A901894DC4A002AA42E /* MediaInfo.h */,
-				DA6D5A911894DC4A002AA42E /* MediaInfo.m */,
 				DAC50E731748D1F40049686D /* TXiTunesPluginPrefs.h */,
 				DAC50E741748D1F40049686D /* TXiTunesPluginPrefs.m */,
 				DAC50E711748D1F40049686D /* TXiTunesPlugin.h */,
@@ -171,7 +171,7 @@
 			files = (
 				DAC50E751748D1F40049686D /* Observer.m in Sources */,
 				DAC50E761748D1F40049686D /* TXiTunesPlugin.m in Sources */,
-				DA6D5A921894DC4A002AA42E /* MediaInfo.m in Sources */,
+				DA6D5A951895C547002AA42E /* MediaInfo.m in Sources */,
 				DAC50E771748D1F40049686D /* TXiTunesPluginPrefs.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

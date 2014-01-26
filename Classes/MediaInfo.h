@@ -30,7 +30,7 @@
 
 
 #import <Foundation/Foundation.h>
-#import "iTunes.h"
+#import "Headers/iTunes.h"
 
 @interface MediaInfo : NSObject
 
