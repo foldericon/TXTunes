@@ -112,7 +112,8 @@
                mediaInfo[@"bitrate"] = [NSString stringWithFormat:@"%ldkbps (VBR)", (long) itunes.currentTrack.bitRate];
           }
      }
-     
+     self.infoDict = mediaInfo;
+     self.created = [[NSDate date] timeIntervalSince1970];
      self.announceString = [[[[[[[[[[[[[[[[[formatString
                                         stringByReplacingOccurrencesOfString:@"%_number" withString:mediaInfo[@"number"]]
                                         stringByReplacingOccurrencesOfString:@"%_track" withString:mediaInfo[@"track"]]

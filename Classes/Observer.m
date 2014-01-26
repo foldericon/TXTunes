@@ -140,9 +140,17 @@ unichar _action = 0x01;
      NSAssertReturn([playerState isNotEqualTo:@"Stopped"]);
      iTunesApplication *itunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
      if(itunes.isRunning) {
+          if(self.mediaInfo) {
+               // Avoid spam.
+               if(self.mediaInfo.created > [[NSDate date] timeIntervalSince1970]-10 ||
+                    ([itunes.currentTrack.artist isEqualToString:self.mediaInfo.infoDict[@"artist"]] &&
+                     [itunes.currentTrack.name isEqualToString:self.mediaInfo.infoDict[@"track"]] &&
+                     self.mediaInfo.created > [[NSDate date] timeIntervalSince1970]-30)) {
+                        return;
+               }
+          }
           self.mediaInfo = [[MediaInfo alloc] initWithFormat:self.formatString];
           NSAssertReturn(self.mediaInfo != nil);
-          
           if ([self announceEnabled]){
                if ([itunes playerState] == 'kPSP'){
                     [self sendAnnounceString:self.mediaInfo.announceString asAction:NO];

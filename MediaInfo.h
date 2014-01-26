@@ -37,5 +37,7 @@
 +(NSString *)getRating:(NSInteger)rating;
 -(MediaInfo *)initWithFormat:(NSString *)formatString;
 
+@property (nonatomic) NSDictionary *infoDict;
 @property (nonatomic) NSString *announceString;
+@property (nonatomic) double created;
 @end
