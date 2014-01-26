@@ -31,6 +31,7 @@
 
 #import "TXiTunesPlugin.h"
 #import "Observer.h"
+#import "MediaInfo.h"
 
 @interface TXiTunesPlugin ()
 @property (nonatomic, nweak) NSView *preferencePaneView;
@@ -742,7 +743,7 @@ NSWindow *myWindow;
           if([[components objectAtIndex:0] isEqualToString:@"rate"]){
                if([[components objectAtIndex:1] integerValue] > 0 && [[components objectAtIndex:1] integerValue] < 11){
                     [[itunes currentTrack] setRating:([[components objectAtIndex:1] integerValue]*10)];
-                         [self echo:[NSString stringWithFormat:@"rated the current track to: %@", [observer getRating:([[components objectAtIndex:1] integerValue]*10)]]];
+                         [self echo:[NSString stringWithFormat:@"rated the current track to: %@", [MediaInfo getRating:([[components objectAtIndex:1] integerValue]*10)]]];
                }
           }
      }     

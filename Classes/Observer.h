@@ -32,13 +32,14 @@
 #import <Cocoa/Cocoa.h>
 #import "Headers/iTunes.h"
 #import "TextualApplication.h"
+#import "MediaInfo.h"
 
 @interface Observer : NSObject
 
-- (NSString *)getRating:(NSInteger)rating;
 -(void)sendAnnounceString:(NSString *)announceString asAction:(BOOL)action;
 -(void)trackNotification:(NSNotification*)notif;
 -(void)announceToChannel:(IRCChannel *)channel;
 
+@property (nonatomic) MediaInfo *mediaInfo;
 @end
 
