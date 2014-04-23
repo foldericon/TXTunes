@@ -690,7 +690,7 @@ NSWindow *myWindow;
                }
           }
           if([[components objectAtIndex:0] isEqualToString:@"version"]){
-               [client sendCommand:[NSString stringWithFormat:@"MSG %@ iTunes Version: %@", [self.worldController.selectedChannel name], [itunes version]]];
+               [client sendCommand:[NSString stringWithFormat:@"MSG %@ \002iTunes Version:\002 %@", [self.worldController.selectedChannel name], [itunes version]]];
           }
           if([[components objectAtIndex:0] isEqualToString:@"stats"]){
                iTunesSource *library = [[[[itunes sources] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"kind == %i", iTunesESrcLibrary]] objectAtIndex:0];
