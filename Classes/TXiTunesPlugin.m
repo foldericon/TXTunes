@@ -623,7 +623,7 @@ NSWindow *myWindow;
      [client printDebugInformation:@"\00315\002/itunes prev\002               \026plays previous track                                              \003\00311|" forCommand:@"372"];
      [client printDebugInformation:@"\00315\002/itunes next\002               \026plays next track                                                  \003\00311|" forCommand:@"372"];
      [client printDebugInformation:@"\00315\002/itunes rate <1-10>\002        \026sets the rating of the current track                              \003\00311|" forCommand:@"372"];
-     [client printDebugInformation:@"\00315\002/itunes comment <comment>\002  \026sets the comment of the current track                             \003\00311|" forCommand:@"376"];
+     [client printDebugInformation:@"\00315\002/itunes comment <comment>\002  \026sets the comment of the current track                             \003\00311|" forCommand:@"372"];
 }
 
 #pragma mark -
