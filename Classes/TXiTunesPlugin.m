@@ -615,6 +615,7 @@ NSWindow *myWindow;
      [client printDebugInformation:@"\00311\037___________Advanced iTunes extension for Textual______________\037/                 is.gd/P9Fgri \003\00311|" forCommand:@"372"];
      [client printDebugInformation:@"\00315\002/itunes\002                    \026sends your current track infos to the selected channel or query   \003\00311|" forCommand:@"372"];
      [client printDebugInformation:@"\00315\002/itunes <channel>\002          \026sends your current track infos to <channel>                       \003\00311|" forCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes version\002            \026sends itunes version info to the selected channel or query        \003\00311|" forCommand:@"372"];
      [client printDebugInformation:@"\00315\002/itunes stats\002              \026sends itunes library statistics to the selected channel or query  \003\00311|" forCommand:@"372"];
      [client printDebugInformation:@"\00315\002/itunes url\002                \026sends the itunes store url of the current track                   \003\00311|" forCommand:@"372"];
      [client printDebugInformation:@"\00315\002/itunes auto\002               \026toggles auto announce on/off                                      \003\00311|" forCommand:@"372"];
@@ -687,6 +688,9 @@ NSWindow *myWindow;
                          }
                     }
                }
+          }
+          if([[components objectAtIndex:0] isEqualToString:@"version"]){
+               [client sendCommand:[NSString stringWithFormat:@"MSG %@ iTunes Version: %@", [self.worldController.selectedChannel name], [itunes version]]];
           }
           if([[components objectAtIndex:0] isEqualToString:@"stats"]){
                iTunesSource *library = [[[[itunes sources] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"kind == %i", iTunesESrcLibrary]] objectAtIndex:0];
