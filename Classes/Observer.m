@@ -41,23 +41,27 @@ unichar _action = 0x01;
 {
      if (channel.isChannel && channel.numberOfMembers > 0) {
         if (style == 0){
-            [channel.client sendLine:[NSString stringWithFormat:@"privmsg %@ :%cACTION %@%c", channel.name, _action, message, _action]];
-            [channel.client print:channel
-                             type:TVCLogLineActionType
-                             nick:channel.client.localNickname
-                             text:message
-                        encrypted:NSObjectIsNotEmpty(channel.config.encryptionKey)
-                       receivedAt:[NSDate date]
-                          command:@"ME"];
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [channel.client sendLine:[NSString stringWithFormat:@"privmsg %@ :%cACTION %@%c", channel.name, _action, message, _action]];
+                 [channel.client print:channel
+                                  type:TVCLogLineActionType
+                                  nick:channel.client.localNickname
+                                  text:message
+                             encrypted:NSObjectIsNotEmpty(channel.config.encryptionKey)
+                            receivedAt:[NSDate date]
+                               command:@"ME"];
+             });
         } else {
-            [channel.client sendLine:[NSString stringWithFormat:@"privmsg %@ :%@", channel.name, message]];
-            [channel.client print:channel
-                             type:TVCLogLinePrivateMessageType
-                             nick:channel.client.localNickname
-                             text:message
-                        encrypted:NSObjectIsNotEmpty(channel.config.encryptionKey)
-                       receivedAt:[NSDate date]
-                          command:@"MSG"];
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [channel.client sendLine:[NSString stringWithFormat:@"privmsg %@ :%@", channel.name, message]];
+                 [channel.client print:channel
+                                  type:TVCLogLinePrivateMessageType
+                                  nick:channel.client.localNickname
+                                  text:message
+                             encrypted:NSObjectIsNotEmpty(channel.config.encryptionKey)
+                            receivedAt:[NSDate date]
+                               command:@"MSG"];
+             });
         }
     }
 }
@@ -66,10 +70,7 @@ unichar _action = 0x01;
 {
      self.mediaInfo = [[MediaInfo alloc] initWithFormat:self.formatString];
      NSAssertReturn(self.mediaInfo != nil);
-     if (self.styleValue == 0)
-          [[channel client] sendCommand:[NSString stringWithFormat:@"me %@", self.mediaInfo.announceString] completeTarget:YES target:[channel name]];
-     else
-          [[channel client] sendCommand:[NSString stringWithFormat:@"msg %@ %@", [channel name], self.mediaInfo.announceString]];
+     [self sendMessage:self.mediaInfo.announceString toChannel:channel withStyle:self.styleValue];
 }
 
 - (NSArray*)getConnections
