@@ -42,25 +42,23 @@ unichar _action = 0x01;
      if (channel.isChannel && channel.numberOfMembers > 0) {
         if (style == 0){
              dispatch_async(dispatch_get_main_queue(), ^{
-                 [channel.client sendLine:[NSString stringWithFormat:@"privmsg %@ :%cACTION %@%c", channel.name, _action, message, _action]];
-                 [channel.client print:channel
-                                  type:TVCLogLineActionType
-                                  nick:channel.client.localNickname
-                                  text:message
-                             encrypted:NSObjectIsNotEmpty(channel.config.encryptionKey)
-                            receivedAt:[NSDate date]
-                               command:@"ME"];
+                  [channel.associatedClient sendLine:[NSString stringWithFormat:@"privmsg %@ :%cACTION %@%c", channel.name, _action, message, _action]];
+                  
+                  [channel.associatedClient print:channel
+                                             type:TVCLogLineActionType
+                                         nickname:channel.associatedClient.localNickname
+                                      messageBody:message
+                                          command:@"ME"];
              });
         } else {
              dispatch_async(dispatch_get_main_queue(), ^{
-                 [channel.client sendLine:[NSString stringWithFormat:@"privmsg %@ :%@", channel.name, message]];
-                 [channel.client print:channel
-                                  type:TVCLogLinePrivateMessageType
-                                  nick:channel.client.localNickname
-                                  text:message
-                             encrypted:NSObjectIsNotEmpty(channel.config.encryptionKey)
-                            receivedAt:[NSDate date]
-                               command:@"MSG"];
+                  [channel.associatedClient sendLine:[NSString stringWithFormat:@"privmsg %@ :%@", channel.name, message]];
+
+                  [channel.associatedClient print:channel
+                                             type:TVCLogLinePrivateMessageType
+                                         nickname:channel.associatedClient.localNickname
+                                      messageBody:message
+                                          command:@"MSG"];
              });
         }
     }
@@ -78,15 +76,15 @@ unichar _action = 0x01;
      NSMutableArray *conns = [[NSMutableArray alloc] init];
      switch (self.connectionsValue) {
           case 0:
-               for(IRCClient *client in self.worldController.clients){
+               for(IRCClient *client in self.masterController.worldController.clientList){
                     if(client.isConnected) [conns addObject:client];
                }
           break;
           case 1:
-               if(self.worldController.selectedClient.isConnected) [conns addObject:self.worldController.selectedClient];
+               if(self.masterController.mainWindow.selectedClient.isConnected) [conns addObject:self.masterController.mainWindow.selectedClient];
           break;
           case 2:
-               for(IRCClient *client in self.worldController.clients) {
+               for(IRCClient *client in self.masterController.worldController.clientList) {
                     if(client.isConnected && [self.connectionTargets containsObject:client.config.itemUUID]){
                          [conns addObject:client];
                     }
@@ -115,18 +113,18 @@ unichar _action = 0x01;
      switch (self.channelsValue) {
           case 0:
                for(IRCClient *client in [self getConnections]) {
-                    for (IRCChannel *channel in client.channels) {
+                    for (IRCChannel *channel in client.channelList) {
                          if(channel.isChannel && channel.isActive) [self sendMessage:announceString toChannel:channel withStyle:style];
                     }
                }
                break;
           case 1:
-               if(self.worldController.selectedChannel.isActive && self.worldController.selectedChannel.isChannel)
-                    [self sendMessage:announceString toChannel:self.worldController.selectedChannel withStyle:style];
+               if(self.masterController.mainWindow.selectedChannel.isActive && self.masterController.mainWindow.selectedChannel.isChannel)
+                    [self sendMessage:announceString toChannel:self.masterController.mainWindow.selectedChannel withStyle:style];
                break;
           case 2:
                for(IRCClient *client in [self getConnections]) {
-                    for (IRCChannel *channel in client.channels) {
+                    for (IRCChannel *channel in client.channelList) {
                          if(channel.isChannel && channel.isActive && [self.channelTargets containsObjectIgnoringCase:channel.name])
                               [self sendMessage:announceString toChannel:channel withStyle:style];
                     }

@@ -184,7 +184,7 @@ NSWindow *myWindow;
 {
      int i=0;
      NSString *title = @"pick one or more";
-     for(IRCClient *client in self.worldController.clients) {
+     for(IRCClient *client in self.masterController.worldController.clientList) {
           if([self.connectionTargets containsObject:client.config.itemUUID]){
                if(i==0) title = client.name;
                else title = [NSString stringWithFormat:@"%@, %@", title, client.name];
@@ -234,15 +234,15 @@ NSWindow *myWindow;
 {
      NSMutableArray *channels = [[NSMutableArray alloc] init];
      if(self.connectionsValue == 0 || self.connectionsValue == 1){
-          for(IRCClient *client in self.worldController.clients) {
-               for(IRCChannel *channel in client.channels) {
+          for(IRCClient *client in self.masterController.worldController.clientList) {
+               for(IRCChannel *channel in client.channelList) {
                     if(channel.isChannel) [channels addObject:channel.name];
                }
           }
      } else {
-          for(IRCClient *client in self.worldController.clients) {
+          for(IRCClient *client in self.masterController.worldController.clientList) {
                if([self.connectionTargets containsObject:client.config.itemUUID]){
-                    for(IRCChannel *channel in client.channels){
+                    for(IRCChannel *channel in client.channelList){
                          if(channel.isChannel) [channels addObject:channel.name];
                     }
                }
@@ -302,9 +302,9 @@ NSWindow *myWindow;
      NSPoint menuOrigin = [[(NSButton *)sender superview] convertPoint:NSMakePoint(frame.origin.x+5, frame.origin.y)
                                                                 toView:nil];
      
-     NSEvent *event =  [NSEvent mouseEventWithType:NSLeftMouseDown
+     NSEvent *event = [NSEvent mouseEventWithType:NSLeftMouseDown
                                           location:menuOrigin
-                                     modifierFlags:NSLeftMouseDownMask
+                                     modifierFlags:NSLeftMouseDown
                                          timestamp:0
                                       windowNumber:[[(NSButton *)sender window] windowNumber]
                                            context:[[(NSButton *)sender window] graphicsContext]
@@ -314,7 +314,7 @@ NSWindow *myWindow;
      
      NSMenu *menu = [[NSMenu alloc] init];
      menu.autoenablesItems=NO;
-     NSArray *clients = self.worldController.clients;
+     NSArray *clients = self.masterController.worldController.clientList;
      for(int i=(int)clients.count-1; i>-1; i--) {
           NSMenuItem *item = [[NSMenuItem alloc] init];
           item.representedObject = clients[i];
@@ -599,12 +599,12 @@ NSWindow *myWindow;
 
 - (void)echo:(NSString *)msg
 {
-     [self.worldController.selectedClient printDebugInformation:msg forCommand:@"-100"];
+     [self.masterController.mainWindow.selectedClient printDebugInformation:msg forCommand:@"-100"];
 }
 
 - (void)printHelp
 {
-     IRCClient *client = self.worldController.selectedClient;
+     IRCClient *client = self.masterController.mainWindow.selectedClient;
      [client printDebugInformation:@"\00311   __________         __________ " forCommand:@"375"];
      [client printDebugInformation:@"\00311  |___    ___|__    _|___    ___|" forCommand:@"372"];
      [client printDebugInformation:@"\00311      |  |  \\   \\  /   / |  | __  __  ______  ______   _______" forCommand:@"372"];
@@ -654,7 +654,7 @@ NSWindow *myWindow;
                     [client printDebugInformation:@"iTunes is not playing."];
                     return;
                }
-               [observer announceToChannel:self.worldController.selectedChannel];
+               [observer announceToChannel:self.masterController.mainWindow.selectedChannel];
           }
           if([[components objectAtIndex:0] isEqualToString:@"help"]){
                [self printHelp];
@@ -681,8 +681,8 @@ NSWindow *myWindow;
                }
           }
           if([[components objectAtIndex:0] hasPrefix:@"#"]){
-               for(IRCClient *client in [self.worldController clients]) {
-                    for(IRCChannel *channel in [client channels]){
+               for(IRCClient *client in self.masterController.worldController.clientList) {
+                    for(IRCChannel *channel in client.channelList){
                          if ([[components objectAtIndex:0] isEqualToString:[channel name]]){
                               [observer announceToChannel:channel];
                          }
@@ -690,13 +690,13 @@ NSWindow *myWindow;
                }
           }
           if([[components objectAtIndex:0] isEqualToString:@"version"]){
-               [client sendCommand:[NSString stringWithFormat:@"MSG %@ \002iTunes Version:\002 %@", [self.worldController.selectedChannel name], [itunes version]]];
+               [client sendCommand:[NSString stringWithFormat:@"MSG %@ \002iTunes Version:\002 %@", self.masterController.mainWindow.selectedChannel.name, itunes.version]];
           }
           if([[components objectAtIndex:0] isEqualToString:@"stats"]){
                iTunesSource *library = [[[[itunes sources] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"kind == %i", iTunesESrcLibrary]] objectAtIndex:0];
                iTunesLibraryPlaylist *lp = [[[[library playlists] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"specialKind == %i", iTunesESpKMusic]] objectAtIndex:0];
                NSString *stats = [NSString stringWithFormat:@"I have %ld tracks in my iTunes library (%@ in size) (Total Playtime: %@)", (long) [[lp tracks] count], [self getStringOfSize:[lp size]], [self getStringOfDuration:[lp time]]];
-               [client sendCommand:[NSString stringWithFormat:@"MSG %@ %@", [self.worldController.selectedChannel name], stats]];
+               [client sendCommand:[NSString stringWithFormat:@"MSG %@ %@", self.masterController.mainWindow.selectedChannel.name, stats]];
           }
           if([[components objectAtIndex:0] isEqualToString:@"url"]){
                NSString *storeurl = @"";
@@ -725,7 +725,7 @@ NSWindow *myWindow;
                          }
                     }
                }
-               if([storeurl isNotEqualTo:@""]) [client sendCommand:[NSString stringWithFormat:@"MSG %@ %@", [self.worldController.selectedChannel name], storeurl]];
+               if([storeurl isNotEqualTo:@""]) [client sendCommand:[NSString stringWithFormat:@"MSG %@ %@", self.masterController.mainWindow.selectedChannel.name, storeurl]];
           }
           if([[components objectAtIndex:0] isEqualToString:@"pause"]){
                [itunes playpause];
