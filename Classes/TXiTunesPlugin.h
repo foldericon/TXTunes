@@ -93,14 +93,14 @@
 - (IBAction)showHelp:(id)sender;
 - (IBAction)setAwayFormatString:(id)sender;
 
-- (void)messageSentByUser:(IRCClient *)client
-				  message:(NSString *)messageString
-				  command:(NSString *)commandString;
+- (void)userInputCommandInvokedOnClient:(IRCClient *)client
+                          commandString:(NSString *)commandString
+                          messageString:(NSString *)messageString;
 
-- (NSArray *)pluginSupportsUserInputCommands;
-- (void)pluginLoadedIntoMemory:(IRCWorld *)world;
-- (NSView *)preferencesView;
-- (NSString *)preferencesMenuItemName;
+- (NSArray *)subscribedUserInputCommands;
+- (void)pluginLoadedIntoMemory;
+- (NSView *)pluginPreferencesPaneView;
+- (NSString *)pluginPreferencesPaneMenuItemName;
 
 @property (weak) IBOutlet NSButton *enableBox;
 @property (weak) IBOutlet NSButton *awayMessageBox;

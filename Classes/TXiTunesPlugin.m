@@ -44,7 +44,7 @@ NSWindow *myWindow;
 #pragma mark -
 #pragma mark Memory Allocation & Deallocation
 
-- (void)pluginLoadedIntoMemory:(IRCWorld *)world
+- (void)pluginLoadedIntoMemory
 {
      [NSBundle loadNibNamed:@"PreferencePane" owner:self];
      if(!observer){
@@ -67,12 +67,12 @@ NSWindow *myWindow;
 
 /* Preference Pane */
 
-- (NSView *)preferencesView
+- (NSView *)pluginPreferencesPaneView
 {
      return self.preferencePaneView;
 }
 
-- (NSString *)preferencesMenuItemName
+- (NSString *)pluginPreferencesPaneMenuItemName;
 {
      return @"iTunes";
 }
@@ -630,14 +630,14 @@ NSWindow *myWindow;
 #pragma mark -
 #pragma mark User Input
 
-- (NSArray *)pluginSupportsUserInputCommands
+- (NSArray *)subscribedUserInputCommands
 {
      return @[@"itunes"];
 }
 
-- (void)messageSentByUser:(IRCClient *)client
-				  message:(NSString *)messageString
-				  command:(NSString *)commandString
+- (void)userInputCommandInvokedOnClient:(IRCClient *)client
+                          commandString:(NSString *)commandString
+                          messageString:(NSString *)messageString
 {
      if([commandString isNotEqualTo:@"ITUNES"])
           return;
