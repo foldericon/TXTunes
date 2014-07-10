@@ -3,14 +3,14 @@ TXTunes - Advanced iTunes Extension for Textual
 **Written by Tobias Pollmann (foldericon)**
   
   
-Dependencies
+Requirements
 ------------
 
-Textual 5
-iTunes 11.x
-Xcode 5
+- [Textual 5](https://github.com/codeux/Textual)
+- [Xcode 5](https://itunes.apple.com/app/xcode/id497799835)
+- [iTunes 11.x](https://www.apple.com/itunes/download/)
 
-Installation
+Instructions
 ------------
 
 1. Build from source.
