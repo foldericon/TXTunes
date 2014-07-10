@@ -6,16 +6,16 @@ TXTunes - Advanced iTunes Extension for Textual
 Dependencies
 ------------
 
-Textual 3.x  
-iTunes 11.0.3  
-Xcode 4.6  
+Textual 5
+iTunes 11.x
+Xcode 5
 
 Installation
 ------------
 
-Just build with Xcode and put the .bundle file in your Textual extensions directory.   
-This should be: **~/Library/Containers/com.codeux.irc.textual/Data/Library/Application Support/Textual IRC/Extensions**  
-After that, just restart Textual and you're ready to go.
+1. Build from source.
+2. Double-click TXTunes.bundle to install it.
+3. Restart Textual.
 
 Usage
 -----
