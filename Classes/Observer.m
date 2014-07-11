@@ -40,27 +40,10 @@ unichar _action = 0x01;
 -(void)sendMessage:(NSString *)message toChannel:(IRCChannel *)channel withStyle:(NSInteger)style
 {
      if (channel.isChannel && channel.numberOfMembers > 0) {
-        if (style == 0){
-             dispatch_async(dispatch_get_main_queue(), ^{
-                  [channel.associatedClient sendLine:[NSString stringWithFormat:@"privmsg %@ :%cACTION %@%c", channel.name, _action, message, _action]];
-                  
-                  [channel.associatedClient print:channel
-                                             type:TVCLogLineActionType
-                                         nickname:channel.associatedClient.localNickname
-                                      messageBody:message
-                                          command:@"ME"];
-             });
-        } else {
-             dispatch_async(dispatch_get_main_queue(), ^{
-                  [channel.associatedClient sendLine:[NSString stringWithFormat:@"privmsg %@ :%@", channel.name, message]];
-
-                  [channel.associatedClient print:channel
-                                             type:TVCLogLinePrivateMessageType
-                                         nickname:channel.associatedClient.localNickname
-                                      messageBody:message
-                                          command:@"MSG"];
-             });
-        }
+        if (style == 0)
+             [channel.associatedClient sendAction:message toChannel:channel];
+        else
+             [channel.associatedClient sendPrivmsg:message toChannel:channel];
     }
 }
 
