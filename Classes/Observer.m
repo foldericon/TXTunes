@@ -35,8 +35,6 @@
 
 @implementation Observer
 
-unichar _action = 0x01;
-
 -(void)sendMessage:(NSString *)message toChannel:(IRCChannel *)channel withStyle:(NSInteger)style
 {
      if (channel.isChannel && channel.numberOfMembers > 0) {
