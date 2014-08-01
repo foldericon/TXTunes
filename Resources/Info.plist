@@ -26,5 +26,7 @@
 	<string>Copyright © 2013 Toby P. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>TXiTunesPlugin</string>
+	<key>minimumtextualversion</key>
+	<string>5.0.0</string>
 </dict>
 </plist>
