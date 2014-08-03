@@ -66,7 +66,7 @@ NSString *TXiTunesPluginDefaultFormatString = @"is listening to %_track by %_art
                               nil];
           [self setPreferences:dict];
      }
-     NSMutableDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[self preferencesPath]];
+     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:self.preferencesPath];
      if([[dict allKeys] containsObject:TXiTunesPluginConnectionTargetsKey] == NO) {
           [dict setObject:[NSArray array] forKey:TXiTunesPluginConnectionTargetsKey];
           [self setPreferences:dict];
