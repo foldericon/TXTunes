@@ -37,12 +37,10 @@
 
 -(void)sendMessage:(NSString *)message toChannel:(IRCChannel *)channel withStyle:(NSInteger)style
 {
-     if (channel.isChannel && channel.numberOfMembers > 0) {
-        if (style == 0)
-             [channel.associatedClient sendAction:message toChannel:channel];
-        else
-             [channel.associatedClient sendPrivmsg:message toChannel:channel];
-    }
+   if (style == 0)
+        [channel.associatedClient sendAction:message toChannel:channel];
+   else
+        [channel.associatedClient sendPrivmsg:message toChannel:channel];
 }
 
 - (void)announceToChannel:(IRCChannel *)channel
