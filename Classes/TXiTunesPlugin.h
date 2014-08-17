@@ -102,6 +102,7 @@
 - (NSView *)pluginPreferencesPaneView;
 - (NSString *)pluginPreferencesPaneMenuItemName;
 
+@property (strong) IBOutlet NSView *preferencePaneView;
 @property (weak) IBOutlet NSButton *enableBox;
 @property (weak) IBOutlet NSButton *awayMessageBox;
 @property (weak) IBOutlet NSMatrix *channelsRadio;

@@ -33,20 +33,14 @@
 #import "Observer.h"
 #import "MediaInfo.h"
 
-@interface TXiTunesPlugin ()
-@property (nonatomic, nweak) NSView *preferencePaneView;
-@end
-
 @implementation TXiTunesPlugin
 Observer *observer;
-NSWindow *myWindow;
 
 #pragma mark -
 #pragma mark Memory Allocation & Deallocation
 
 - (void)pluginLoadedIntoMemory
 {
-     [NSBundle loadNibNamed:@"PreferencePane" owner:self];
      if(!observer){
           observer = [[Observer alloc] init];
           NSDistributedNotificationCenter *center = [NSDistributedNotificationCenter defaultCenter];
@@ -69,6 +63,11 @@ NSWindow *myWindow;
 
 - (NSView *)pluginPreferencesPaneView
 {
+     if (self.preferencePaneView == nil) {
+          if ([[NSBundle bundleForClass:[self class]] loadNibNamed:@"PreferencePane" owner:self topLevelObjects:nil] == NO) {
+               NSLog(@"TXTunes: Failed to load view.");
+          }
+     }
      return self.preferencePaneView;
 }
 
