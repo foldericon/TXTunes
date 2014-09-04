@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6205" systemVersion="14A314h" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6206.8" systemVersion="14A343f" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1050" defaultVersion="1080" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6205"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6206.8"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="TXiTunesPlugin">
@@ -297,7 +297,7 @@
                                 </tokenFieldCell>
                             </tokenField>
                             <tokenField verticalHuggingPriority="750" id="380">
-                                <rect key="frame" x="202" y="39" width="100" height="17"/>
+                                <rect key="frame" x="194" y="39" width="100" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <tokenFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" alignment="left" title="Genre" allowsEditingTextAttributes="YES" id="381">
                                     <font key="font" metaFont="system"/>
@@ -315,7 +315,7 @@
                                 </tokenFieldCell>
                             </tokenField>
                             <tokenField verticalHuggingPriority="750" id="369">
-                                <rect key="frame" x="442" y="64" width="110" height="17"/>
+                                <rect key="frame" x="440" y="64" width="110" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <tokenFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" alignment="left" title="Year" allowsEditingTextAttributes="YES" id="392">
                                     <font key="font" metaFont="system"/>
@@ -324,7 +324,7 @@
                                 </tokenFieldCell>
                             </tokenField>
                             <tokenField verticalHuggingPriority="750" id="397">
-                                <rect key="frame" x="280" y="39" width="86" height="17"/>
+                                <rect key="frame" x="271" y="39" width="86" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <tokenFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" alignment="left" title="Length" allowsEditingTextAttributes="YES" id="398">
                                     <font key="font" metaFont="system"/>
@@ -369,18 +369,9 @@
                                 </tokenFieldCell>
                             </tokenField>
                             <tokenField verticalHuggingPriority="750" id="407">
-                                <rect key="frame" x="442" y="39" width="68" height="17"/>
+                                <rect key="frame" x="437" y="39" width="77" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <tokenFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" alignment="left" title="BPM" allowsEditingTextAttributes="YES" id="408">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </tokenFieldCell>
-                            </tokenField>
-                            <tokenField verticalHuggingPriority="750" id="409">
-                                <rect key="frame" x="363" y="39" width="83" height="17"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <tokenFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" alignment="left" title="Bitrate" allowsEditingTextAttributes="YES" id="410">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -396,7 +387,7 @@
                                 </tokenFieldCell>
                             </tokenField>
                             <tokenField verticalHuggingPriority="750" id="413">
-                                <rect key="frame" x="83" y="39" width="119" height="17"/>
+                                <rect key="frame" x="76" y="39" width="119" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <tokenFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" alignment="left" title="Sample Rate" allowsEditingTextAttributes="YES" id="414">
                                     <font key="font" metaFont="system"/>
@@ -414,9 +405,18 @@
                                 </tokenFieldCell>
                             </tokenField>
                             <tokenField verticalHuggingPriority="750" id="Lv3-CN-Kuk">
-                                <rect key="frame" x="425" y="14" width="85" height="17"/>
+                                <rect key="frame" x="424" y="14" width="85" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <tokenFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" alignment="left" title="Playlist" allowsEditingTextAttributes="YES" id="mVD-Id-SL4">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </tokenFieldCell>
+                            </tokenField>
+                            <tokenField verticalHuggingPriority="750" id="409">
+                                <rect key="frame" x="355" y="39" width="83" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <tokenFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" alignment="left" title="Bitrate" allowsEditingTextAttributes="YES" id="410">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
