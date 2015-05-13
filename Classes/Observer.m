@@ -136,6 +136,7 @@
 
           }
           if(self.awayMessageEnabled) {
+               self.mediaInfo = [[MediaInfo alloc] initWithFormat:self.awayFormatString];
                if([playerState isEqualToString:@"Playing"]) {
                     [self setAway];
                } else if ([playerState isEqualToString:@"Paused"]) {
