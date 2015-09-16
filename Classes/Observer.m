@@ -55,7 +55,7 @@
      NSMutableArray *conns = [[NSMutableArray alloc] init];
      switch (self.connectionsValue) {
           case 0:
-               for(IRCClient *client in self.masterController.worldController.clientList){
+               for(IRCClient *client in self.masterController.world.clientList) {
                     if(client.isConnected) [conns addObject:client];
                }
           break;
@@ -63,7 +63,7 @@
                if(self.masterController.mainWindow.selectedClient.isConnected) [conns addObject:self.masterController.mainWindow.selectedClient];
           break;
           case 2:
-               for(IRCClient *client in self.masterController.worldController.clientList) {
+               for(IRCClient *client in self.masterController.world.clientList) {
                     if(client.isConnected && [self.connectionTargets containsObject:client.config.itemUUID]){
                          [conns addObject:client];
                     }

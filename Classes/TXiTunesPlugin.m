@@ -183,7 +183,7 @@ Observer *observer;
 {
      int i=0;
      NSString *title = @"pick one or more";
-     for(IRCClient *client in self.masterController.worldController.clientList) {
+     for(IRCClient *client in self.masterController.world.clientList) {
           if([self.connectionTargets containsObject:client.config.itemUUID]){
                if(i==0) title = client.name;
                else title = [NSString stringWithFormat:@"%@, %@", title, client.name];
@@ -233,13 +233,13 @@ Observer *observer;
 {
      NSMutableArray *channels = [[NSMutableArray alloc] init];
      if(self.connectionsValue == 0 || self.connectionsValue == 1){
-          for(IRCClient *client in self.masterController.worldController.clientList) {
+          for(IRCClient *client in self.masterController.world.clientList) {
                for(IRCChannel *channel in client.channelList) {
                     if(channel.isChannel) [channels addObject:channel.name];
                }
           }
      } else {
-          for(IRCClient *client in self.masterController.worldController.clientList) {
+          for(IRCClient *client in self.masterController.world.clientList) {
                if([self.connectionTargets containsObject:client.config.itemUUID]){
                     for(IRCChannel *channel in client.channelList){
                          if(channel.isChannel) [channels addObject:channel.name];
@@ -313,7 +313,7 @@ Observer *observer;
      
      NSMenu *menu = [[NSMenu alloc] init];
      menu.autoenablesItems=NO;
-     NSArray *clients = self.masterController.worldController.clientList;
+     NSArray *clients = self.masterController.world.clientList;
      for(int i=(int)clients.count-1; i>-1; i--) {
           NSMenuItem *item = [[NSMenuItem alloc] init];
           item.representedObject = clients[i];
@@ -680,7 +680,7 @@ Observer *observer;
                }
           }
           if([[components objectAtIndex:0] hasPrefix:@"#"]){
-               for(IRCClient *client in self.masterController.worldController.clientList) {
+               for(IRCClient *client in self.masterController.world.clientList) {
                     for(IRCChannel *channel in client.channelList){
                          if ([[components objectAtIndex:0] isEqualToString:[channel name]]){
                               [observer announceToChannel:channel];
@@ -693,7 +693,7 @@ Observer *observer;
           }
           if([[components objectAtIndex:0] isEqualToString:@"stats"]){
                iTunesSource *library = [[[[itunes sources] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"kind == %i", iTunesESrcLibrary]] objectAtIndex:0];
-               iTunesLibraryPlaylist *lp = [[[[library playlists] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"specialKind == %i", iTunesESpKMusic]] objectAtIndex:0];
+               iTunesPlaylist *lp = [[[[library playlists] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"specialKind == %i", iTunesESpKMusic]] objectAtIndex:0];
                NSString *stats = [NSString stringWithFormat:@"I have %ld tracks in my iTunes library (%@ in size) (Total Playtime: %@)", (long) [[lp tracks] count], [self getStringOfSize:[lp size]], [self getStringOfDuration:[lp time]]];
                [client sendCommand:[NSString stringWithFormat:@"MSG %@ %@", self.masterController.mainWindow.selectedChannel.name, stats]];
           }
