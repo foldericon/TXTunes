@@ -35,7 +35,6 @@
 #import "MediaInfo.h"
 
 @interface Observer : NSObject
-
 -(void)sendAnnounceString:(NSString *)announceString asAction:(BOOL)action;
 -(void)trackNotification:(NSNotification*)notif;
 -(void)announceToChannel:(IRCChannel *)channel;

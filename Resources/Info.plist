@@ -23,7 +23,7 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>MinimumTextualVersion</key>
-	<string>5.0.0</string>
+	<string>6.0.0</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2013 Toby P. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
