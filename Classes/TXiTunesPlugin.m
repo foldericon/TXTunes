@@ -184,7 +184,7 @@ Observer *observer;
      int i=0;
      NSString *title = @"pick one or more";
      for(IRCClient *client in self.masterController.world.clientList) {
-          if([self.connectionTargets containsObject:client.config.itemUUID]){
+          if([self.connectionTargets containsObject:client.config.uniqueIdentifier]){
                if(i==0) title = client.name;
                else title = [NSString stringWithFormat:@"%@, %@", title, client.name];
                i++;
@@ -219,10 +219,10 @@ Observer *observer;
 {
      NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[self preferences]];
      NSMutableArray *ary = [[NSMutableArray alloc] initWithArray:self.connectionTargets];
-     if([ary containsObject:client.config.itemUUID]){
-          [ary removeObject:client.config.itemUUID];
+     if([ary containsObject:client.config.uniqueIdentifier]){
+          [ary removeObject:client.config.uniqueIdentifier];
      } else {
-          [ary addObject:client.config.itemUUID];
+          [ary addObject:client.config.uniqueIdentifier];
      }
      [dict setObject:ary forKey:TXiTunesPluginConnectionTargetsKey];
      [self setPreferences:dict];
@@ -240,7 +240,7 @@ Observer *observer;
           }
      } else {
           for(IRCClient *client in self.masterController.world.clientList) {
-               if([self.connectionTargets containsObject:client.config.itemUUID]){
+               if([self.connectionTargets containsObject:client.config.uniqueIdentifier]){
                     for(IRCChannel *channel in client.channelList){
                          if(channel.isChannel) [channels addObject:channel.name];
                     }
@@ -321,7 +321,7 @@ Observer *observer;
           item.action = @selector(addConnectionTarget:);
           item.keyEquivalent = @"";
           item.target = self;
-          if([self.connectionTargets containsObject:[[clients[i] config] itemUUID]]) {
+          if([self.connectionTargets containsObject:[[clients[i] config] uniqueIdentifier]]) {
                [item setState:NSOnState];
           }
           [menu insertItem:item atIndex:0];
@@ -598,32 +598,32 @@ Observer *observer;
 
 - (void)echo:(NSString *)msg
 {
-     [self.masterController.mainWindow.selectedClient printDebugInformation:msg forCommand:@"-100"];
+     [self.masterController.mainWindow.selectedClient printDebugInformation:msg asCommand:@"-100"];
 }
 
 - (void)printHelp
 {
      IRCClient *client = self.masterController.mainWindow.selectedClient;
-     [client printDebugInformation:@"\00311   __________         __________ " forCommand:@"375"];
-     [client printDebugInformation:@"\00311  |___    ___|__    _|___    ___|" forCommand:@"372"];
-     [client printDebugInformation:@"\00311      |  |  \\   \\  /   / |  | __  __  ______  ______   _______" forCommand:@"372"];
-     [client printDebugInformation:@"\00311      |  |   \\   \\/   /  |  ||  ||  ||  __  \\/  __  \\ /  _____|" forCommand:@"372"];
-     [client printDebugInformation:@"\00311      |  |    /      \\   |  ||  ||  ||  ||  ||  |_|  ||  |____" forCommand:@"372"];
-     [client printDebugInformation:@"\00311      |  |   /   /\\   \\  |  ||  ||  ||  ||  || _____/ \\____   \\" forCommand:@"372"];
-     [client printDebugInformation:@"\00311______|__|__/___/__\\___\\_|__|_\\____/_|__||__|\\______|______|  |______________________________" forCommand:@"372"];
-     [client printDebugInformation:@"\00311\037___________Advanced iTunes extension for Textual______________\037/                 is.gd/P9Fgri \003\00311|" forCommand:@"372"];
-     [client printDebugInformation:@"\00315\002/itunes\002                    \026sends your current track infos to the selected channel or query   \003\00311|" forCommand:@"372"];
-     [client printDebugInformation:@"\00315\002/itunes <channel>\002          \026sends your current track infos to <channel>                       \003\00311|" forCommand:@"372"];
-     [client printDebugInformation:@"\00315\002/itunes version\002            \026sends itunes version info to the selected channel or query        \003\00311|" forCommand:@"372"];
-     [client printDebugInformation:@"\00315\002/itunes stats\002              \026sends itunes library statistics to the selected channel or query  \003\00311|" forCommand:@"372"];
-     [client printDebugInformation:@"\00315\002/itunes url\002                \026sends the itunes store url of the current track                   \003\00311|" forCommand:@"372"];
-     [client printDebugInformation:@"\00315\002/itunes auto\002               \026toggles auto announce on/off                                      \003\00311|" forCommand:@"372"];
-     [client printDebugInformation:@"\00315\002/itunes pause\002              \026play/pause playback                                               \003\00311|" forCommand:@"372"];
-     [client printDebugInformation:@"\00315\002/itunes stop\002               \026stops playback                                                    \003\00311|" forCommand:@"372"];
-     [client printDebugInformation:@"\00315\002/itunes prev\002               \026plays previous track                                              \003\00311|" forCommand:@"372"];
-     [client printDebugInformation:@"\00315\002/itunes next\002               \026plays next track                                                  \003\00311|" forCommand:@"372"];
-     [client printDebugInformation:@"\00315\002/itunes rate <1-10>\002        \026sets the rating of the current track                              \003\00311|" forCommand:@"372"];
-     [client printDebugInformation:@"\00315\002/itunes comment <comment>\002  \026sets the comment of the current track                             \003\00311|" forCommand:@"372"];
+     [client printDebugInformation:@"\00311   __________         __________ " asCommand:@"375"];
+     [client printDebugInformation:@"\00311  |___    ___|__    _|___    ___|" asCommand:@"372"];
+     [client printDebugInformation:@"\00311      |  |  \\   \\  /   / |  | __  __  ______  ______   _______" asCommand:@"372"];
+     [client printDebugInformation:@"\00311      |  |   \\   \\/   /  |  ||  ||  ||  __  \\/  __  \\ /  _____|" asCommand:@"372"];
+     [client printDebugInformation:@"\00311      |  |    /      \\   |  ||  ||  ||  ||  ||  |_|  ||  |____" asCommand:@"372"];
+     [client printDebugInformation:@"\00311      |  |   /   /\\   \\  |  ||  ||  ||  ||  || _____/ \\____   \\" asCommand:@"372"];
+     [client printDebugInformation:@"\00311______|__|__/___/__\\___\\_|__|_\\____/_|__||__|\\______|______|  |______________________________" asCommand:@"372"];
+     [client printDebugInformation:@"\00311\037___________Advanced iTunes extension for Textual______________\037/                 is.gd/P9Fgri \003\00311|" asCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes\002                    \026sends your current track infos to the selected channel or query   \003\00311|" asCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes <channel>\002          \026sends your current track infos to <channel>                       \003\00311|" asCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes version\002            \026sends itunes version info to the selected channel or query        \003\00311|" asCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes stats\002              \026sends itunes library statistics to the selected channel or query  \003\00311|" asCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes url\002                \026sends the itunes store url of the current track                   \003\00311|" asCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes auto\002               \026toggles auto announce on/off                                      \003\00311|" asCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes pause\002              \026play/pause playback                                               \003\00311|" asCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes stop\002               \026stops playback                                                    \003\00311|" asCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes prev\002               \026plays previous track                                              \003\00311|" asCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes next\002               \026plays next track                                                  \003\00311|" asCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes rate <1-10>\002        \026sets the rating of the current track                              \003\00311|" asCommand:@"372"];
+     [client printDebugInformation:@"\00315\002/itunes comment <comment>\002  \026sets the comment of the current track                             \003\00311|" asCommand:@"372"];
 }
 
 #pragma mark -

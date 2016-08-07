@@ -64,7 +64,7 @@
           break;
           case 2:
                for(IRCClient *client in self.masterController.world.clientList) {
-                    if(client.isConnected && [self.connectionTargets containsObject:client.config.itemUUID]){
+                    if(client.isConnected && [self.connectionTargets containsObject:client.config.uniqueIdentifier]){
                          [conns addObject:client];
                     }
                }
@@ -79,8 +79,8 @@
      NSString *announceString = self.mediaInfo.announceString;
      for (IRCClient *client in [self getConnections]) {
           if([itunes playerState] == 'kPSP' && [itunes.currentTrack.name isNotEqualTo:@"(null)"]){
-               [client toggleAwayStatus:YES withReason:announceString];
-          } else if(client.isAway) {
+               [client toggleAwayStatus:YES withComment:announceString];
+          } else if(client.userIsAway) {
                [client toggleAwayStatus:NO];
           }
      }
@@ -142,7 +142,7 @@
                     [self setAway];
                } else if ([playerState isEqualToString:@"Paused"]) {
                     for (IRCClient *client in [self getConnections]) {
-                         if(client.isAway) {
+                         if(client.userIsAway) {
                               [client toggleAwayStatus:NO];
                          }
                     }
